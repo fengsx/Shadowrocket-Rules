@@ -99,7 +99,7 @@
 
 ## 其他特性
 
-- DNS：代理域名使用经代理转发的 Cloudflare / Google DoH，直连域名使用系统 DNS
+- DNS：Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH，国内直连域名使用系统 DNS
 - DNS 劫持：拦截常见硬编码 53 端口 DNS，防止应用绕过规则
 - HTTPDNS 拦截：引用 blackmatrix7 `BlockHttpDNS`，阻止 App 通过内置 HTTPDNS 绕过系统解析；微信 HTTPDNS 前置直连，避免影响朋友圈和公众号图片的 CDN 调度
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
@@ -108,7 +108,7 @@
 - TUN 直连优化：iCloud Photos / CloudKit / Apple CDN 域名使用系统 DNS 并跳过代理，保留 Apple Push 走代理
 - Apple 分流一致性：Apple Push 域名与 TCP 5223 优先走苹果推送；`Apple.list` 与 `Apple_Domain.list` 共同覆盖其余 Apple 服务，避免因解析 IP 不同而在直连与代理间漂移
 - 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
-- DNS 上游：Cloudflare DoH 为主、Google DoH 为备用，均通过代理连接；代理解析不回退系统 DNS
+- DNS 上游：Cloudflare / Google DoH 经代理并行查询；失败时仅回退直连的加密 Cloudflare DoH，不回退明文系统 DNS
 - 局域网解析保护：`*.in-addr.arpa`、`*.ip6.arpa`、`*.local` 前置直连并交给系统解析，补充常见 DNS-SD 反查模式，避免 Bonjour / PTR 反查打到公共 DoH
 - TUN 边界：保留 `198.18.0.0/15` 给 fake-IP / TUN 内部使用，不加入排除路由，私网桥接网段仍通过 `10.0.0.0/8`、`192.168.0.0/16` 等排除
 - Apple 推送：默认走代理
@@ -139,7 +139,7 @@ MIT
 - 日本策略：Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB。
 - 英国、韩国节点策略组，便于不同设备独立选择默认出口。
 - WLOC Shadowrocket 脚本、Apple 网络定位域名、MITM 主机列表及私有控制入口。
-- DNS 覆写使用 Cloudflare DoH，Google DoH 作为备用，两者均经代理发送；国内直连域名继续使用系统 DNS。
+- DNS 覆写使用 Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH；国内直连域名继续使用系统 DNS。
 - 所有仓库内规则引用和 update-url 均指向本 fork。
 
 WLOC 需要在 Shadowrocket 中启用 HTTPS 解密，并完全信任 Shadowrocket 生成的 CA。iOS 27 正式版存在系统级 MITM 限制，详见 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法)。
