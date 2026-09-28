@@ -21,15 +21,15 @@
 ## 快速开始
 
 1. 复制配置文件的 Raw 链接：
-   `https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main/Shadowrocket.conf`
+   `https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Shadowrocket.conf`
 2. 打开 Shadowrocket → 配置 → 右上角 `+` → 粘贴链接 → 下载
 3. 点击已下载的配置，设为使用中（✔️）
 4. 首页添加你自己的节点或订阅
 5. 连通性测试，选择可用节点连接
 
-或者扫描二维码
+或者扫描下面的 fork 专属二维码（导入的是配置规则，节点订阅仍由 Shadowrocket 单独维护）：
 
-<img width="200" height="200" alt="ctool-2026-02-26-17-13-16" src="https://github.com/user-attachments/assets/22f1b4f7-3265-493c-9e5a-2b662924ed2f" />
+<img width="260" height="260" alt="fengsx Shadowrocket 配置二维码" src="./Shadowrocket-fengsx.png">
 
 ## 分流规则
 
