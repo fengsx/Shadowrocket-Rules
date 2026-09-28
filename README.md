@@ -129,3 +129,17 @@
 ## License
 
 MIT
+
+<!-- CODEX-BEGIN CUSTOMIZATION -->
+## fengsx 定制内容
+
+本 fork 在上游完整规则基础上增加：
+
+- 美国策略：Amazon、eBay、Oracle、Majority、Talkatone、Capital One、Red Pocket、Revolut。
+- 日本策略：Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB。
+- 英国、韩国节点策略组，便于不同设备独立选择默认出口。
+- WLOC Shadowrocket 脚本、Apple 网络定位域名、MITM 主机列表及私有控制入口。
+- 所有仓库内规则引用和 update-url 均指向本 fork。
+
+WLOC 需要在 Shadowrocket 中启用 HTTPS 解密，并完全信任 Shadowrocket 生成的 CA。iOS 27 正式版存在系统级 MITM 限制，详见 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法)。
+<!-- CODEX-END CUSTOMIZATION -->
