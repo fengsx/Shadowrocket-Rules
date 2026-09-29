@@ -2,6 +2,8 @@
 DOMAIN-KEYWORD,amazon
 DOMAIN-KEYWORD,ebay
 DOMAIN-KEYWORD,oracle
+DOMAIN-SUFFIX,equifax.com
+DOMAIN-SUFFIX,google.com
 DOMAIN-SUFFIX,majority.com
 DOMAIN-SUFFIX,talkatone.com
 DOMAIN-SUFFIX,capitalone.com
