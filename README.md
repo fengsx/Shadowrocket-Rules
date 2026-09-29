@@ -6,7 +6,6 @@
 
 | 服务 | 默认策略 | 可选策略 |
 |------|----------|----------|
-| 🧱 DNS 防泄露 | REJECT | 节点选择、DIRECT |
 | 📧 邮件服务 | PROXY | DIRECT、节点选择、日本节点、香港节点 |
 | 🔍 谷歌服务 | 🇯🇵 日本节点 | 🇭🇰 香港节点、节点选择、PROXY、DIRECT |
 | 🤖 AI 服务 | 🇺🇸 美国节点 | 节点选择、PROXY、DIRECT |
@@ -19,6 +18,8 @@
 | 🐟 漏网之鱼 | PROXY | 节点选择、DIRECT、日本节点 |
 
 ## 快速开始
+
+Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务器只负责组装节点订阅。
 
 1. 复制配置文件的 Raw 链接：
    `https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Shadowrocket.conf`
@@ -33,27 +34,26 @@
 
 ## 分流规则
 
-| 优先级 | 服务 | 默认策略 |
+| 序号 | 服务 | 默认策略 |
 |--------|------|----------|
-| 1 | 🧱 DNS 防泄露（HTTPDNS） | REJECT |
-| 2 | 📧 邮件服务（IMAP / POP3 / SMTP） | PROXY，可切换 DIRECT 或地区节点 |
-| 3 | 🔍 谷歌服务（含 Gemini） | 日本节点，可手动切香港节点 |
-| 4 | 🤖 AI 服务（ChatGPT、Claude 等） | 美国节点 |
-| 5 | 📹 油管视频（含 YouTube 翻译 API） | 节点选择 |
-| 6 | 🔒 哔哩哔哩 | DIRECT |
-| 7 | 🏠 私有网络 / 局域网 | DIRECT |
-| 8 | 📲 电报消息 | 节点选择 |
-| 9 | 🐱 代码托管（GitHub、GitLab、Atlassian） | 节点选择 |
-| 10 | Ⓜ️ 微软服务 | 节点选择 |
-| 11 | 🏦 汇丰香港（含 Reward+） | DIRECT |
-| 12 | 🏦 其他香港银行 | DIRECT |
-| 13 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈 / 盈透） | 香港节点 |
-| 14 | 🍎 苹果推送 | 节点选择 |
-| 15 | 🍏 苹果服务 | DIRECT |
-| 16 | 🔒 国内服务 | DIRECT |
-| 17 | 🌍 非中国（境外流量） | PROXY |
-| 18 | GEOIP CN | DIRECT |
-| 19 | 🐟 漏网之鱼（兜底） | PROXY |
+| 1 | 📧 邮件服务（IMAP / POP3 / SMTP） | PROXY，可切换 DIRECT 或地区节点 |
+| 2 | 🔍 谷歌服务（含 Gemini） | 日本节点，可手动切香港节点 |
+| 3 | 🤖 AI 服务（ChatGPT、Claude 等） | 美国节点 |
+| 4 | 📹 油管视频（含 YouTube 翻译 API） | 节点选择 |
+| 5 | 🔒 哔哩哔哩 | DIRECT |
+| 6 | 🏠 私有网络 / 局域网 | DIRECT |
+| 7 | 📲 电报消息 | 节点选择 |
+| 8 | 🐱 代码托管（GitHub、GitLab、Atlassian） | 节点选择 |
+| 9 | Ⓜ️ 微软服务 | 节点选择 |
+| 10 | 🏦 汇丰香港（含 Reward+） | DIRECT |
+| 11 | 🏦 其他香港银行 | DIRECT |
+| 12 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈 / 盈透） | 香港节点 |
+| 13 | 🍎 苹果推送 | 节点选择 |
+| 14 | 🍏 苹果服务 | DIRECT |
+| 15 | 🔒 国内服务 | DIRECT |
+| 16 | 🌍 非中国（境外流量） | PROXY |
+| 17 | GEOIP CN | DIRECT |
+| 18 | 🐟 漏网之鱼（兜底） | PROXY |
 
 ## 规则集来源
 
@@ -71,7 +71,6 @@
    - 代理 DNS 不回退系统 DNS，避免代理域名查询从本地网络泄露
    - 直连域名使用系统 DNS，改善国内服务和 CDN 调度
    - 扩展常见硬编码 DNS 劫持范围
-   - 新增 blackmatrix7 `BlockHttpDNS`，拦截 App 内置 HTTPDNS；微信 HTTPDNS 例外直连，保留国内 CDN 调度
 - 新增 `Mail.list`
    - 精确收录常见 IMAP、POP3 与 SMTP 服务端点
    - 默认使用 PROXY，可手动切换 DIRECT 或地区节点
@@ -100,9 +99,10 @@
 ## 其他特性
 
 - DNS：Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH，国内直连域名使用系统 DNS
+- 国内直连：China 域名规则前置，并禁止 DIRECT 查询回退代理 DNS，优先命中国内 CDN。
 - DNS 劫持：拦截常见硬编码 53 端口 DNS，防止应用绕过规则
 - 节点域名启动解析：使用直连的 Cloudflare / AliDNS DoH 获取节点真实 IP，避免连接 MerlinClash Fake-IP 网络时节点域名落入 198.18.0.0/15
-- HTTPDNS 拦截：引用 blackmatrix7 `BlockHttpDNS`，阻止 App 通过内置 HTTPDNS 绕过系统解析；微信 HTTPDNS 前置直连，避免影响朋友圈和公众号图片的 CDN 调度
+- HTTPDNS 兼容：不再一刀切拒绝 App 内置 HTTPDNS，由后续国内、国外和 GEOIP 规则决定出口，避免广告、登录与内容组件超时
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
 - QUIC 屏蔽：对代理连接屏蔽 UDP/443，强制回退 HTTP/2
 - 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
@@ -136,7 +136,7 @@ MIT
 
 本 fork 在上游完整规则基础上增加：
 
-- 美国策略：Amazon、eBay、Oracle、Majority、Talkatone、Capital One、Red Pocket、Revolut。
+- 美国策略：Amazon、eBay、Oracle、Equifax、Google.com、Majority、Talkatone、Capital One、Red Pocket、Revolut。
 - 日本策略：Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB。
 - 英国、韩国节点策略组，便于不同设备独立选择默认出口。
 - WLOC Shadowrocket 脚本、Apple 网络定位域名、MITM 主机列表及私有控制入口。
