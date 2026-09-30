@@ -9,8 +9,8 @@
 | 📧 邮件服务 | PROXY | DIRECT、节点选择、日本节点、香港节点 |
 | 🔍 谷歌服务 | 🇯🇵 日本节点 | 🇭🇰 香港节点、节点选择、PROXY、DIRECT |
 | 🤖 AI 服务 | 🇺🇸 美国节点 | 节点选择、PROXY、DIRECT |
-| 🍎 苹果推送 | 🚀 节点选择 | PROXY、DIRECT |
-| 🍏 苹果服务 | DIRECT | 节点选择、PROXY |
+| 🍎 苹果推送 | DIRECT（固定） | 无 |
+| 🍏 苹果服务 | DIRECT（固定） | 无 |
 | 🏦 汇丰香港 | DIRECT | 🇭🇰 香港节点、节点选择、PROXY |
 | 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
 | 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
@@ -48,7 +48,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 | 10 | 🏦 汇丰香港（含 Reward+） | DIRECT |
 | 11 | 🏦 其他香港银行 | DIRECT |
 | 12 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈 / 盈透） | 香港节点 |
-| 13 | 🍎 苹果推送 | 节点选择 |
+| 13 | 🍎 苹果推送 | DIRECT（固定） |
 | 14 | 🍏 苹果服务 | DIRECT |
 | 15 | 🔒 国内服务 | DIRECT |
 | 16 | 🌍 非中国（境外流量） | PROXY |
@@ -89,8 +89,8 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 - Google AI 相关规则已并入 `Google.list`
 - `🔍 谷歌服务` 默认走日本节点，同时提供香港节点作为手动可选分区，便于在不同网络环境下切换。
 - 新增 `ApplePush.list`
-   - 将 Apple Push Notification service 相关域名优先归入 `🍎 苹果推送`
-   - 改善 X、Telegram 等 App 在部分网络环境下无法及时收到推送的问题。
+   - 将 Apple Push Notification service 相关域名和 TCP 5223 固定直连
+   - 避免 Apple 推送在国内网络中因双重代理绕路而延迟。
 - 本仓库维护 `Apple.list`
    - 基于 blackmatrix7 的 Apple 规则
    - 配套加载 `Apple_Domain.list`，补齐完整 Apple 域名集
@@ -106,13 +106,13 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
 - QUIC 屏蔽：对代理连接屏蔽 UDP/443，强制回退 HTTP/2
 - 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
-- TUN 直连优化：iCloud Photos / CloudKit / Apple CDN 域名使用系统 DNS 并跳过代理，保留 Apple Push 走代理
-- Apple 分流一致性：Apple Push 域名与 TCP 5223 优先走苹果推送；`Apple.list` 与 `Apple_Domain.list` 共同覆盖其余 Apple 服务，避免因解析 IP 不同而在直连与代理间漂移
+- TUN 直连优化：iCloud Photos / CloudKit / Apple CDN 与 Apple Push 均使用国内直连
+- Apple 分流一致性：Apple Push、TCP 5223、`Apple.list`、`Apple_Domain.list` 及 WLOC Apple/高德定位域名全部固定直连，避免策略组状态导致出口漂移
 - 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
 - DNS 上游：Cloudflare / Google DoH 经代理并行查询；失败时仅回退直连的加密 Cloudflare DoH，不回退明文系统 DNS
 - 局域网解析保护：`*.in-addr.arpa`、`*.ip6.arpa`、`*.local` 前置直连并交给系统解析，补充常见 DNS-SD 反查模式，避免 Bonjour / PTR 反查打到公共 DoH
 - TUN 边界：保留 `198.18.0.0/15` 给 fake-IP / TUN 内部使用，不加入排除路由，私网桥接网段仍通过 `10.0.0.0/8`、`192.168.0.0/16` 等排除
-- Apple 推送：默认走代理
+- Apple 推送：固定走国内直连
    - `push.apple.com`
    - `gateway.push.apple.com`
    - `api.push.apple.com`
