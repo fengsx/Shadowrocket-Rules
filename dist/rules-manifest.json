@@ -69,12 +69,36 @@
     {
       "attributes": {
         "interval": "600",
+        "policy-regex-filter": "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|Residential|Home Broadband))",
+        "timeout": "5",
+        "tolerance": "0",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇺🇸 美国住宅",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "600",
         "policy-regex-filter": "🇬🇧|英国|UK|London|LHR",
         "timeout": "5",
         "tolerance": "0",
         "url": "http://www.gstatic.com/generate_204"
       },
       "name": "🇬🇧 英国节点",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "600",
+        "policy-regex-filter": "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|Residential|Home Broadband))",
+        "timeout": "5",
+        "tolerance": "0",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇬🇧 英国住宅",
       "options": [],
       "type": "url-test"
     },
@@ -277,14 +301,31 @@
     },
     {
       "attributes": {
-        "policy-select-name": "🇬🇧 英国节点"
+        "interval": "300",
+        "timeout": "5",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "💵 美国金融",
+      "options": [
+        "🇺🇸 美国住宅",
+        "🇺🇸 美国节点",
+        "REJECT"
+      ],
+      "type": "fallback"
+    },
+    {
+      "attributes": {
+        "interval": "300",
+        "timeout": "5",
+        "url": "http://www.gstatic.com/generate_204"
       },
       "name": "💷 英国金融",
       "options": [
+        "🇬🇧 英国住宅",
         "🇬🇧 英国节点",
         "REJECT"
       ],
-      "type": "select"
+      "type": "fallback"
     },
     {
       "attributes": {},
@@ -341,7 +382,7 @@
       "kind": "rule_set",
       "noResolve": false,
       "position": 10,
-      "target": "🇺🇸 美国节点",
+      "target": "💵 美国金融",
       "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/US-Apps.list"
     },
     {
@@ -709,6 +750,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "f3a6b7ecd0aef999591831038df18f883e67b29a125a5101ab393997ea8a9b68"
+    "sha256": "953f6fe3400ba95bf08efae30463a4f23d7b9fd82d7aaef027d006c1b969009c"
   }
 }

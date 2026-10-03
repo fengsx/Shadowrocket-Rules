@@ -64,10 +64,30 @@ proxy-groups:
     interval: 600
     tolerance: 0
     lazy: true
+  - name: "🇺🇸 美国住宅"
+    type: url-test
+    include-all: true
+    filter: "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|Residential|Home Broadband))"
+    proxies:
+      - "REJECT"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 600
+    tolerance: 0
+    lazy: true
   - name: "🇬🇧 英国节点"
     type: url-test
     include-all: true
     filter: "🇬🇧|英国|UK|London|LHR"
+    proxies:
+      - "REJECT"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 600
+    tolerance: 0
+    lazy: true
+  - name: "🇬🇧 英国住宅"
+    type: url-test
+    include-all: true
+    filter: "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|Residential|Home Broadband))"
     proxies:
       - "REJECT"
     url: "http://www.gstatic.com/generate_204"
@@ -186,11 +206,24 @@ proxy-groups:
       - "DIRECT"
       - "🚀 节点选择"
       - "REJECT"
-  - name: "💷 英国金融"
-    type: select
+  - name: "💵 美国金融"
+    type: fallback
     proxies:
+      - "🇺🇸 美国住宅"
+      - "🇺🇸 美国节点"
+      - "REJECT"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    lazy: true
+  - name: "💷 英国金融"
+    type: fallback
+    proxies:
+      - "🇬🇧 英国住宅"
       - "🇬🇧 英国节点"
       - "REJECT"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    lazy: true
   - name: "🏠 私有网络"
     type: select
     proxies:
@@ -393,7 +426,7 @@ rule-providers:
     interval: 21600
 rules:
   - RULE-SET,FENGSX-NodeEndpoints,DIRECT
-  - RULE-SET,fengsx_us_apps,🇺🇸 美国节点
+  - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT

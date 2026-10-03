@@ -120,6 +120,10 @@ def compile_merlin(groups, rules, final):
             options.remove(selected)
             options.insert(0, selected)
         append_list(lines, 'proxies', options or ['DIRECT'])
+        if kind == 'fallback':
+            lines.append(f'    url: {yaml_value(group["attributes"].get("url", "https://www.gstatic.com/generate_204"))}')
+            lines.append(f'    interval: {int(group["attributes"].get("interval", 300))}')
+            lines.append('    lazy: true')
 
     lines.extend([
         'rule-providers:',

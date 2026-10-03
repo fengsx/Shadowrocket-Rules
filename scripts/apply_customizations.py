@@ -11,9 +11,13 @@ UPSTREAM_RAW = 'https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Ru
 UK_GROUP = '🇬🇧 英国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇬🇧|英国|UK|London|LHR'
 KR_GROUP = '🇰🇷 韩国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇰🇷|韩国|KR|Korea|ICN|SEL'
 OTHER_GROUP = '🌐 其他节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=^((?!(🇭🇰|HK|Hong|hong|香港|深港|沪港|京港|港|🇹🇼|TW|TWN|Taiwan|Taipei|taiwan|台湾|台灣|台北|台中|新北|彰化|🇯🇵|JP|Japan|japan|Tokyo|tokyo|日本|东京|大阪|🇺🇸|US|USA|America|america|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约|沪美|美|🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL)).)*$'
+US_RESIDENTIAL_GROUP = '🇺🇸 美国住宅 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|Residential|Home Broadband))'
+UK_RESIDENTIAL_GROUP = '🇬🇧 英国住宅 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|Residential|Home Broadband))'
+US_FINANCE_GROUP = '💵 美国金融 = fallback,🇺🇸 美国住宅,🇺🇸 美国节点,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
+UK_FINANCE_GROUP = '💷 英国金融 = fallback,🇬🇧 英国住宅,🇬🇧 英国节点,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
 WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
 PERSONAL_BLOCK = f'''# CODEX-BEGIN PERSONAL POLICIES
-RULE-SET,{FORK_RAW}/US-Apps.list,🇺🇸 美国节点
+RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
@@ -63,9 +67,11 @@ def main() -> None:
     text = ensure_group_line(text, '🇬🇧 英国节点 =', UK_GROUP, '🇺🇸 美国节点 =')
     text = ensure_group_line(text, '🇰🇷 韩国节点 =', KR_GROUP, '🇬🇧 英国节点 =')
     text = ensure_group_line(text, '🌐 其他节点 =', OTHER_GROUP, '🇰🇷 韩国节点 =')
+    text = ensure_group_line(text, '🇺🇸 美国住宅 =', US_RESIDENTIAL_GROUP, '🇺🇸 美国节点 =')
+    text = ensure_group_line(text, '🇬🇧 英国住宅 =', UK_RESIDENTIAL_GROUP, '🇬🇧 英国节点 =')
     text = ensure_group_line(text, '📍 WLOC 定位 =', WLOC_GROUP, '🍏 苹果服务 =')
-    uk_finance = '💷 英国金融 = select,🇬🇧 英国节点,REJECT,policy-select-name=🇬🇧 英国节点'
-    text = ensure_group_line(text, '💷 英国金融 =', uk_finance, '📈 券商服务 =')
+    text = ensure_group_line(text, '💵 美国金融 =', US_FINANCE_GROUP, '📈 券商服务 =')
+    text = ensure_group_line(text, '💷 英国金融 =', UK_FINANCE_GROUP, '💵 美国金融 =')
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
     if '[Script]' not in text:
         if '[Host]' not in text:

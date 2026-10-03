@@ -399,11 +399,17 @@ function groups(nodes: ProxyNode[], manifest: RuleManifest) {
       });
     } else {
       const options = [...new Set(group.options.map(mapped).filter((option) => option !== group.name))];
-      result.push({
+      const entry: Record<string, unknown> = {
         name: group.name,
-        type: "select",
+        type: group.type,
         proxies: options.length ? options : ["PROXY", "DIRECT"],
-      });
+      };
+      if (group.type === "fallback") {
+        entry.url = group.attributes.url || "https://www.gstatic.com/generate_204";
+        entry.interval = Number(group.attributes.interval || 300);
+        entry.lazy = true;
+      }
+      result.push(entry);
     }
   }
   return result;
