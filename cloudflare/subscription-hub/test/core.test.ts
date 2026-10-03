@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse } from "yaml";
-import { nodeUri, parseNodes, renderMihomo, renderShadowrocket } from "../src/core";
+import { nodeUri, normalizeProxyNode, parseNodes, renderMihomo, renderShadowrocket } from "../src/core";
 import type { RuleManifest } from "../src/types";
 
 const manifest: RuleManifest = {
@@ -101,5 +101,16 @@ describe("节点解析与输出", () => {
     expect(decoded).toContain("vless://");
     expect(decoded).toContain("hysteria2://");
     expect(nodeUri(nodes[0])).toContain("security=reality");
+  });
+  it("统一自建东京与韩国节点名称", () => {
+    const base = { type: "vless", server: "example.com", port: 443 } as any;
+    expect(normalizeProxyNode({ ...base, name: "Aliyun-Tokyo-Reality" }).name)
+      .toBe("🇯🇵 日本01·东京 Reality");
+    expect(normalizeProxyNode({ ...base, name: "Aliyun-Tokyo-HY2" }).name)
+      .toBe("🇯🇵 日本02·东京 Hysteria2");
+    expect(normalizeProxyNode({ ...base, name: "Oracle-Korea-Reality" }).name)
+      .toBe("🇰🇷 韩国01·Oracle Reality");
+    expect(normalizeProxyNode({ ...base, name: "Oracle-Korea-Hysteria2" }).name)
+      .toBe("🇰🇷 韩国02·Oracle Hysteria2");
   });
 });

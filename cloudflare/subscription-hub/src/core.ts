@@ -15,6 +15,17 @@ const REGION_RULES: Array<[RegExp, string]> = [
 const str = (value: unknown) => typeof value === "string" ? value : "";
 const bool = (value: unknown) => value === true || value === 1 || value === "true";
 const region = (name: string) => REGION_RULES.find(([rule]) => rule.test(name))?.[1] ?? "";
+export function normalizeProxyNode(proxy: ProxyNode): ProxyNode {
+  const name = str(proxy.name);
+  const rules: Array<[RegExp, string]> = [
+    [/^Aliyun-Tokyo-Reality$/i, "🇯🇵 日本01·东京 Reality"],
+    [/^Aliyun-Tokyo-(?:HY2|Hysteria2)$/i, "🇯🇵 日本02·东京 Hysteria2"],
+    [/^Oracle-(?:Korea-)?REALITY$/i, "🇰🇷 韩国01·Oracle Reality"],
+    [/^Oracle-(?:Korea-)?(?:HY2|Hysteria2)$/i, "🇰🇷 韩国02·Oracle Hysteria2"],
+  ];
+  const renamed = rules.find(([pattern]) => pattern.test(name))?.[1];
+  return renamed ? { ...proxy, name: renamed } : proxy;
+}
 const normalizedType = (value: unknown) => {
   const type = str(value).toLowerCase();
   return type === "hy2" ? "hysteria2" : type;

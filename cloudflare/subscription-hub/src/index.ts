@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import QRCode from "qrcode-svg";
 import { decrypt, encrypt, sha, token } from "./crypto";
-import { parseNodes, renderMihomo, renderShadowrocket } from "./core";
+import { normalizeProxyNode, parseNodes, renderMihomo, renderShadowrocket } from "./core";
 import type { Env, ProxyNode, RuleManifest } from "./types";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -48,7 +48,9 @@ async function allNodes(env: Env): Promise<ProxyNode[]> {
   const seen = new Set<string>();
   const output: ProxyNode[] = [];
   for (const row of rows.results) {
-    const proxy = JSON.parse(await decrypt(env.MASTER_KEY, row.encrypted_payload)) as ProxyNode;
+    const proxy = normalizeProxyNode(
+      JSON.parse(await decrypt(env.MASTER_KEY, row.encrypted_payload)) as ProxyNode,
+    );
     const key = JSON.stringify([proxy.type, proxy.server, proxy.port, proxy.uuid ?? proxy.password ?? ""]);
     if (!seen.has(key)) {
       seen.add(key);
@@ -106,6 +108,7 @@ async function refresh(env: Env) {
   for (const source of sources.results) {
     try {
       const url = await decrypt(env.MASTER_KEY, source.encrypted_url);
+      if (url === "manual:") continue;
       const response = await fetch(url, {
         headers: { "User-Agent": "Clash.Meta", Accept: "*/*" },
         signal: AbortSignal.timeout(20000),
@@ -359,6 +362,48 @@ app.post("/api/sources", async (c) => {
     timestamp,
   ).run();
   return c.json({ id }, 201);
+});
+
+app.post("/api/sources/manual", async (c) => {
+  const body = await c.req.json<{ name?: string; raw?: string; priority?: number }>();
+  const name = body.name?.trim();
+  const raw = body.raw?.trim();
+  if (!name || !raw) return c.json({ error: "名称和节点内容不能为空" }, 400);
+  const id = crypto.randomUUID();
+  const nodes = await parseNodes(raw, id);
+  if (!nodes.length) return c.json({ error: "未解析出支持的节点" }, 400);
+  const priority = Math.max(0, Math.min(1000, Number(body.priority ?? 50)));
+  const timestamp = now();
+  const payloads = await Promise.all(
+    nodes.map((node) => encrypt(c.env.MASTER_KEY, JSON.stringify(node.proxy))),
+  );
+  await c.env.DB.batch([
+    c.env.DB.prepare(
+      "INSERT INTO sources(id,name,encrypted_url,priority,last_success_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?)",
+    ).bind(
+      id,
+      name,
+      await encrypt(c.env.MASTER_KEY, "manual:"),
+      priority,
+      timestamp,
+      timestamp,
+      timestamp,
+    ),
+    ...nodes.map((node, index) => c.env.DB.prepare(
+      "INSERT INTO nodes(id,source_id,fingerprint,name,region,protocol,encrypted_payload,sort_order,updated_at) VALUES(?,?,?,?,?,?,?,?,?)",
+    ).bind(
+      node.id,
+      id,
+      node.fingerprint,
+      node.name,
+      node.region,
+      node.protocol,
+      payloads[index],
+      index,
+      timestamp,
+    )),
+  ]);
+  return c.json({ id, sourceNodes: nodes.length, ...await build(c.env) }, 201);
 });
 
 app.post("/api/sources/batch", async (c) => {
