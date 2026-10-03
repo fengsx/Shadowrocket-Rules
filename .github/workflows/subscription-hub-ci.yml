@@ -1,0 +1,32 @@
+name: Subscription Hub CI
+
+on:
+  push:
+    paths:
+      - "cloudflare/subscription-hub/**"
+      - ".github/workflows/subscription-hub-ci.yml"
+  pull_request:
+    paths:
+      - "cloudflare/subscription-hub/**"
+      - ".github/workflows/subscription-hub-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cloudflare/subscription-hub
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cloudflare/subscription-hub/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npx wrangler deploy --dry-run
