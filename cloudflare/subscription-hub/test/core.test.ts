@@ -84,7 +84,10 @@ describe("节点解析与输出", () => {
       name: "🇬🇧 英国住宅", type: "url-test", options: [], attributes: { "policy-regex-filter": "英国.*住宅" },
     });
     missingRegion.policyGroups.push({
-      name: "💷 英国金融", type: "fallback", options: ["🇬🇧 英国住宅", "🇬🇧 英国节点", "REJECT"],
+      name: "🇬🇧 英国普通", type: "url-test", options: [], attributes: { "policy-regex-filter": "英国(?!.*住宅)" },
+    });
+    missingRegion.policyGroups.push({
+      name: "💷 英国金融", type: "fallback", options: ["🇬🇧 英国住宅", "🇬🇧 英国普通", "REJECT"],
       attributes: { url: "https://www.gstatic.com/generate_204", interval: "300" },
     });
     const fallback = parse(renderMihomo(nodes, missingRegion, false)) as any;
@@ -93,7 +96,7 @@ describe("节点解析与输出", () => {
     const ukFinance = fallback["proxy-groups"].find((group: any) => group.name === "💷 英国金融");
     const usGroup = fallback["proxy-groups"].find((group: any) => group.name === "🇺🇸 美国节点");
     expect(ukFinance.type).toBe("fallback");
-    expect(ukFinance.proxies).toEqual(["🇬🇧 英国住宅", "🇬🇧 英国节点", "REJECT"]);
+    expect(ukFinance.proxies).toEqual(["🇬🇧 英国住宅", "🇬🇧 英国普通", "REJECT"]);
     expect(ukFinance.interval).toBe(300);
     expect(usGroup.proxies).toEqual(["美国 Reality"]);
     expect(usGroup.type).toBe("url-test");

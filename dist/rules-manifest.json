@@ -81,6 +81,18 @@
     {
       "attributes": {
         "interval": "600",
+        "policy-regex-filter": "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$",
+        "timeout": "5",
+        "tolerance": "0",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇺🇸 美国普通",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "600",
         "policy-regex-filter": "🇬🇧|英国|UK|London|LHR",
         "timeout": "5",
         "tolerance": "0",
@@ -99,6 +111,18 @@
         "url": "http://www.gstatic.com/generate_204"
       },
       "name": "🇬🇧 英国住宅",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "600",
+        "policy-regex-filter": "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$",
+        "timeout": "5",
+        "tolerance": "0",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇬🇧 英国普通",
       "options": [],
       "type": "url-test"
     },
@@ -308,7 +332,7 @@
       "name": "💵 美国金融",
       "options": [
         "🇺🇸 美国住宅",
-        "🇺🇸 美国节点",
+        "🇺🇸 美国普通",
         "REJECT"
       ],
       "type": "fallback"
@@ -322,7 +346,7 @@
       "name": "💷 英国金融",
       "options": [
         "🇬🇧 英国住宅",
-        "🇬🇧 英国节点",
+        "🇬🇧 英国普通",
         "REJECT"
       ],
       "type": "fallback"
@@ -750,6 +774,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "953f6fe3400ba95bf08efae30463a4f23d7b9fd82d7aaef027d006c1b969009c"
+    "sha256": "ace413c255a2a4bc23a837b4b3f485d4abd9e02abdb3248fe7264d5639a2c534"
   }
 }
