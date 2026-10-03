@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / 'Shadowrocket.conf'
-FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main'
+FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main'
 UPSTREAM_RAW = 'https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main'
 UK_GROUP = '🇬🇧 英国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇬🇧|英国|UK|London|LHR'
 KR_GROUP = '🇰🇷 韩国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇰🇷|韩国|KR|Korea|ICN|SEL'

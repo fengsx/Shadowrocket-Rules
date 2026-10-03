@@ -3,7 +3,7 @@
 # 为 Magic Catling 2 安装并同步 fengsx 规则模板，生成已知节点端点直连规则。
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RAW_BASE=https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main
+RAW_BASE=https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main
 CDN_BASE=https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main
 SELF=/jffs/scripts/fengsx-merlin-sync
 TEMPLATE=/koolshare/merlinclash/rule_configs/rule_mc_custom.yaml

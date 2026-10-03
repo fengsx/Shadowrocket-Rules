@@ -24,7 +24,7 @@
 Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务器只负责组装节点订阅。
 
 1. 复制配置文件的 Raw 链接：
-   `https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Shadowrocket.conf`
+   `https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/Shadowrocket.conf`
 2. 打开 Shadowrocket → 配置 → 右上角 `+` → 粘贴链接 → 下载
 3. 点击已下载的配置，设为使用中（✔️）
 4. 首页添加你自己的节点或订阅

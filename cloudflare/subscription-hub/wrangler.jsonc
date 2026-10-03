@@ -6,7 +6,7 @@
   "workers_dev": true,
   "observability": { "enabled": true },
   "vars": {
-    "RULE_MANIFEST_URL": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/dist/rules-manifest.json"
+    "RULE_MANIFEST_URL": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/dist/rules-manifest.json"
   },
   "triggers": { "crons": ["23 */6 * * *"] },
   "d1_databases": [

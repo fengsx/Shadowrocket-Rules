@@ -345,7 +345,7 @@
       "noResolve": false,
       "position": 10,
       "target": "🇺🇸 美国节点",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/US-Apps.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/US-Apps.list"
     },
     {
       "id": "rule-0002",
@@ -353,7 +353,7 @@
       "noResolve": false,
       "position": 20,
       "target": "💷 英国金融",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/UK-Finance.list"
     },
     {
       "id": "rule-0003",
@@ -521,7 +521,7 @@
       "noResolve": false,
       "position": 230,
       "target": "📧 邮件服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Mail.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/Mail.list"
     },
     {
       "id": "rule-0024",
@@ -545,7 +545,7 @@
       "noResolve": false,
       "position": 260,
       "target": "🔍 谷歌服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Google.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/Google.list"
     },
     {
       "id": "rule-0027",
@@ -553,7 +553,7 @@
       "noResolve": false,
       "position": 270,
       "target": "🤖 AI 服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/AI.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/AI.list"
     },
     {
       "id": "rule-0028",
@@ -625,7 +625,7 @@
       "noResolve": false,
       "position": 360,
       "target": "🏦 汇丰香港",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HSBC_HK.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/HSBC_HK.list"
     },
     {
       "id": "rule-0037",
@@ -633,7 +633,7 @@
       "noResolve": false,
       "position": 370,
       "target": "🏦 香港银行",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Banks_Direct.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/HK_Banks_Direct.list"
     },
     {
       "id": "rule-0038",
@@ -641,7 +641,7 @@
       "noResolve": false,
       "position": 380,
       "target": "📈 券商服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Broker.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/HK_Broker.list"
     },
     {
       "id": "rule-0039",
@@ -649,7 +649,7 @@
       "noResolve": false,
       "position": 390,
       "target": "🍎 苹果推送",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/ApplePush.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/ApplePush.list"
     },
     {
       "id": "rule-0040",
@@ -657,7 +657,7 @@
       "noResolve": false,
       "position": 400,
       "target": "🍏 苹果服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple.list"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/Apple.list"
     },
     {
       "id": "rule-0041",
@@ -712,6 +712,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "892d123917af1ead2f3d70a0637c8fd93de9c0819eedf45097d792c3644e5827"
+    "sha256": "eecc29e137b8d78cbf37a135628e9ebc572bc952d59f78486ba95ce5525ed3a6"
   }
 }
