@@ -4,6 +4,7 @@
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RAW_BASE=https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main
+CDN_BASE=https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main
 SELF=/jffs/scripts/fengsx-merlin-sync
 TEMPLATE=/koolshare/merlinclash/rule_configs/rule_mc_custom.yaml
 ENDPOINTS=/koolshare/merlinclash/rule_custom/fengsx_node_endpoints.yaml
@@ -19,8 +20,18 @@ log() {
 download() {
     url="$1"
     target="$2"
-    curl -fsSL --connect-timeout 10 --max-time 45 "$url" -o "$target" 2>/dev/null || \
-        wget -q -T 45 -O "$target" "$url" 2>/dev/null
+    if curl -fsSL --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null || \
+       wget -q -T 45 -O "$target" "$url" 2>/dev/null; then
+        return 0
+    fi
+    case "$url" in
+        "$RAW_BASE"/*)
+            fallback="$CDN_BASE/${url#"$RAW_BASE"/}"
+            curl -fsSL --connect-timeout 8 --max-time 45 "$fallback" -o "$target" 2>/dev/null || \
+                wget -q -T 45 -O "$target" "$fallback" 2>/dev/null
+            ;;
+        *) return 1 ;;
+    esac
 }
 
 refresh_self() {
