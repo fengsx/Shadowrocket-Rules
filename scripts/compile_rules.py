@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
+from urllib.parse import urlparse
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'Shadowrocket.conf'
 OUTPUT=ROOT/'dist/rules-manifest.json'
@@ -69,6 +70,14 @@ def append_list(lines, key, values, indent=4):
     for value in values:
         lines.append(' ' * (indent + 2) + f'- {yaml_value(value)}')
 
+def provider_base_name(url):
+    stem=Path(urlparse(url).path).stem
+    stem=re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', stem)
+    stem=re.sub(r'[^A-Za-z0-9]+', '_', stem).strip('_').lower()
+    if not stem:
+        raise RuntimeError(f'无法从规则地址生成可读名称：{url}')
+    return f'fengsx_{stem}'
+
 def compile_merlin(groups, rules, final):
     lines = [
         '# 由 scripts/compile_rules.py 自动生成，请勿手工修改。',
@@ -78,7 +87,7 @@ def compile_merlin(groups, rules, final):
         '    type: url-test',
         '    include-all: true',
         '    proxies:',
-        '      - "DIRECT"',
+        '      - "REJECT"',
         '    url: "https://www.gstatic.com/generate_204"',
         '    interval: 300',
         '    tolerance: 80',
@@ -92,7 +101,7 @@ def compile_merlin(groups, rules, final):
         if kind == 'url-test':
             lines.append('    include-all: true')
             lines.append(f'    filter: {yaml_value(group["attributes"].get("policy-regex-filter", ".+"))}')
-            append_list(lines, 'proxies', ['DIRECT'])
+            append_list(lines, 'proxies', ['REJECT'])
             lines.append(f'    url: {yaml_value(group["attributes"].get("url", "https://www.gstatic.com/generate_204"))}')
             lines.append(f'    interval: {int(group["attributes"].get("interval", 600))}')
             lines.append(f'    tolerance: {int(group["attributes"].get("tolerance", 80))}')
@@ -121,12 +130,22 @@ def compile_merlin(groups, rules, final):
         '    path: ./rule_custom/fengsx_node_endpoints.yaml',
     ])
     provider_ids = {}
-    provider_index = 0
+    used_provider_names = {'FENGSX-NodeEndpoints'}
     for rule in rules:
         if rule['kind'] not in {'rule_set', 'domain_set'}:
             continue
-        provider_index += 1
-        provider = f'fengsx_rules_{provider_index:02d}'
+        base = provider_base_name(rule['value'])
+        provider = base
+        if provider in used_provider_names:
+            behavior = 'domain' if rule['kind'] == 'domain_set' else 'classical'
+            provider = f'{base}_{behavior}'
+        suffix = 2
+        unique_provider = provider
+        while unique_provider in used_provider_names:
+            unique_provider = f'{provider}_{suffix:02d}'
+            suffix += 1
+        provider = unique_provider
+        used_provider_names.add(provider)
         provider_ids[rule['id']] = provider
         lines.extend([
             f'  {provider}:',

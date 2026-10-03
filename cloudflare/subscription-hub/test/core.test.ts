@@ -67,12 +67,20 @@ describe("节点解析与输出", () => {
     expect(clash.rules).toEqual(merlin.rules);
     expect(clash.rules.slice(-3)).toEqual([
       "DOMAIN-SUFFIX,example.com,🇺🇸 美国节点",
-      "RULE-SET,rules_01,DIRECT",
+      "RULE-SET,fengsx_direct,DIRECT",
       "MATCH,PROXY",
     ]);
     expect(clash.ipv6).toBe(false);
     expect(merlin["allow-lan"]).toBe(true);
     expect(merlin["tproxy-port"]).toBe(7893);
+
+    const missingRegion = structuredClone(manifest);
+    missingRegion.policyGroups.push({
+      name: "🇬🇧 英国节点", type: "url-test", options: [], attributes: { "policy-regex-filter": "英国|UK" },
+    });
+    const fallback = parse(renderMihomo(nodes, missingRegion, false)) as any;
+    const ukGroup = fallback["proxy-groups"].find((group: any) => group.name === "🇬🇧 英国节点");
+    expect(ukGroup.proxies).toEqual(["REJECT"]);
   });
 
   it("生成 Shadowrocket 可解码的 Base64 节点订阅", async () => {

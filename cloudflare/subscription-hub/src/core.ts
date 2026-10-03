@@ -380,7 +380,7 @@ function groups(nodes: ProxyNode[], manifest: RuleManifest) {
       result.push({
         name: group.name,
         type: "url-test",
-        proxies: selected.length ? selected : names,
+        proxies: selected.length ? selected : ["REJECT"],
         url: group.attributes.url || "https://www.gstatic.com/generate_204",
         interval: Number(group.attributes.interval || 600),
         tolerance: Number(group.attributes.tolerance || 80),
@@ -398,13 +398,36 @@ function groups(nodes: ProxyNode[], manifest: RuleManifest) {
   return result;
 }
 
+function providerBaseName(url: string) {
+  const filename = new URL(url).pathname.split("/").pop() || "";
+  const stem = filename
+    .replace(/\.[^.]+$/, "")
+    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+    .replace(/[^A-Za-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .toLowerCase();
+  if (!stem) throw new Error(`无法从规则地址生成可读名称：${url}`);
+  return `fengsx_${stem}`;
+}
+
 function providers(rules: ManifestRule[]) {
   const data: Record<string, unknown> = {};
   const ids = new Map<string, string>();
-  let index = 0;
+  const used = new Set<string>();
   for (const rule of rules) {
     if (!["rule_set", "domain_set"].includes(rule.kind)) continue;
-    const name = `rules_${String(++index).padStart(2, "0")}`;
+    const base = providerBaseName(rule.value);
+    let name = base;
+    if (used.has(name)) {
+      const behavior = rule.kind === "domain_set" ? "domain" : "classical";
+      name = `${base}_${behavior}`;
+    }
+    let suffix = 2;
+    while (used.has(name)) {
+      name = `${base}_${String(suffix).padStart(2, "0")}`;
+      suffix += 1;
+    }
+    used.add(name);
     data[name] = {
       type: "http",
       behavior: rule.kind === "domain_set" ? "domain" : "classical",
