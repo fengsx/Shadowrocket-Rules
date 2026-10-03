@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "fengsx-subscription-hub",
+  "name": "sub",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-03",
   "workers_dev": true,
@@ -12,14 +12,14 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "fengsx-subscription-hub",
-      "database_id": "ad5ff068-be51-43d7-afd6-1aa0ef1674fe"
+      "database_name": "fengsx-sub",
+      "database_id": "7f8532ec-f5b1-424f-a4c6-1c3151b5ad88"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "ARTIFACTS",
-      "id": "11776a5a49d947efa5839e2e1633d87b"
+      "id": "657c51fdb2064aefac77ee4485b74964"
     }
   ]
 }
