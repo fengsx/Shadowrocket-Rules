@@ -9,8 +9,9 @@
 | 📧 邮件服务 | PROXY | DIRECT、节点选择、日本节点、香港节点 |
 | 🔍 谷歌服务 | 🇯🇵 日本节点 | 🇭🇰 香港节点、节点选择、PROXY、DIRECT |
 | 🤖 AI 服务 | 🇺🇸 美国节点 | 节点选择、PROXY、DIRECT |
-| 🍎 苹果推送 | DIRECT（固定） | 无 |
-| 🍏 苹果服务 | DIRECT（固定） | 无 |
+| 🧱 DNS 防泄露 | REJECT | 节点选择、DIRECT |
+| 🍎 苹果推送 | 🚀 节点选择 | PROXY、DIRECT |
+| 🍏 苹果服务 | DIRECT | 节点选择、PROXY |
 | 🏦 汇丰香港 | DIRECT | 🇭🇰 香港节点、节点选择、PROXY |
 | 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
 | 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
@@ -41,7 +42,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 | 2 | 🔍 谷歌服务（含 Gemini） | 日本节点，可手动切香港节点 |
 | 3 | 🤖 AI 服务（ChatGPT、Claude 等） | 美国节点 |
 | 4 | 📹 油管视频（含 YouTube 翻译 API） | 节点选择 |
-| 5 | 🔒 哔哩哔哩 | DIRECT |
+| 5 | 🔒 哔哩哔哩 | 国内服务（默认 DIRECT） |
 | 6 | 🏠 私有网络 / 局域网 | DIRECT |
 | 7 | 📲 电报消息 | 节点选择 |
 | 8 | 🐱 代码托管（GitHub、GitLab、Atlassian） | 节点选择 |
@@ -49,7 +50,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 | 10 | 🏦 汇丰香港（含 Reward+） | DIRECT |
 | 11 | 🏦 其他香港银行 | DIRECT |
 | 12 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈 / 盈透） | 香港节点 |
-| 13 | 🍎 苹果推送 | DIRECT（固定） |
+| 13 | 🍎 苹果推送 | 节点选择 |
 | 14 | 🍏 苹果服务 | DIRECT |
 | 15 | 🔒 国内服务 | DIRECT |
 | 16 | 🌍 非中国（境外流量） | PROXY |
@@ -89,9 +90,9 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
    - 美国运通因不同地区共用主域名，不纳入自动分流
 - Google AI 相关规则已并入 `Google.list`
 - `🔍 谷歌服务` 默认走日本节点，同时提供香港节点作为手动可选分区，便于在不同网络环境下切换。
-- 新增 `ApplePush.list`
-   - 将 Apple Push Notification service 相关域名和 TCP 5223 固定直连
-   - 避免 Apple 推送在国内网络中因双重代理绕路而延迟。
+- 同步上游 `ApplePush.list`
+   - Apple Push Notification service 域名与 TCP 5223 归入 `🍎 苹果推送` 策略组
+   - 默认跟随节点选择，可手动切换 PROXY 或 DIRECT。
 - 本仓库维护 `Apple.list`
    - 基于 blackmatrix7 的 Apple 规则
    - 配套加载 `Apple_Domain.list`，补齐完整 Apple 域名集
@@ -100,20 +101,19 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 ## 其他特性
 
 - DNS：Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH，国内直连域名使用系统 DNS
-- 国内直连：China 域名规则前置，并禁止 DIRECT 查询回退代理 DNS，优先命中国内 CDN。
+- 国内服务：采用上游 China / China_Domain / GEOIP CN 规则并归入 `🔒 国内服务`，该组默认 DIRECT。
 - DNS 劫持：拦截常见硬编码 53 端口 DNS，防止应用绕过规则
 - 节点域名启动解析：使用直连的 Cloudflare / AliDNS DoH 获取节点真实 IP，避免连接 MerlinClash Fake-IP 网络时节点域名落入 198.18.0.0/15
-- HTTPDNS 兼容：不再一刀切拒绝 App 内置 HTTPDNS，由后续国内、国外和 GEOIP 规则决定出口，避免广告、登录与内容组件超时
+- HTTPDNS：采用上游 `BlockHttpDNS.list`，默认由 `🧱 DNS 防泄露` 策略组 REJECT
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
 - QUIC 屏蔽：对代理连接屏蔽 UDP/443，强制回退 HTTP/2
 - 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
-- TUN 直连优化：iCloud Photos / CloudKit / Apple CDN 与 Apple Push 均使用国内直连
-- Apple 分流一致性：Apple Push、TCP 5223、`Apple.list`、`Apple_Domain.list` 及 WLOC Apple/高德定位域名全部固定直连，避免策略组状态导致出口漂移
+- Apple 分流：采用上游 Apple / ApplePush 规则和策略组；WLOC 定位域名保留 DIRECT 例外
 - 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
 - DNS 上游：Cloudflare / Google DoH 经代理并行查询；失败时仅回退直连的加密 Cloudflare DoH，不回退明文系统 DNS
 - 局域网解析保护：`*.in-addr.arpa`、`*.ip6.arpa`、`*.local` 前置直连并交给系统解析，补充常见 DNS-SD 反查模式，避免 Bonjour / PTR 反查打到公共 DoH
 - TUN 边界：保留 `198.18.0.0/15` 给 fake-IP / TUN 内部使用，不加入排除路由，私网桥接网段仍通过 `10.0.0.0/8`、`192.168.0.0/16` 等排除
-- Apple 推送：固定走国内直连
+- Apple 推送：采用上游策略组，默认跟随节点选择
    - `push.apple.com`
    - `gateway.push.apple.com`
    - `api.push.apple.com`
@@ -123,7 +123,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 
 ## 注意事项
 
-- 地区分组通过节点名称关键词自动匹配，请确保你的节点名称包含地区标识（如 🇭🇰、HK、香港等）
+- 地区分组通过节点名称关键词自动匹配；`其他节点` 已排除香港、台湾、日本、美国、英国和韩国关键词
 - 银行服务对出口 IP 和 VPN 环境较敏感，默认直连；如手动切换香港代理，建议尽量保持同一节点
 - Google、AI、非中国和漏网之鱼的默认出口可在 App 内手动切换
 - 如需 HTTPS 解密功能，请在 Shadowrocket 中生成并安装 CA 证书
