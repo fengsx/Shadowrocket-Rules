@@ -1,0 +1,21 @@
+# 英国金融服务：统一走英国节点
+# Krak / Kraken
+DOMAIN-SUFFIX,krak.app
+DOMAIN-SUFFIX,kraken.com
+DOMAIN-SUFFIX,payward.com
+
+# Lloyds Bank
+DOMAIN-SUFFIX,lloydsbank.com
+DOMAIN-SUFFIX,lloydsbank.co.uk
+DOMAIN-SUFFIX,lloydsbankinggroup.com
+DOMAIN-SUFFIX,lloydsbankgroup.com
+DOMAIN-SUFFIX,lloydsbanking.com
+
+# 英国数字银行、券商与金融服务
+DOMAIN-SUFFIX,zopa.com
+DOMAIN-SUFFIX,monzo.com
+DOMAIN-SUFFIX,freetrade.io
+DOMAIN-SUFFIX,tide.co
+DOMAIN-SUFFIX,trading212.com
+DOMAIN-SUFFIX,withplum.com
+DOMAIN-SUFFIX,ifastgb.com

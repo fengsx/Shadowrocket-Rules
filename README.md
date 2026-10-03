@@ -14,6 +14,7 @@
 | 🏦 汇丰香港 | DIRECT | 🇭🇰 香港节点、节点选择、PROXY |
 | 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
 | 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
+| 💷 英国金融 | 🇬🇧 英国节点 | 节点选择、PROXY、DIRECT |
 | 🌍 非中国 | PROXY | 节点选择、DIRECT、日本节点 |
 | 🐟 漏网之鱼 | PROXY | 节点选择、DIRECT、日本节点 |
 
@@ -137,7 +138,7 @@ MIT
 本 fork 在上游完整规则基础上增加：
 
 - 美国策略：Amazon、eBay、Oracle、Equifax、Google.com、Majority、Talkatone、Capital One、Red Pocket、Revolut。
-- 日本策略：Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB。
+- 英国金融策略：Krak、Kraken、Lloyds、Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB，默认使用英国节点。
 - 英国、韩国节点策略组，便于不同设备独立选择默认出口。
 - WLOC Shadowrocket 脚本、Apple 网络定位域名、MITM 主机列表及私有控制入口。
 - DNS 覆写使用 Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH；国内直连域名继续使用系统 DNS。
