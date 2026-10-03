@@ -80,9 +80,18 @@ describe("节点解析与输出", () => {
     missingRegion.policyGroups.push({
       name: "🇬🇧 英国节点", type: "url-test", options: [], attributes: { "policy-regex-filter": "英国|UK" },
     });
+    missingRegion.policyGroups.push({
+      name: "💷 英国金融", type: "select", options: ["🇬🇧 英国节点", "REJECT"], attributes: {},
+    });
     const fallback = parse(renderMihomo(nodes, missingRegion, false)) as any;
     const ukGroup = fallback["proxy-groups"].find((group: any) => group.name === "🇬🇧 英国节点");
     expect(ukGroup.proxies).toEqual(["REJECT"]);
+    const ukFinance = fallback["proxy-groups"].find((group: any) => group.name === "💷 英国金融");
+    const usGroup = fallback["proxy-groups"].find((group: any) => group.name === "🇺🇸 美国节点");
+    expect(ukFinance.proxies).toEqual(["🇬🇧 英国节点", "REJECT"]);
+    expect(usGroup.proxies).toEqual(["美国 Reality"]);
+    expect(usGroup.proxies).not.toContain("DIRECT");
+    expect(usGroup.proxies).not.toContain("PROXY");
   });
 
   it("生成 Shadowrocket 可解码的 Base64 节点订阅", async () => {

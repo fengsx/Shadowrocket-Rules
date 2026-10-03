@@ -64,7 +64,7 @@ def main() -> None:
     text = ensure_group_line(text, '🇰🇷 韩国节点 =', KR_GROUP, '🇬🇧 英国节点 =')
     text = ensure_group_line(text, '🌐 其他节点 =', OTHER_GROUP, '🇰🇷 韩国节点 =')
     text = ensure_group_line(text, '📍 WLOC 定位 =', WLOC_GROUP, '🍏 苹果服务 =')
-    uk_finance = '💷 英国金融 = select,🇬🇧 英国节点,🚀 节点选择,PROXY,DIRECT,REJECT,policy-select-name=🇬🇧 英国节点'
+    uk_finance = '💷 英国金融 = select,🇬🇧 英国节点,REJECT,policy-select-name=🇬🇧 英国节点'
     text = ensure_group_line(text, '💷 英国金融 =', uk_finance, '📈 券商服务 =')
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
     if '[Script]' not in text:

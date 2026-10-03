@@ -1,7 +1,9 @@
 # 英国金融服务：统一走英国节点
 # Krak / Kraken
+DOMAIN-KEYWORD,krak
 DOMAIN-SUFFIX,krak.app
 DOMAIN-SUFFIX,kraken.com
+DOMAIN-SUFFIX,payward.com
 DOMAIN-SUFFIX,payward.com
 
 # Lloyds Bank

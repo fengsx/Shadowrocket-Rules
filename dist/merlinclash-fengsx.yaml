@@ -190,8 +190,6 @@ proxy-groups:
     type: select
     proxies:
       - "🇬🇧 英国节点"
-      - "🚀 节点选择"
-      - "DIRECT"
       - "REJECT"
   - name: "🏠 私有网络"
     type: select

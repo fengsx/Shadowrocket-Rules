@@ -70,6 +70,8 @@ def main() -> None:
         'GEOIP,CN,🔒 国内服务',
         'US-Apps.list,🇺🇸 美国节点',
         'UK-Finance.list,💷 英国金融',
+        '💷 英国金融 = select,🇬🇧 英国节点,REJECT,policy-select-name=🇬🇧 英国节点',
+        '🇺🇸 美国节点 = url-test',
         '# CODEX-BEGIN WLOC',
         'gsp-ssl.ls.apple.com',
         '🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL',
