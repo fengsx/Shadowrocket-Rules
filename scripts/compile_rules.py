@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'Shadowrocket.conf'
 OUTPUT=ROOT/'dist/rules-manifest.json'
+MERLIN_OUTPUT=ROOT/'dist/merlinclash-fengsx.yaml'
 BUILTINS={'DIRECT','PROXY','REJECT'}
 def section_lines(text,name):
     marker=f'[{name}]'
@@ -48,10 +49,115 @@ def compile_rules(text,targets):
         rules.append({'id':f'rule-{len(rules)+1:04d}','position':(len(rules)+1)*10,'kind':kind,'value':value.strip(),'target':target,'noResolve':no_resolve})
     if final not in targets: raise RuntimeError(f'兜底策略不存在：{final}')
     return rules,final
+
+def yaml_value(value):
+    return json.dumps(value, ensure_ascii=False)
+
+def mapped_target(name):
+    return '🚀 节点选择' if name == 'PROXY' else name
+
+def append_list(lines, key, values, indent=4):
+    lines.append(' ' * indent + f'{key}:')
+    for value in values:
+        lines.append(' ' * (indent + 2) + f'- {yaml_value(value)}')
+
+def compile_merlin(groups, rules, final):
+    lines = [
+        '# 由 scripts/compile_rules.py 自动生成，请勿手工修改。',
+        '# FENGSX-MERLIN-TEMPLATE-V1',
+        'proxy-groups:',
+        '  - name: "♻️ 自动选择"',
+        '    type: url-test',
+        '    include-all: true',
+        '    proxies:',
+        '      - "DIRECT"',
+        '    url: "https://www.gstatic.com/generate_204"',
+        '    interval: 300',
+        '    tolerance: 80',
+        '    lazy: true',
+    ]
+    for group in groups:
+        name = group['name']
+        kind = group['type']
+        lines.append(f'  - name: {yaml_value(name)}')
+        lines.append(f'    type: {kind}')
+        if kind == 'url-test':
+            lines.append('    include-all: true')
+            lines.append(f'    filter: {yaml_value(group["attributes"].get("policy-regex-filter", ".+"))}')
+            append_list(lines, 'proxies', ['DIRECT'])
+            lines.append(f'    url: {yaml_value(group["attributes"].get("url", "https://www.gstatic.com/generate_204"))}')
+            lines.append(f'    interval: {int(group["attributes"].get("interval", 600))}')
+            lines.append(f'    tolerance: {int(group["attributes"].get("tolerance", 80))}')
+            lines.append('    lazy: true')
+            continue
+        options = []
+        for option in group['options']:
+            mapped = mapped_target(option)
+            if mapped != name and mapped not in options:
+                options.append(mapped)
+        if name == '🚀 节点选择':
+            lines.append('    include-all: true')
+            options.insert(0, '♻️ 自动选择')
+        selected = mapped_target(group['attributes'].get('policy-select-name', ''))
+        if selected and selected in options:
+            options.remove(selected)
+            options.insert(0, selected)
+        append_list(lines, 'proxies', options or ['DIRECT'])
+
+    lines.extend([
+        'rule-providers:',
+        '  FENGSX-NodeEndpoints:',
+        '    type: file',
+        '    behavior: classical',
+        '    format: yaml',
+        '    path: ./rule_custom/fengsx_node_endpoints.yaml',
+    ])
+    provider_ids = {}
+    provider_index = 0
+    for rule in rules:
+        if rule['kind'] not in {'rule_set', 'domain_set'}:
+            continue
+        provider_index += 1
+        provider = f'fengsx_rules_{provider_index:02d}'
+        provider_ids[rule['id']] = provider
+        lines.extend([
+            f'  {provider}:',
+            '    type: http',
+            f'    behavior: {"domain" if rule["kind"] == "domain_set" else "classical"}',
+            '    format: text',
+            f'    url: {yaml_value(rule["value"])}',
+            f'    path: ./rule_provider/fengsx/{provider}.list',
+            '    interval: 21600',
+        ])
+
+    tokens = {
+        'domain': 'DOMAIN',
+        'domain_suffix': 'DOMAIN-SUFFIX',
+        'domain_keyword': 'DOMAIN-KEYWORD',
+        'cidr': 'IP-CIDR',
+        'cidr6': 'IP-CIDR6',
+        'geoip': 'GEOIP',
+    }
+    lines.extend(['rules:', '  - RULE-SET,FENGSX-NodeEndpoints,DIRECT'])
+    for rule in rules:
+        target = mapped_target(rule['target'])
+        if rule['kind'] == 'raw':
+            line = f'{rule["value"].replace("PROTOCOL,", "NETWORK,")},{target}'
+        elif rule['kind'] in {'rule_set', 'domain_set'}:
+            line = f'RULE-SET,{provider_ids[rule["id"]]},{target}'
+        else:
+            line = f'{tokens[rule["kind"]]},{rule["value"]},{target}'
+            if rule['noResolve']:
+                line += ',no-resolve'
+        lines.append(f'  - {line}')
+    lines.append(f'  - MATCH,{mapped_target(final)}')
+    MERLIN_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    MERLIN_OUTPUT.write_text('\n'.join(lines) + '\n')
 def main():
     raw=SOURCE.read_bytes(); text=raw.decode(); groups=compile_groups(text)
     rules,final=compile_rules(text,BUILTINS|{g['name'] for g in groups})
     manifest={'schemaVersion':1,'source':{'repository':'fengsx/Shadowrocket-Rules','path':'Shadowrocket.conf','sha256':hashlib.sha256(raw).hexdigest()},'policyGroups':groups,'rules':rules,'finalTarget':final}
     OUTPUT.parent.mkdir(parents=True,exist_ok=True); OUTPUT.write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
-    print(f'编译完成：策略组={len(groups)}，规则={len(rules)}，输出={OUTPUT}')
+    compile_merlin(groups, rules, final)
+    print(f'编译完成：策略组={len(groups)}，规则={len(rules)}，输出={OUTPUT}, {MERLIN_OUTPUT}')
 if __name__=='__main__': main()
