@@ -46,6 +46,10 @@ jobs:
         if: steps.upstream.outputs.changed == 'true'
         run: python3 scripts/apply_customizations.py
 
+      - name: 编译统一规则清单
+        if: steps.upstream.outputs.changed == 'true'
+        run: python3 scripts/compile_rules.py
+
       - name: 验证配置和远程规则
         if: steps.upstream.outputs.changed == 'true'
         run: python3 scripts/validate_config.py --online

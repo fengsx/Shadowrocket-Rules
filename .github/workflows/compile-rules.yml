@@ -1,0 +1,42 @@
+name: Compile unified rules
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Shadowrocket.conf'
+      - '*.list'
+      - 'scripts/compile_rules.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compile-unified-rules
+  cancel-in-progress: false
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: 编译并验证
+        run: |
+          python3 scripts/compile_rules.py
+          python3 scripts/validate_config.py --online
+          git diff --check
+      - name: 发布编译产物
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- dist/rules-manifest.json; then
+            echo '规则清单没有变化。'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/rules-manifest.json
+          git commit -m 'build: compile unified routing manifest'
+          git push origin HEAD:main
