@@ -4,6 +4,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'Shadowrocket.conf'
@@ -55,6 +56,13 @@ def yaml_value(value):
 
 def mapped_target(name):
     return '🚀 节点选择' if name == 'PROXY' else name
+
+def delivery_url(url):
+    match = re.fullmatch(r'https://raw\.githubusercontent\.com/([^/]+)/([^/]+)/(?:refs/heads/)?([^/]+)/(.*)', url)
+    if not match:
+        return url
+    owner, repository, branch, path = match.groups()
+    return f'https://cdn.jsdelivr.net/gh/{owner}/{repository}@{branch}/{path}'
 
 def append_list(lines, key, values, indent=4):
     lines.append(' ' * indent + f'{key}:')
@@ -125,7 +133,7 @@ def compile_merlin(groups, rules, final):
             '    type: http',
             f'    behavior: {"domain" if rule["kind"] == "domain_set" else "classical"}',
             '    format: text',
-            f'    url: {yaml_value(rule["value"])}',
+            f'    url: {yaml_value(delivery_url(rule["value"]))}',
             f'    path: ./rule_provider/fengsx/{provider}.list',
             '    interval: 21600',
         ])
