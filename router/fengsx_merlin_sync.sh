@@ -20,8 +20,7 @@ log() {
 download() {
     url="$1"
     target="$2"
-    if curl -fsSL --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null || \
-       wget -q -T 45 -O "$target" "$url" 2>/dev/null; then
+    if curl -fsSL --connect-timeout 5 --max-time 15 "$url" -o "$target" 2>/dev/null; then
         return 0
     fi
     case "$url" in
@@ -30,7 +29,7 @@ download() {
             curl -fsSL --connect-timeout 8 --max-time 45 "$fallback" -o "$target" 2>/dev/null || \
                 wget -q -T 45 -O "$target" "$fallback" 2>/dev/null
             ;;
-        *) return 1 ;;
+        *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
     esac
 }
 
