@@ -13,6 +13,7 @@ const manifest: RuleManifest = {
   rules: [
     { id: "rule-0001", position: 10, kind: "domain_suffix", value: "example.com", target: "🇺🇸 美国节点", noResolve: false },
     { id: "rule-0002", position: 20, kind: "rule_set", value: "https://example.com/direct.list", target: "DIRECT", noResolve: false },
+    { id: "rule-0003", position: 30, kind: "raw", value: "AND,((PROTOCOL,TCP),(DST-PORT,5223))", target: "DIRECT", noResolve: false },
   ],
   finalTarget: "🚀 节点选择",
 };
@@ -65,9 +66,10 @@ describe("节点解析与输出", () => {
     const clash = parse(renderMihomo(nodes, manifest, false)) as any;
     const merlin = parse(renderMihomo(nodes, manifest, true)) as any;
     expect(clash.rules).toEqual(merlin.rules);
-    expect(clash.rules.slice(-3)).toEqual([
+    expect(clash.rules.slice(-4)).toEqual([
       "DOMAIN-SUFFIX,example.com,🇺🇸 美国节点",
       "RULE-SET,fengsx_direct,DIRECT",
+      "AND,((NETWORK,TCP),(DST-PORT,5223)),DIRECT",
       "MATCH,PROXY",
     ]);
     expect(clash.ipv6).toBe(false);

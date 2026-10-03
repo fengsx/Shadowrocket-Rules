@@ -443,7 +443,7 @@ function providers(rules: ManifestRule[]) {
 
 function ruleLine(rule: ManifestRule, ids: Map<string, string>) {
   const target = mapped(rule.target);
-  if (rule.kind === "raw") return `${rule.value},${target}`;
+  if (rule.kind === "raw") return `${rule.value.replace("PROTOCOL,", "NETWORK,")},${target}`;
   if (rule.kind === "rule_set" || rule.kind === "domain_set") {
     return `RULE-SET,${ids.get(rule.id)},${target}`;
   }
