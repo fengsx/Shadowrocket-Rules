@@ -26,6 +26,7 @@ proxies:
     port: 443
     uuid: 11111111-1111-1111-1111-111111111111
     network: tcp
+    flow: xtls-rprx-vision
     tls: true
     client-fingerprint: chrome
     servername: www.microsoft.com
@@ -117,6 +118,8 @@ describe("节点解析与输出", () => {
     expect(decoded).toContain("vless://");
     expect(decoded).toContain("hysteria2://");
     expect(nodeUri(nodes[0])).toContain("security=reality");
+    expect(nodeUri(nodes[0])).toContain("flow=xtls-rprx-vision");
+    expect(nodeUri(nodes[0])).toContain("encryption=none");
   });
   it("统一自建东京与韩国节点名称", () => {
     const base = { type: "vless", server: "example.com", port: 443 } as any;

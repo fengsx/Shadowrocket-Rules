@@ -338,14 +338,29 @@ export function nodeUri(node: ProxyNode): string {
   let authentication = "";
   if (node.type === "vless") {
     authentication = encodeURIComponent(str(node.uuid));
-    query.set("type", str(node.network) || "tcp");
+    const network = str(node.network) || "tcp";
+    query.set("type", network);
+    query.set("encryption", str(node.encryption) || "none");
+    if (str(node.flow)) query.set("flow", str(node.flow));
     query.set("security", bool(node.tls) ? (node["reality-opts"] ? "reality" : "tls") : "none");
     query.set("sni", str(node.servername) || node.server);
     query.set("fp", str(node["client-fingerprint"]) || "chrome");
+    query.set("insecure", bool(node["skip-cert-verify"]) ? "1" : "0");
     const reality = node["reality-opts"] as Record<string, unknown> | undefined;
     if (reality) {
       query.set("pbk", str(reality["public-key"]));
       query.set("sid", str(reality["short-id"]));
+    }
+    if (network === "ws") {
+      const ws = node["ws-opts"] as Record<string, unknown> | undefined;
+      const headers = ws?.headers as Record<string, unknown> | undefined;
+      query.set("path", str(ws?.path) || "/");
+      if (str(headers?.Host)) query.set("host", str(headers?.Host));
+    }
+    if (network === "grpc") {
+      const grpc = node["grpc-opts"] as Record<string, unknown> | undefined;
+      const serviceName = str(grpc?.["grpc-service-name"] ?? grpc?.serviceName);
+      if (serviceName) query.set("serviceName", serviceName);
     }
   } else if (node.type === "trojan") {
     authentication = encodeURIComponent(str(node.password));
