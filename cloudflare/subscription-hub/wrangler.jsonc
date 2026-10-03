@@ -9,6 +9,17 @@
     "RULE_MANIFEST_URL": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/dist/rules-manifest.json"
   },
   "triggers": { "crons": ["23 */6 * * *"] },
-  "d1_databases": [],
-  "kv_namespaces": []
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fengsx-subscription-hub",
+      "database_id": "ad5ff068-be51-43d7-afd6-1aa0ef1674fe"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "ARTIFACTS",
+      "id": "11776a5a49d947efa5839e2e1633d87b"
+    }
+  ]
 }
