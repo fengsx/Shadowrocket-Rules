@@ -128,6 +128,14 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 - Google、AI、非中国和漏网之鱼的默认出口可在 App 内手动切换
 - 如需 HTTPS 解密功能，请在 Shadowrocket 中生成并安装 CA 证书
 
+## 自动同步上游
+
+- GitHub Actions 每 6 小时检查一次 `LingJingMaster/Shadowrocket-Rules` 的 `main` 分支。
+- 发现新提交后以 Git merge 保留上游历史，再运行 `scripts/apply_customizations.py` 重新应用 fengsx 定制。
+- `scripts/validate_config.py` 会检查配置段、策略引用、WLOC、美国/英国规则以及所有远程规则地址。
+- 只有合并和验证全部成功才会推送；发生 Git 冲突、上游结构变化或远程规则不可用时保持现有 `main` 不变。
+- 可在 GitHub Actions 中手动运行 `Sync upstream rules`，无需等待定时任务。
+
 ## License
 
 MIT
