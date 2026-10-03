@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import QRCode from "qrcode-svg";
 import { decrypt, encrypt, sha, token } from "./crypto";
 import { parseNodes, renderMihomo, renderShadowrocket } from "./core";
 import type { Env, ProxyNode, RuleManifest } from "./types";
@@ -177,15 +178,21 @@ header{display:flex;align-items:center;justify-content:space-between}section{bac
 input,button{box-sizing:border-box;padding:10px;margin:5px;border:1px solid #ccd;border-radius:8px}
 input[type=url]{width:min(680px,95%)}button{background:#1769e0;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#18202a}
 pre{white-space:pre-wrap;word-break:break-word;background:#f8fafc;padding:12px;border-radius:8px;min-height:80px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
+.card{border:1px solid #e2e7f0;border-radius:12px;padding:16px;text-align:center;background:#fbfcff}
+.card img{width:210px;height:210px;max-width:100%;background:#fff;border-radius:8px}
+.card code{display:block;text-align:left;word-break:break-all;background:#eef2f8;padding:9px;border-radius:7px;margin:10px 0}
 </style>
 <header><h1>sub 节点管理</h1><button class="secondary" id="logout">退出登录</button></header>
 <section><h2>新增节点来源</h2><input id="sourceName" placeholder="名称">
 <input id="sourceUrl" type="url" placeholder="HTTPS 订阅地址">
 <button id="addSource">添加并分析</button></section>
 <section><h2>组装与订阅</h2><button id="refresh">刷新全部并重新组装</button>
-<button id="createSubscription">创建客户端订阅</button><pre id="output">正在加载…</pre></section>
+<button id="createSubscription">创建客户端订阅</button><div id="cards" class="cards"></div>
+<details><summary>运行状态</summary><pre id="output">正在加载…</pre></details></section>
 <script>
 const output=document.querySelector("#output");
+const cards=document.querySelector("#cards");
 async function api(path,options={}){
   const response=await fetch(path,{...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});
   if(response.status===401){location.href="/login";throw new Error("登录已失效")}
@@ -193,7 +200,32 @@ async function api(path,options={}){
   if(!response.ok)throw new Error(text||("HTTP "+response.status));
   return text?JSON.parse(text):{};
 }
-async function load(){try{output.textContent=JSON.stringify(await api("/api/state"),null,2)}catch(error){output.textContent=String(error)}}
+function addCard(title,url){
+  const card=document.createElement("article");card.className="card";
+  const heading=document.createElement("h3");heading.textContent=title;
+  const image=document.createElement("img");image.alt=title+" 二维码";image.src="/api/qr?value="+encodeURIComponent(url);
+  const code=document.createElement("code");code.textContent=url;
+  const open=document.createElement("a");open.href=url;open.target="_blank";open.rel="noreferrer";open.textContent="打开链接";
+  const copy=document.createElement("button");copy.className="secondary";copy.textContent="复制链接";
+  copy.addEventListener("click",async()=>{await navigator.clipboard.writeText(url);copy.textContent="已复制";setTimeout(()=>copy.textContent="复制链接",1200)});
+  card.append(heading,image,code,open,copy);cards.append(card);
+}
+function renderSubscriptions(items){
+  cards.replaceChildren();
+  if(!items.length){const empty=document.createElement("p");empty.textContent="尚未创建客户端订阅";cards.append(empty);return}
+  for(const item of items){
+    addCard("Clash · "+item.label,item.clash);
+    addCard("MerlinClash · "+item.label,item.merlinclash);
+    addCard("Shadowrocket · "+item.label,item.shadowrocket);
+  }
+}
+async function load(){
+  try{
+    const [state,subscriptions]=await Promise.all([api("/api/state"),api("/api/subscriptions")]);
+    output.textContent=JSON.stringify(state,null,2);
+    renderSubscriptions(subscriptions);
+  }catch(error){output.textContent=String(error)}
+}
 document.querySelector("#addSource").addEventListener("click",async()=>{
   try{
     const name=document.querySelector("#sourceName").value.trim();
@@ -209,7 +241,7 @@ document.querySelector("#refresh").addEventListener("click",async()=>{
   catch(error){output.textContent=String(error)}
 });
 document.querySelector("#createSubscription").addEventListener("click",async()=>{
-  try{output.textContent=JSON.stringify(await api("/api/subscriptions",{method:"POST",body:JSON.stringify({label:"MIKI"})}),null,2)}
+  try{await api("/api/subscriptions",{method:"POST",body:JSON.stringify({label:"MIKI"})});await load()}
   catch(error){output.textContent=String(error)}
 });
 document.querySelector("#logout").addEventListener("click",async()=>{await api("/api/logout",{method:"POST",body:"{}"});location.href="/login"});
@@ -293,6 +325,42 @@ app.post("/api/sources", async (c) => {
 
 app.post("/api/refresh", async (c) => c.json(await refresh(c.env)));
 
+app.get("/api/subscriptions", async (c) => {
+  const rows = await c.env.DB.prepare(
+    "SELECT encrypted_token,label FROM subscriptions WHERE enabled=1 ORDER BY created_at DESC",
+  ).all<{ encrypted_token: string; label: string }>();
+  const base = new URL(c.req.url).origin;
+  const output = [];
+  for (const row of rows.results) {
+    const value = await decrypt(c.env.MASTER_KEY, row.encrypted_token);
+    output.push({
+      label: row.label,
+      clash: `${base}/s/${value}/clash`,
+      merlinclash: `${base}/s/${value}/merlinclash`,
+      shadowrocket: `${base}/s/${value}/shadowrocket`,
+    });
+  }
+  return c.json(output);
+});
+
+app.get("/api/qr", (c) => {
+  const value = c.req.query("value") || "";
+  const base = new URL(c.req.url).origin;
+  if (!value.startsWith(`${base}/s/`)) {
+    return c.json({ error: "二维码地址无效" }, 400);
+  }
+  const svg = new QRCode({
+    content: value,
+    padding: 2,
+    width: 240,
+    height: 240,
+    ecl: "M",
+    join: true,
+  }).svg();
+  c.header("Content-Type", "image/svg+xml; charset=utf-8");
+  c.header("Cache-Control", "no-store");
+  return c.body(svg);
+});
 app.post("/api/subscriptions", async (c) => {
   const body = await c.req.json<{ label?: string }>();
   const value = token();
