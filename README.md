@@ -140,7 +140,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 
 - `dist/merlinclash-fengsx.yaml` 由同一份 `Shadowrocket.conf` 自动编译，与 Shadowrocket 共用策略和规则顺序。
 - Magic Catling 2 中选择 `FENGSX规则`，节点仍直接使用原始订阅地址，不经过 Cloudflare 重新组装。
-- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口。
+- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；GitHub Raw 不可达时自动改用 jsDelivr 的 GitHub CDN。
 - 脚本会从已登记订阅的 provider 缓存中提取节点域名/IP，生成最高优先级直连规则；手机开启 Shadowrocket 时避免双重代理，关闭后仍由路由器代理。
 - 临时 SOCKS5 只要存在于已登记订阅中，其端点也会自动直连；未知节点不做流量特征猜测。
 
