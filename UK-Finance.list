@@ -13,6 +13,10 @@ DOMAIN-SUFFIX,lloydsbankinggroup.com
 DOMAIN-SUFFIX,lloydsbankgroup.com
 DOMAIN-SUFFIX,lloydsbanking.com
 
+# HSBC UK（不使用宽泛 hsbc 关键词，避免误匹配汇丰香港）
+DOMAIN-SUFFIX,hsbc.co.uk
+DOMAIN-SUFFIX,hsbc.uk
+
 # 英国数字银行、券商与金融服务
 DOMAIN-KEYWORD,zopa
 DOMAIN-SUFFIX,zopa.com
