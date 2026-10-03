@@ -2,10 +2,17 @@
 DOMAIN-KEYWORD,amazon
 DOMAIN-KEYWORD,ebay
 DOMAIN-KEYWORD,oracle
+DOMAIN-KEYWORD,equifax
 DOMAIN-SUFFIX,equifax.com
 DOMAIN-SUFFIX,google.com
+DOMAIN-KEYWORD,majority
 DOMAIN-SUFFIX,majority.com
+DOMAIN-KEYWORD,talkatone
 DOMAIN-SUFFIX,talkatone.com
+DOMAIN-SUFFIX,ooma.com
+DOMAIN-KEYWORD,capitalone
 DOMAIN-SUFFIX,capitalone.com
+DOMAIN-KEYWORD,redpocket
 DOMAIN-SUFFIX,redpocket.com
+DOMAIN-KEYWORD,revolut
 DOMAIN-SUFFIX,revolut.com

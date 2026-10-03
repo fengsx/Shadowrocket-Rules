@@ -4,9 +4,9 @@ DOMAIN-KEYWORD,krak
 DOMAIN-SUFFIX,krak.app
 DOMAIN-SUFFIX,kraken.com
 DOMAIN-SUFFIX,payward.com
-DOMAIN-SUFFIX,payward.com
 
 # Lloyds Bank
+DOMAIN-KEYWORD,lloydsbank
 DOMAIN-SUFFIX,lloydsbank.com
 DOMAIN-SUFFIX,lloydsbank.co.uk
 DOMAIN-SUFFIX,lloydsbankinggroup.com
@@ -14,10 +14,16 @@ DOMAIN-SUFFIX,lloydsbankgroup.com
 DOMAIN-SUFFIX,lloydsbanking.com
 
 # 英国数字银行、券商与金融服务
+DOMAIN-KEYWORD,zopa
 DOMAIN-SUFFIX,zopa.com
+DOMAIN-KEYWORD,monzo
 DOMAIN-SUFFIX,monzo.com
+DOMAIN-KEYWORD,freetrade
 DOMAIN-SUFFIX,freetrade.io
 DOMAIN-SUFFIX,tide.co
+DOMAIN-KEYWORD,trading212
 DOMAIN-SUFFIX,trading212.com
+DOMAIN-KEYWORD,withplum
 DOMAIN-SUFFIX,withplum.com
+DOMAIN-KEYWORD,ifastgb
 DOMAIN-SUFFIX,ifastgb.com
