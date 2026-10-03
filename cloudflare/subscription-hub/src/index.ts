@@ -173,26 +173,35 @@ const adminPage = `<!doctype html>
 <html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>sub 节点管理</title>
 <style>
-body{font:15px system-ui;max-width:980px;margin:32px auto;padding:0 16px;background:#f6f7fb;color:#18202a}
-header{display:flex;align-items:center;justify-content:space-between}section{background:#fff;padding:20px;margin:16px 0;border-radius:14px;box-shadow:0 4px 20px #0001}
-input,button{box-sizing:border-box;padding:10px;margin:5px;border:1px solid #ccd;border-radius:8px}
-input[type=url]{width:min(680px,95%)}button{background:#1769e0;color:#fff;cursor:pointer}button.secondary{background:#fff;color:#18202a}
+*{box-sizing:border-box}body{font:15px system-ui;margin:0;background:#f6f7fb;color:#18202a}
+.shell{width:min(1180px,100%);margin:auto;padding:24px clamp(12px,3vw,28px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+section{background:#fff;padding:clamp(16px,3vw,24px);margin:16px 0;border-radius:16px;box-shadow:0 4px 20px #0001}
+h1,h2,h3{margin-top:0}button,a.action{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;margin:4px;border:1px solid #ccd;border-radius:9px;text-decoration:none}
+button{background:#1769e0;color:#fff;cursor:pointer}button.secondary,a.action{background:#fff;color:#18202a}.danger{color:#b42318!important;border-color:#f0b4ae!important}
+textarea{width:100%;min-height:116px;padding:12px;border:1px solid #ccd;border-radius:10px;resize:vertical;font:inherit}
+.hint{color:#667085;line-height:1.55}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 pre{white-space:pre-wrap;word-break:break-word;background:#f8fafc;padding:12px;border-radius:8px;min-height:80px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
+.cards,.source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:16px;margin-top:18px}
 .card{border:1px solid #e2e7f0;border-radius:12px;padding:16px;text-align:center;background:#fbfcff}
 .card img{width:210px;height:210px;max-width:100%;background:#fff;border-radius:8px}
 .card code{display:block;text-align:left;word-break:break-all;background:#eef2f8;padding:9px;border-radius:7px;margin:10px 0}
+.source-card{border:1px solid #e2e7f0;border-radius:12px;padding:16px;background:#fbfcff}.source-card.off{opacity:.62}
+.source-card .meta{color:#667085;font-size:13px;word-break:break-word}.bad{color:#b42318}.good{color:#067647}
+@media(max-width:600px){.shell{padding:12px}section{border-radius:12px;margin:12px 0}.toolbar>*{width:100%;margin:0}.card img{width:min(240px,100%);height:auto}header h1{font-size:24px}}
 </style>
-<header><h1>sub 节点管理</h1><button class="secondary" id="logout">退出登录</button></header>
-<section><h2>新增节点来源</h2><input id="sourceName" placeholder="名称">
-<input id="sourceUrl" type="url" placeholder="HTTPS 订阅地址">
-<button id="addSource">添加并分析</button></section>
-<section><h2>组装与订阅</h2><button id="refresh">刷新全部并重新组装</button>
-<button id="createSubscription">创建客户端订阅</button><div id="cards" class="cards"></div>
-<details><summary>运行状态</summary><pre id="output">正在加载…</pre></details></section>
+<div class="shell"><header><h1>sub 节点管理</h1><button class="secondary" id="logout">退出登录</button></header>
+<section><h2>节点来源</h2><p class="hint">支持一次添加多条 HTTPS 订阅。每行填写“名称 | 地址”，也可以只填地址自动命名。输入支持 Clash/Mihomo YAML、URI/Base64、SIP008 和 sing-box JSON。</p>
+<textarea id="sourceBatch" placeholder="MIKI | https://example.com/subscribe&#10;备用订阅 | https://example.net/nodes"></textarea>
+<div class="toolbar"><button id="addSources">批量添加并分析</button><button class="secondary" id="refresh">刷新全部来源</button></div>
+<div id="sources" class="source-list"></div></section>
+<section><h2>客户端订阅</h2><div class="toolbar"><button id="createSubscription">创建一组客户端订阅</button></div>
+<div id="cards" class="cards"></div>
+<details><summary>运行状态</summary><pre id="output">正在加载…</pre></details></section></div>
 <script>
 const output=document.querySelector("#output");
 const cards=document.querySelector("#cards");
+const sourcesBox=document.querySelector("#sources");
 async function api(path,options={}){
   const response=await fetch(path,{...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});
   if(response.status===401){location.href="/login";throw new Error("登录已失效")}
@@ -219,19 +228,48 @@ function renderSubscriptions(items){
     addCard("Shadowrocket · "+item.label,item.shadowrocket);
   }
 }
+function renderSources(state){
+  sourcesBox.replaceChildren();
+  const summaries=new Map();
+  for(const item of state.nodeSummary){
+    const current=summaries.get(item.source_id)||{count:0,protocols:new Set()};
+    current.count+=Number(item.count);current.protocols.add(item.protocol);summaries.set(item.source_id,current);
+  }
+  for(const source of state.sources){
+    const info=summaries.get(source.id)||{count:0,protocols:new Set()};
+    const card=document.createElement("article");card.className="source-card"+(source.enabled?"":" off");
+    const heading=document.createElement("h3");heading.textContent=source.name;
+    const status=document.createElement("p");status.className=source.last_error?"bad":"good";
+    status.textContent=source.last_error?("错误："+source.last_error):(source.enabled?"已启用":"已停用");
+    const meta=document.createElement("p");meta.className="meta";
+    meta.textContent="节点 "+info.count+" · "+(Array.from(info.protocols).join(" / ")||"等待刷新");
+    const actions=document.createElement("div");actions.className="toolbar";
+    const toggle=document.createElement("button");toggle.className="secondary";toggle.textContent=source.enabled?"停用":"启用";
+    toggle.addEventListener("click",async()=>{await api("/api/sources/"+source.id,{method:"PATCH",body:JSON.stringify({enabled:!source.enabled})});await api("/api/refresh",{method:"POST",body:"{}"});await load()});
+    const remove=document.createElement("button");remove.className="secondary danger";remove.textContent="删除";
+    remove.addEventListener("click",async()=>{if(!confirm("确定删除节点来源“"+source.name+"”吗？"))return;await api("/api/sources/"+source.id,{method:"DELETE"});await api("/api/refresh",{method:"POST",body:"{}"});await load()});
+    actions.append(toggle,remove);card.append(heading,status,meta,actions);sourcesBox.append(card);
+  }
+}
 async function load(){
   try{
     const [state,subscriptions]=await Promise.all([api("/api/state"),api("/api/subscriptions")]);
     output.textContent=JSON.stringify(state,null,2);
+    renderSources(state);
     renderSubscriptions(subscriptions);
   }catch(error){output.textContent=String(error)}
 }
-document.querySelector("#addSource").addEventListener("click",async()=>{
+document.querySelector("#addSources").addEventListener("click",async()=>{
   try{
-    const name=document.querySelector("#sourceName").value.trim();
-    const url=document.querySelector("#sourceUrl").value.trim();
-    if(!name||!url)throw new Error("名称和 HTTPS 订阅地址不能为空");
-    await api("/api/sources",{method:"POST",body:JSON.stringify({name,url})});
+    const lines=document.querySelector("#sourceBatch").value.split(/\\r?\\n/).map(item=>item.trim()).filter(Boolean);
+    if(!lines.length)throw new Error("请至少填写一条订阅地址");
+    const entries=lines.map((line,index)=>{
+      const separator=line.indexOf("|");
+      if(separator<0)return{name:"订阅 "+(index+1),url:line};
+      return{name:line.slice(0,separator).trim()||("订阅 "+(index+1)),url:line.slice(separator+1).trim()};
+    });
+    await api("/api/sources/batch",{method:"POST",body:JSON.stringify({entries})});
+    document.querySelector("#sourceBatch").value="";
     output.textContent=JSON.stringify(await api("/api/refresh",{method:"POST",body:"{}"}),null,2);
     await load();
   }catch(error){output.textContent=String(error)}
@@ -321,6 +359,58 @@ app.post("/api/sources", async (c) => {
     timestamp,
   ).run();
   return c.json({ id }, 201);
+});
+
+app.post("/api/sources/batch", async (c) => {
+  const body = await c.req.json<{ entries?: Array<{ name?: string; url?: string }> }>();
+  if (!Array.isArray(body.entries) || !body.entries.length || body.entries.length > 20) {
+    return c.json({ error: "每次需要提交 1 到 20 条订阅" }, 400);
+  }
+  const entries: Array<{ id: string; name: string; url: string }> = [];
+  for (const [index, entry] of body.entries.entries()) {
+    const name = entry.name?.trim() || `订阅 ${index + 1}`;
+    let url: URL;
+    try {
+      url = new URL(entry.url || "");
+    } catch {
+      return c.json({ error: `第 ${index + 1} 条订阅地址无效` }, 400);
+    }
+    if (url.protocol !== "https:") {
+      return c.json({ error: `第 ${index + 1} 条只允许 HTTPS` }, 400);
+    }
+    entries.push({ id: crypto.randomUUID(), name, url: url.toString() });
+  }
+  const timestamp = now();
+  const encrypted = await Promise.all(
+    entries.map((entry) => encrypt(c.env.MASTER_KEY, entry.url)),
+  );
+  await c.env.DB.batch(entries.map((entry, index) => c.env.DB.prepare(
+    "INSERT INTO sources(id,name,encrypted_url,created_at,updated_at) VALUES(?,?,?,?,?)",
+  ).bind(entry.id, entry.name, encrypted[index], timestamp, timestamp)));
+  return c.json({ added: entries.length }, 201);
+});
+
+app.patch("/api/sources/:id", async (c) => {
+  const id = c.req.param("id");
+  const body = await c.req.json<{ enabled?: boolean; name?: string }>();
+  const source = await c.env.DB.prepare("SELECT 1 ok FROM sources WHERE id=?").bind(id).first();
+  if (!source) return c.json({ error: "节点来源不存在" }, 404);
+  if (typeof body.enabled === "boolean") {
+    await c.env.DB.prepare("UPDATE sources SET enabled=?,updated_at=? WHERE id=?")
+      .bind(body.enabled ? 1 : 0, now(), id).run();
+  }
+  if (typeof body.name === "string" && body.name.trim()) {
+    await c.env.DB.prepare("UPDATE sources SET name=?,updated_at=? WHERE id=?")
+      .bind(body.name.trim(), now(), id).run();
+  }
+  return c.json({ ok: true });
+});
+
+app.delete("/api/sources/:id", async (c) => {
+  const result = await c.env.DB.prepare("DELETE FROM sources WHERE id=?")
+    .bind(c.req.param("id")).run();
+  if (!result.meta.changes) return c.json({ error: "节点来源不存在" }, 404);
+  return c.json({ ok: true });
 });
 
 app.post("/api/refresh", async (c) => c.json(await refresh(c.env)));
