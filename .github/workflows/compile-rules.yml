@@ -7,6 +7,7 @@ on:
       - 'Shadowrocket.conf'
       - '*.list'
       - 'scripts/compile_rules.py'
+      - 'router/fengsx_merlin_sync.sh'
   workflow_dispatch:
 
 permissions:
@@ -31,12 +32,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- dist/rules-manifest.json; then
+          if git diff --quiet -- dist/rules-manifest.json dist/merlinclash-fengsx.yaml; then
             echo '规则清单没有变化。'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/rules-manifest.json
+          git add dist/rules-manifest.json dist/merlinclash-fengsx.yaml
           git commit -m 'build: compile unified routing manifest'
           git push origin HEAD:main
