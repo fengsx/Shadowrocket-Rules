@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import QRCode from "qrcode-svg";
 import { decrypt, encrypt, sha, token } from "./crypto";
-import { normalizeProxyNode, parseNodes, renderMihomo, renderShadowrocket } from "./core";
+import { normalizeProxyNode, parseNodes, proxyKey, renderMihomo, renderShadowrocket } from "./core";
 import type { Env, ProxyNode, RuleManifest } from "./types";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -41,9 +41,12 @@ async function manifest(env: Env): Promise<RuleManifest> {
   return value;
 }
 
-async function allNodes(env: Env): Promise<ProxyNode[]> {
+async function allNodes(env: Env, remoteFirst = false): Promise<ProxyNode[]> {
+  const order = remoteFirst
+    ? "ORDER BY s.priority DESC,n.sort_order"
+    : "ORDER BY s.priority,n.sort_order";
   const rows = await env.DB.prepare(
-    "SELECT encrypted_payload FROM nodes n JOIN sources s ON s.id=n.source_id WHERE s.enabled=1 ORDER BY s.priority,n.sort_order",
+    `SELECT encrypted_payload FROM nodes n JOIN sources s ON s.id=n.source_id WHERE s.enabled=1 ${order}`,
   ).all<{ encrypted_payload: string }>();
   const seen = new Set<string>();
   const output: ProxyNode[] = [];
@@ -51,7 +54,7 @@ async function allNodes(env: Env): Promise<ProxyNode[]> {
     const proxy = normalizeProxyNode(
       JSON.parse(await decrypt(env.MASTER_KEY, row.encrypted_payload)) as ProxyNode,
     );
-    const key = JSON.stringify([proxy.type, proxy.server, proxy.port, proxy.uuid ?? proxy.password ?? ""]);
+    const key = proxyKey(proxy);
     if (!seen.has(key)) {
       seen.add(key);
       output.push(proxy);
@@ -66,9 +69,10 @@ async function build(env: Env) {
   await env.DB.prepare("INSERT INTO builds(id,status,started_at) VALUES(?,?,?)")
     .bind(id, "running", started).run();
   try {
-    const [rules, nodes, subscriptions] = await Promise.all([
+    const [rules, nodes, shadowrocketNodes, subscriptions] = await Promise.all([
       manifest(env),
       allNodes(env),
+      allNodes(env, true),
       env.DB.prepare("SELECT token_hash FROM subscriptions WHERE enabled=1")
         .all<{ token_hash: string }>(),
     ]);
@@ -76,7 +80,7 @@ async function build(env: Env) {
     const outputs = {
       clash: renderMihomo(nodes, rules, false),
       merlinclash: renderMihomo(nodes, rules, true),
-      shadowrocket: renderShadowrocket(nodes),
+      shadowrocket: renderShadowrocket(shadowrocketNodes),
     };
     for (const subscription of subscriptions.results) {
       for (const [format, content] of Object.entries(outputs)) {

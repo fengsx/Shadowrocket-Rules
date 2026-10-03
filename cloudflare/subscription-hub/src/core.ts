@@ -36,16 +36,20 @@ async function digest(value: string) {
   return [...new Uint8Array(bytes)].map((item) => item.toString(16).padStart(2, "0")).join("");
 }
 
-function canonical(proxy: ProxyNode) {
-  const reality = proxy["reality-opts"] as Record<string, unknown> | undefined;
-  return JSON.stringify([
-    proxy.type,
-    proxy.server,
-    proxy.port,
-    proxy.uuid ?? proxy.password ?? "",
-    reality?.["public-key"] ?? "",
-    proxy.network ?? "tcp",
-  ]);
+function stable(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stable);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, item]) => [key, stable(item)]),
+    );
+  }
+  return value;
+}
+
+export function proxyKey(proxy: ProxyNode): string {
+  return JSON.stringify(stable(proxy));
 }
 
 function decode64(value: string) {
@@ -287,9 +291,10 @@ export async function parseNodes(raw: string, sourceId: string): Promise<StoredN
     const server = str(value.server);
     const port = Number(value.port);
     const name = str(value.name) || `${type} ${server}`;
-    if (!SUPPORTED.has(type) || !server || !Number.isInteger(port)) continue;
+    const informational = /^(?:剩余流量|距离下次重置剩余|套餐到期|🗓 节点版本|如果节点很少)[：:]?/.test(name);
+    if (informational || !SUPPORTED.has(type) || !server || !Number.isInteger(port)) continue;
     const proxy = { ...value, name, type, server, port } as ProxyNode;
-    const fingerprint = await digest(canonical(proxy));
+    const fingerprint = await digest(proxyKey(proxy));
     if (seen.has(fingerprint)) continue;
     seen.add(fingerprint);
     output.push({

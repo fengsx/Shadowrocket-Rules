@@ -44,14 +44,20 @@ proxies:
     port: 8443
     password: secret
     sni: jp.example.net
+  - name: 剩余流量：100 GB
+    type: vless
+    server: status.example.net
+    port: 443
+    uuid: 22222222-2222-2222-2222-222222222222
 `;
 
 describe("节点解析与输出", () => {
-  it("解析 Clash YAML、识别区域并按连接参数去重", async () => {
+  it("保留同端点的不同命名节点，并过滤订阅状态伪节点", async () => {
     const nodes = await parseNodes(clashSource, "source-a");
-    expect(nodes).toHaveLength(2);
-    expect(nodes.map((node) => node.protocol)).toEqual(["vless", "hysteria2"]);
-    expect(nodes.map((node) => node.region)).toEqual(["美国", "日本"]);
+    expect(nodes).toHaveLength(3);
+    expect(nodes.map((node) => node.name)).toEqual(["美国 Reality", "东京 Hysteria2", "重复节点"]);
+    expect(nodes.map((node) => node.protocol)).toEqual(["vless", "hysteria2", "hysteria2"]);
+    expect(nodes.map((node) => node.region)).toEqual(["美国", "日本", ""]);
   });
 
   it("解析 URI 列表中的 Trojan", async () => {
@@ -107,7 +113,7 @@ describe("节点解析与输出", () => {
   it("生成 Shadowrocket 可解码的 Base64 节点订阅", async () => {
     const nodes = (await parseNodes(clashSource, "source-a")).map((node) => node.proxy);
     const decoded = Buffer.from(renderShadowrocket(nodes), "base64").toString("utf8");
-    expect(decoded.split("\n")).toHaveLength(2);
+    expect(decoded.split("\n")).toHaveLength(3);
     expect(decoded).toContain("vless://");
     expect(decoded).toContain("hysteria2://");
     expect(nodeUri(nodes[0])).toContain("security=reality");
