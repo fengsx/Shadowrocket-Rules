@@ -293,7 +293,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list?v=538163237f6d"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list?v=3def13c65c72"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
   fengsx_block_http_dns:

@@ -43,3 +43,9 @@ DOMAIN,api.prod2.kustomerapp.com
 DOMAIN,cdn-settings.segment.com
 DOMAIN,api.segment.io
 DOMAIN,ingesteu.quantummetric.com
+DOMAIN-SUFFIX,monzo-alt.net
+DOMAIN,h6wmjp.skadsdkless.appsflyersdk.com
+DOMAIN,h6wmjp.launches.appsflyersdk.com
+DOMAIN,h6wmjp.cdn-settings.appsflyersdk.com
+DOMAIN,sdk.fra-01.braze.eu
+DOMAIN,o23827.ingest.sentry.io
