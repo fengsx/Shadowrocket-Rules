@@ -280,14 +280,14 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list?v=85e431d15ccb"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list?v=533dcbf25e89"
     path: ./rule_provider/fengsx/fengsx_us_apps.list
     interval: 21600
   fengsx_uk_finance:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list?v=287f6d403319"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list?v=1bc5d70e6ba6"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
   fengsx_block_http_dns:

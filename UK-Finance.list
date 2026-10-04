@@ -16,6 +16,12 @@ DOMAIN-SUFFIX,lloydsbanking.com
 # HSBC UK（不使用宽泛 hsbc 关键词，避免误匹配汇丰香港）
 DOMAIN-SUFFIX,hsbc.co.uk
 DOMAIN-SUFFIX,hsbc.uk
+DOMAIN-SUFFIX,uk.hsbc.com
+DOMAIN,hsbc.edge.sdk.awswaf.com
+DOMAIN-KEYWORD,hsbc.co.uk
+DOMAIN-KEYWORD,vam-uk
+DOMAIN,h-hsbcmx.online-metrix.net
+DOMAIN,eu20primary-public-1785057797.eu-west-2.elb.amazonaws.com
 
 # 英国数字银行、券商与金融服务
 DOMAIN-KEYWORD,zopa
@@ -25,6 +31,8 @@ DOMAIN-SUFFIX,monzo.com
 DOMAIN-KEYWORD,freetrade
 DOMAIN-SUFFIX,freetrade.io
 DOMAIN-SUFFIX,tide.co
+DOMAIN-SUFFIX,tideplatform.uk
+DOMAIN,tide.api.kustomerapp.com
 DOMAIN-KEYWORD,trading212
 DOMAIN-SUFFIX,trading212.com
 DOMAIN-KEYWORD,withplum
