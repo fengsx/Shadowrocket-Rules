@@ -22,7 +22,7 @@ curl_with_bootstrap() {
     target="$2"
     host=$(printf '%s' "$url" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
     [ -n "$host" ] || return 1
-    ip=$(nslookup "$host" 223.5.5.5 2>/dev/null | awk '$3 ~ /^[0-9]+\./ { print $3; exit }')
+    ip=$(nslookup "$host" 223.5.5.5 2>/dev/null | awk '/^Name:/ { found=1; next } found && $3 ~ /^[0-9]+\./ { print $3; exit }')
     [ -n "$ip" ] || return 1
     curl -fsSL --resolve "$host:443:$ip" --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null
 }
