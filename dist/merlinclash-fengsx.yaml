@@ -280,7 +280,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list?v=533dcbf25e89"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list?v=5536a4c29a3a"
     path: ./rule_provider/fengsx/fengsx_us_apps.list
     interval: 21600
   fengsx_uk_finance:
