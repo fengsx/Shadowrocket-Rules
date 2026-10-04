@@ -40,7 +40,8 @@ jobs:
           fi
 
           echo 'changed=true' >> "$GITHUB_OUTPUT"
-          git merge --no-commit --no-ff upstream/main
+          # 以上游配置为合并基底；下一步会确定性重放 fengsx 的全部定制。
+          git merge --no-commit --no-ff -X theirs upstream/main
 
       - name: 重新应用 fengsx 定制
         if: steps.upstream.outputs.changed == 'true'

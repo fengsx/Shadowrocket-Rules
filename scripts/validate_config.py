@@ -63,6 +63,17 @@ def main() -> None:
     if unknown:
         raise RuntimeError(f'存在未知策略引用：{unknown}')
     expected=[
+        'dns-server = https://cloudflare-dns.com/dns-query#proxy',
+        'fallback-dns-server = https://dns.google/dns-query#proxy',
+        'proxy-dns-server = https://dns.alidns.com/dns-query',
+        'dns-fallback-system = false',
+        'dns-direct-system = true',
+        'dns-direct-fallback-proxy = false',
+        'ipv6 = false',
+        'prefer-ipv6 = false',
+        'block-quic = all-proxy',
+        'httpdns-api.aliyuncs.com,DIRECT',
+        'httpdns.volcengineapi.com,DIRECT',
         'BlockHttpDNS.list,🧱 DNS 防泄露',
         'ApplePush.list,🍎 苹果推送',
         'Apple.list,🍏 苹果服务',
@@ -84,6 +95,12 @@ def main() -> None:
     absent=[item for item in expected if item not in text]
     if absent:
         raise RuntimeError(f'缺少预期规则：{absent}')
+    httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
+    httpdns_block = text.index('BlockHttpDNS.list,🧱 DNS 防泄露')
+    apple_rule = text.index('Apple.list,🍏 苹果服务')
+    wloc_rule = text.index('DOMAIN,gs-loc.apple.com,DIRECT')
+    if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule:
+        raise RuntimeError('HTTPDNS 兼容例外或 WLOC 规则顺序错误')
     urls=set()
     for _,line in sections['Rule']:
         match=re.search(r'https://[^,]+',line)

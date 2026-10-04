@@ -80,6 +80,9 @@ describe("节点解析与输出", () => {
       "MATCH,PROXY",
     ]);
     expect(clash.ipv6).toBe(false);
+    expect(clash.dns["default-nameserver"]).toEqual(["223.5.5.5", "119.29.29.29"]);
+    expect(clash.dns.nameserver).toEqual(["https://cloudflare-dns.com/dns-query", "https://dns.google/dns-query"]);
+    expect(clash.dns["proxy-server-nameserver"]).toEqual(clash.dns["direct-nameserver"]);
     expect(merlin["allow-lan"]).toBe(true);
     expect(merlin["tproxy-port"]).toBe(7893);
 

@@ -455,6 +455,27 @@ rules:
   - DOMAIN,gsp-ssl.ls.apple.com,DIRECT
   - DOMAIN,bluedot.is.autonavi.com,DIRECT
   - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
+  - DOMAIN,dns.jd.com,DIRECT
+  - DOMAIN,dns.weibo.cn,DIRECT
+  - DOMAIN,dns.weixin.qq.com,DIRECT
+  - DOMAIN,dns.weixin.qq.com.cn,DIRECT
+  - DOMAIN,httpdns-api.aliyuncs.com,DIRECT
+  - DOMAIN,httpdns-sc.aliyuncs.com,DIRECT
+  - DOMAIN,httpdns.alicdn.com,DIRECT
+  - DOMAIN,httpdns.bilivideo.com,DIRECT
+  - DOMAIN,httpdns.c.cdnhwc2.com,DIRECT
+  - DOMAIN,httpdns.meituan.com,DIRECT
+  - DOMAIN,httpdns.music.163.com,DIRECT
+  - DOMAIN,httpdns.n.netease.com,DIRECT
+  - DOMAIN,httpdns.push.oppomobile.com,DIRECT
+  - DOMAIN,httpdns.volcengineapi.com,DIRECT
+  - DOMAIN,httpdns.yunxindns.com,DIRECT
+  - DOMAIN,lofter.httpdns.c.163.com,DIRECT
+  - DOMAIN,music.httpdns.c.163.com,DIRECT
+  - DOMAIN-SUFFIX,httpdns.baidu.com,DIRECT
+  - DOMAIN-SUFFIX,httpdns.baidubce.com,DIRECT
+  - DOMAIN-SUFFIX,httpsdns.baidu.com,DIRECT
+  - RULE-SET,fengsx_block_http_dns,🧱 DNS 防泄露
   - DOMAIN,localhost.weixin.qq.com,DIRECT
   - DOMAIN,dns.weixin.qq.com.cn,🔒 国内服务
   - DOMAIN,dns.weixin.qq.com,🔒 国内服务
@@ -467,7 +488,6 @@ rules:
   - DOMAIN-SUFFIX,deepseeksvc.com,🔒 国内服务
   - AND,((NETWORK,TCP),(DST-PORT,5223)),🍎 苹果推送
   - IP-CIDR,208.54.0.0/16,🇺🇸 美国节点,no-resolve
-  - RULE-SET,fengsx_block_http_dns,🧱 DNS 防泄露
   - RULE-SET,fengsx_mail,📧 邮件服务
   - DOMAIN,translate.googleapis.com,📹 油管视频
   - DOMAIN,translate-pa.googleapis.com,📹 油管视频

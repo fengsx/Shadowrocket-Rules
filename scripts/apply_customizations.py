@@ -18,6 +18,19 @@ UK_REGULAR_GROUP = '🇬🇧 英国普通 = url-test,url=http://www.gstatic.com/
 US_FINANCE_GROUP = '💵 美国金融 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
 UK_FINANCE_GROUP = '💷 英国金融 = fallback,🇬🇧 英国住宅,🇬🇧 英国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
 WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
+DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-select-name=REJECT'
+GENERAL_SETTINGS = {
+    'dns-server': 'https://cloudflare-dns.com/dns-query#proxy',
+    'fallback-dns-server': 'https://dns.google/dns-query#proxy',
+    'proxy-dns-server': 'https://dns.alidns.com/dns-query',
+    'ipv6': 'false',
+    'prefer-ipv6': 'false',
+    'dns-fallback-system': 'false',
+    'dns-direct-system': 'true',
+    'dns-direct-fallback-proxy': 'false',
+    'hijack-dns': '8.8.8.8:53,8.8.4.4:53,1.1.1.1:53,1.0.0.1:53,9.9.9.9:53,208.67.222.222:53,208.67.220.220:53,223.5.5.5:53,223.6.6.6:53,119.29.29.29:53,114.114.114.114:53',
+    'block-quic': 'all-proxy',
+}
 PERSONAL_BLOCK = f'''# CODEX-BEGIN PERSONAL POLICIES
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
@@ -28,6 +41,29 @@ DOMAIN,gs-loc-cn.apple.com,DIRECT
 DOMAIN,gsp-ssl.ls.apple.com,DIRECT
 DOMAIN,bluedot.is.autonavi.com,DIRECT
 DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
+
+# 国内 App 的 HTTPDNS 兼容例外必须位于通用拦截规则之前。
+DOMAIN,dns.jd.com,DIRECT
+DOMAIN,dns.weibo.cn,DIRECT
+DOMAIN,dns.weixin.qq.com,DIRECT
+DOMAIN,dns.weixin.qq.com.cn,DIRECT
+DOMAIN,httpdns-api.aliyuncs.com,DIRECT
+DOMAIN,httpdns-sc.aliyuncs.com,DIRECT
+DOMAIN,httpdns.alicdn.com,DIRECT
+DOMAIN,httpdns.bilivideo.com,DIRECT
+DOMAIN,httpdns.c.cdnhwc2.com,DIRECT
+DOMAIN,httpdns.meituan.com,DIRECT
+DOMAIN,httpdns.music.163.com,DIRECT
+DOMAIN,httpdns.n.netease.com,DIRECT
+DOMAIN,httpdns.push.oppomobile.com,DIRECT
+DOMAIN,httpdns.volcengineapi.com,DIRECT
+DOMAIN,httpdns.yunxindns.com,DIRECT
+DOMAIN,lofter.httpdns.c.163.com,DIRECT
+DOMAIN,music.httpdns.c.163.com,DIRECT
+DOMAIN-SUFFIX,httpdns.baidu.com,DIRECT
+DOMAIN-SUFFIX,httpdns.baidubce.com,DIRECT
+DOMAIN-SUFFIX,httpsdns.baidu.com,DIRECT
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list,🧱 DNS 防泄露
 # CODEX-END PERSONAL POLICIES'''
 SCRIPT_BLOCK = '''# CODEX-BEGIN WLOC
 Apple WLOC = type=http-response,pattern=^https?:\\/\\/(?:gs-loc(?:-cn)?\\.apple\\.com|gsp-ssl\\.ls\\.apple\\.com|bluedot\\.is\\.autonavi\\.com(?:\\.gds\\.alibabadns\\.com)?)\\/clls\\/wloc,requires-body=1,binary-body-mode=1,max-size=0,timeout=30,script-path=https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/dist/wloc.js,argument=longitude=113.94114&latitude=22.544577&accuracy=25&randomRadius=0&logLevel=info
@@ -52,12 +88,23 @@ def ensure_group_line(text: str, prefix: str, line: str, anchor_prefix: str) -> 
         raise RuntimeError(f'缺少策略组锚点：{anchor_prefix}')
     return text[:anchor.end()] + '\n' + line + text[anchor.end():]
 
+def ensure_general_setting(text: str, key: str, value: str) -> str:
+    line = f'{key} = {value}'
+    pattern = re.compile(rf'(?m)^{re.escape(key)}\s*=.*$')
+    if pattern.search(text):
+        return pattern.sub(line, text, count=1)
+    if '[Proxy]' not in text:
+        raise RuntimeError('缺少配置段：[Proxy]')
+    return text.replace('[Proxy]', line + '\n\n[Proxy]', 1)
+
 def main() -> None:
     text = CONFIG.read_text()
     if '[Proxy Group]' not in text or '[Rule]' not in text:
         raise RuntimeError('Shadowrocket 配置缺少必要段落')
     text = text.replace(UPSTREAM_RAW, FORK_RAW)
     text = re.sub(r'(?m)^update-url\s*=.*$', f'update-url = {FORK_RAW}/Shadowrocket.conf', text, count=1)
+    for key, value in GENERAL_SETTINGS.items():
+        text = ensure_general_setting(text, key, value)
     match = re.search(r'(?m)^🚀 节点选择\s*=.*$', text)
     if not match:
         raise RuntimeError('缺少主节点策略组')
@@ -76,6 +123,8 @@ def main() -> None:
     text = ensure_group_line(text, '📍 WLOC 定位 =', WLOC_GROUP, '🍏 苹果服务 =')
     text = ensure_group_line(text, '💵 美国金融 =', US_FINANCE_GROUP, '📈 券商服务 =')
     text = ensure_group_line(text, '💷 英国金融 =', UK_FINANCE_GROUP, '💵 美国金融 =')
+    text = ensure_group_line(text, '🧱 DNS 防泄露 =', DNS_GROUP, '🌐 其他节点 =')
+    text = re.sub(r'(?m)^RULE-SET,https://raw\.githubusercontent\.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS\.list,.*\n?', '', text)
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
     if '[Script]' not in text:
         if '[Host]' not in text:
