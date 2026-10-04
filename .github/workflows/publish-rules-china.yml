@@ -1,0 +1,35 @@
+name: Publish rules to China
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Shadowrocket.conf'
+      - '*.list'
+      - 'dist/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: publish-rules-china
+  cancel-in-progress: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish atomically
+        env:
+          DEPLOY_KEY: ${{ secrets.CN_DEPLOY_KEY }}
+          DEPLOY_HOST: 47.94.102.25
+          DEPLOY_USER: fengsx-deploy
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          release="/srv/fengsx-rules/releases/$GITHUB_SHA"
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$release'"
+          tar -czf - Shadowrocket.conf *.list dist | ssh "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C '$release'"
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "ln -sfn '$release' /srv/fengsx-rules/current.next && mv -Tf /srv/fengsx-rules/current.next /srv/fengsx-rules/current"
