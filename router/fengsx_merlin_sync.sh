@@ -72,10 +72,8 @@ download() {
     fi
     case "$url" in
         "$RAW_BASE"/*)
-            fallback="$CDN_BASE/${url#"$RAW_BASE"/}"
-            curl -fsSL --connect-timeout 8 --max-time 45 "$fallback" -o "$target" 2>/dev/null || \
-                curl_with_bootstrap "$fallback" "$target" || \
-                wget -q -T 45 -O "$target" "$fallback" 2>/dev/null
+            log 'GitHub Raw 下载失败，保留已验证的本地版本'
+            return 1
             ;;
         *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
     esac
