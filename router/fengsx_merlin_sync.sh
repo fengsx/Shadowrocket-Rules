@@ -66,6 +66,16 @@ install_template() {
     rm -f "$tmp"
 }
 
+patch_dns_compatibility() {
+    dns=/koolshare/merlinclash/yaml_dns/redirhost.yaml
+    [ -f "$dns" ] || return 0
+    if "$YQ" eval '.dns."nameserver-policy"."rule-set:AI" // ""' "$dns" 2>/dev/null | grep -q .; then
+        [ -f "$dns.fengsx-backup" ] || cp -p "$dns" "$dns.fengsx-backup"
+        "$YQ" eval 'del(.dns."nameserver-policy"."rule-set:AI", .dns."nameserver-policy"."rule-set:Crypto", .dns."nameserver-policy"."rule-set:Proxy")' -i "$dns"
+        log '已移除与 FENGSX 规则不兼容的旧 DNS rule-set 引用'
+    fi
+}
+
 patch_web() {
     [ -f "$WEB" ] || return 0
     grep -q 'value="MCrule_Custom"' "$WEB" && return 0
@@ -187,6 +197,7 @@ main() {
     fi
     ensure_endpoint_file
     install_template
+    patch_dns_compatibility
     patch_web
     ensure_schedule
     rebuild_active_custom_config

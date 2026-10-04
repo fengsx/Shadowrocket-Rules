@@ -99,6 +99,15 @@ def compile_merlin(groups, rules, final):
         '    tolerance: 80',
         '    lazy: true',
     ]
+    lines.extend([
+        '  - name: "美国策略"',
+        '    type: select',
+        '    proxies:',
+        '      - "🤖 AI 服务"',
+        '      - "💵 美国金融"',
+        '      - "🚀 节点选择"',
+        '      - "DIRECT"',
+    ])
     for group in groups:
         name = group['name']
         kind = group['type']
