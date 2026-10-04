@@ -20,12 +20,45 @@ log() {
 curl_with_bootstrap() {
     url="$1"
     target="$2"
+    user_agent="${3:-fengsx-merlin-sync}"
     host=$(printf '%s' "$url" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
     [ -n "$host" ] || return 1
     for ip in $(nslookup "$host" 223.5.5.5 2>/dev/null | awk '/^Name:/ { found=1; next } found && $3 ~ /^[0-9]+\./ { print $3 }'); do
-        curl -fsSL --resolve "$host:443:$ip" --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null && return 0
+        curl -fsSL -A "$user_agent" --resolve "$host:443:$ip" --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null && return 0
     done
     return 1
+}
+
+materialize_miki_provider() {
+    current=$(dbus get merlinclash_set_yamlsel_start)
+    case "$current" in MCU_*) ;; *) return 0 ;; esac
+    backup=/koolshare/merlinclash/yaml_bak/${current}.yaml
+    active=/koolshare/merlinclash/yaml_use/${current}.yaml
+    provider_dir=/koolshare/merlinclash/yaml_bak/${current}
+    provider=${provider_dir}/AP1.yaml
+    encoded=$(dbus get merlinclash_sub_links)
+    url=$(printf '%s' "$encoded" | base64 -d 2>/dev/null | cut -d'|' -f1)
+    case "$url" in https://sub.mikicloud.xyz/*) ;; *) return 0 ;; esac
+    tmp=/tmp/fengsx_miki_provider.$$
+    if ! curl -fsSL -A clash.meta --connect-timeout 8 --max-time 60 "$url" -o "$tmp" 2>/dev/null && \
+       ! curl_with_bootstrap "$url" "$tmp" clash.meta; then
+        rm -f "$tmp"
+        log 'MIKI 节点下载失败，保留现有本地缓存'
+        return 1
+    fi
+    count=$("$YQ" eval '.proxies | length' "$tmp" 2>/dev/null)
+    case "$count" in ''|0|null) rm -f "$tmp"; log 'MIKI 节点校验失败，保留现有本地缓存'; return 1 ;; esac
+    mkdir -p "$provider_dir"
+    mv -f "$tmp" "$provider"
+    chmod 0666 "$provider"
+    for config in "$backup" "$active"; do
+        [ -f "$config" ] || continue
+        "$YQ" eval -i '."proxy-providers".AP1.type = "file" |
+          ."proxy-providers".AP1.path = "./yaml_bak/'"$current"'/AP1.yaml" |
+          del(."proxy-providers".AP1.url, ."proxy-providers".AP1.interval,
+              ."proxy-providers".AP1.proxy, ."proxy-providers".AP1.header)' "$config"
+    done
+    log "MIKI 节点已固化为本地提供器：${count} 个"
 }
 
 download() {
@@ -197,12 +230,27 @@ sync_endpoints() {
 }
 
 rebuild_active_custom_config() {
-    [ "$template_changed" = 1 ] || return 0
     current=$(dbus get merlinclash_set_yamlsel_start)
     case "$current" in MCU_*) ;; *) return 0 ;; esac
-    /bin/sh /koolshare/scripts/clash_subscribe.sh 0 subscribe >/dev/null 2>&1 || return 1
-    /bin/sh /koolshare/scripts/clash_config.sh restart restart >/dev/null 2>&1 || return 1
-    log '已用新模板重建并重载当前配置'
+    if [ "$template_changed" = 1 ]; then
+        /bin/sh /koolshare/scripts/clash_subscribe.sh 0 subscribe >/dev/null 2>&1 || return 1
+        materialize_miki_provider || return 1
+        /bin/sh /koolshare/scripts/clash_config.sh restart restart >/dev/null 2>&1 || return 1
+        log '已用新模板重建并重载当前配置'
+    else
+        materialize_miki_provider || return 1
+        config=/koolshare/merlinclash/yaml_use/${current}.yaml
+        controller=$("$YQ" eval '.external-controller // ""' "$config" 2>/dev/null)
+        secret=$("$YQ" eval '.secret // ""' "$config" 2>/dev/null)
+        case "$controller" in http*) api="$controller" ;; *) api="http://$controller" ;; esac
+        if [ -n "$controller" ]; then
+            if [ -n "$secret" ]; then
+                curl -fsS -X PUT -H "Authorization: Bearer $secret" "$api/providers/proxies/AP1" >/dev/null 2>&1 || true
+            else
+                curl -fsS -X PUT "$api/providers/proxies/AP1" >/dev/null 2>&1 || true
+            fi
+        fi
+    fi
 }
 
 main() {
