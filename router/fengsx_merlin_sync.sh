@@ -17,16 +17,30 @@ log() {
     printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG"
 }
 
+curl_with_bootstrap() {
+    url="$1"
+    target="$2"
+    host=$(printf '%s' "$url" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
+    [ -n "$host" ] || return 1
+    ip=$(nslookup "$host" 223.5.5.5 2>/dev/null | awk '$3 ~ /^[0-9]+\./ { print $3; exit }')
+    [ -n "$ip" ] || return 1
+    curl -fsSL --resolve "$host:443:$ip" --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null
+}
+
 download() {
     url="$1"
     target="$2"
     if curl -fsSL --connect-timeout 5 --max-time 15 "$url" -o "$target" 2>/dev/null; then
         return 0
     fi
+    if curl_with_bootstrap "$url" "$target"; then
+        return 0
+    fi
     case "$url" in
         "$RAW_BASE"/*)
             fallback="$CDN_BASE/${url#"$RAW_BASE"/}"
             curl -fsSL --connect-timeout 8 --max-time 45 "$fallback" -o "$target" 2>/dev/null || \
+                curl_with_bootstrap "$fallback" "$target" || \
                 wget -q -T 45 -O "$target" "$fallback" 2>/dev/null
             ;;
         *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
