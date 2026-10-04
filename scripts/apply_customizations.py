@@ -16,7 +16,7 @@ UK_RESIDENTIAL_GROUP = '🇬🇧 英国住宅 = url-test,url=http://www.gstatic.
 US_REGULAR_GROUP = '🇺🇸 美国普通 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$'
 UK_REGULAR_GROUP = '🇬🇧 英国普通 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$'
 US_FINANCE_GROUP = '💵 美国金融 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
-UK_FINANCE_GROUP = '💷 英国金融 = fallback,🇬🇧 英国住宅,🇬🇧 英国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
+UK_FINANCE_GROUP = '💷 英国金融 = fallback,🇬🇧 英国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
 WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
 DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-select-name=REJECT'
 GENERAL_SETTINGS = {
