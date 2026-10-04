@@ -39,3 +39,7 @@ DOMAIN-KEYWORD,withplum
 DOMAIN-SUFFIX,withplum.com
 DOMAIN-KEYWORD,ifastgb
 DOMAIN-SUFFIX,ifastgb.com
+DOMAIN,api.prod2.kustomerapp.com
+DOMAIN,cdn-settings.segment.com
+DOMAIN,api.segment.io
+DOMAIN,ingesteu.quantummetric.com
