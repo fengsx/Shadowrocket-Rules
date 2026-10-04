@@ -86,7 +86,7 @@ def main() -> None:
         '🇬🇧 英国住宅 = url-test',
         '🇺🇸 美国普通 = url-test',
         '🇬🇧 英国普通 = url-test',
-        '💷 英国金融 = fallback,🇬🇧 英国住宅,🇬🇧 英国普通,REJECT',
+        '💷 英国金融 = fallback,🇬🇧 英国普通,REJECT',
         '🇺🇸 美国节点 = url-test',
         '# CODEX-BEGIN WLOC',
         'gsp-ssl.ls.apple.com',
