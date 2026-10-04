@@ -280,14 +280,14 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list?v=85e431d15ccb"
     path: ./rule_provider/fengsx/fengsx_us_apps.list
     interval: 21600
   fengsx_uk_finance:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list?v=287f6d403319"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
   fengsx_block_http_dns:
@@ -301,21 +301,21 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Mail.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Mail.list?v=e07632eba794"
     path: ./rule_provider/fengsx/fengsx_mail.list
     interval: 21600
   fengsx_google:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Google.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Google.list?v=f6eeba7b8465"
     path: ./rule_provider/fengsx/fengsx_google.list
     interval: 21600
   fengsx_ai:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/AI.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/AI.list?v=437ecda2f873"
     path: ./rule_provider/fengsx/fengsx_ai.list
     interval: 21600
   fengsx_you_tube:
@@ -378,35 +378,35 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HSBC_HK.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HSBC_HK.list?v=9dc67e45c4f2"
     path: ./rule_provider/fengsx/fengsx_hsbc_hk.list
     interval: 21600
   fengsx_hk_banks_direct:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HK_Banks_Direct.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HK_Banks_Direct.list?v=c7bc002172b6"
     path: ./rule_provider/fengsx/fengsx_hk_banks_direct.list
     interval: 21600
   fengsx_hk_broker:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HK_Broker.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/HK_Broker.list?v=8ab40480d043"
     path: ./rule_provider/fengsx/fengsx_hk_broker.list
     interval: 21600
   fengsx_apple_push:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/ApplePush.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/ApplePush.list?v=078500e904a0"
     path: ./rule_provider/fengsx/fengsx_apple_push.list
     interval: 21600
   fengsx_apple:
     type: http
     behavior: classical
     format: text
-    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Apple.list"
+    url: "https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@main/Apple.list?v=1807a7c33579"
     path: ./rule_provider/fengsx/fengsx_apple.list
     interval: 21600
   fengsx_apple_domain:

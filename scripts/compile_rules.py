@@ -63,7 +63,13 @@ def delivery_url(url):
     if not match:
         return url
     owner, repository, branch, path = match.groups()
-    return f'https://cdn.jsdelivr.net/gh/{owner}/{repository}@{branch}/{path}'
+    delivery = f'https://cdn.jsdelivr.net/gh/{owner}/{repository}@{branch}/{path}'
+    if owner == 'fengsx' and repository == 'Shadowrocket-Rules' and branch == 'main':
+        source = ROOT / path
+        if source.is_file():
+            version = hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+            delivery = f'{delivery}?v={version}'
+    return delivery
 
 def append_list(lines, key, values, indent=4):
     lines.append(' ' * indent + f'{key}:')
