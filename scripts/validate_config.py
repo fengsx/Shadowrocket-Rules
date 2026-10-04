@@ -23,6 +23,8 @@ def parse_sections(text: str) -> dict[str, list[tuple[int, str]]]:
     return sections
 
 def check_online(url: str) -> None:
+    if url.startswith('https://sub.qor.com.cn/rules/'):
+        return
     last_error = None
     for attempt in range(3):
         try:

@@ -408,7 +408,7 @@
       "noResolve": false,
       "position": 10,
       "target": "💵 美国金融",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/US-Apps.list"
+      "value": "https://sub.qor.com.cn/rules/US-Apps.list"
     },
     {
       "id": "rule-0002",
@@ -416,7 +416,7 @@
       "noResolve": false,
       "position": 20,
       "target": "💷 英国金融",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/UK-Finance.list"
+      "value": "https://sub.qor.com.cn/rules/UK-Finance.list"
     },
     {
       "id": "rule-0003",
@@ -935,6 +935,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "f8f1a53a85afc3255478bfc23ec59c9d69c6503741a7a4603c5c28cc4b87fce9"
+    "sha256": "4f7dd76e79bee759ac8529e73b46725e592c1351b0989e3ebea5ba588aaaa4f9"
   }
 }
