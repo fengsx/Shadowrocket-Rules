@@ -447,7 +447,7 @@ function providerBaseName(url: string) {
   return `fengsx_${stem}`;
 }
 
-function providers(rules: ManifestRule[]) {
+function providers(rules: ManifestRule[], version: string) {
   const data: Record<string, unknown> = {};
   const ids = new Map<string, string>();
   const used = new Set<string>();
@@ -469,7 +469,9 @@ function providers(rules: ManifestRule[]) {
       type: "http",
       behavior: rule.kind === "domain_set" ? "domain" : "classical",
       format: "text",
-      url: rule.value,
+      url: rule.value.startsWith("https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/")
+        ? `${rule.value}${rule.value.includes("?") ? "&" : "?"}v=${version}`
+        : rule.value,
       path: `./ruleset/${name}.list`,
       interval: 21600,
     };
@@ -496,7 +498,7 @@ function ruleLine(rule: ManifestRule, ids: Map<string, string>) {
 }
 
 export function renderMihomo(nodes: ProxyNode[], manifest: RuleManifest, merlin: boolean) {
-  const provider = providers(manifest.rules);
+  const provider = providers(manifest.rules, manifest.source.sha256.slice(0, 12));
   const config: Record<string, unknown> = {
     "mixed-port": 7890,
     "allow-lan": merlin,
