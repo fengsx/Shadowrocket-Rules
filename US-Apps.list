@@ -50,3 +50,8 @@ DOMAIN-KEYWORD,revolut
 DOMAIN-SUFFIX,revolut.com
 DOMAIN-SUFFIX,t-mobile.com
 DOMAIN-SUFFIX,tmobile.com
+# Interactive Brokers / IBKR（美国金融）
+DOMAIN-SUFFIX,interactivebrokers.com
+DOMAIN-SUFFIX,interactivebrokers.com.hk
+DOMAIN-SUFFIX,ibkr.com
+DOMAIN-SUFFIX,ibkrguides.com

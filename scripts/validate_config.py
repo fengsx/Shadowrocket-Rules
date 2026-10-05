@@ -108,6 +108,10 @@ def main() -> None:
     absent=[item for item in expected if item not in text]
     if absent:
         raise RuntimeError(f'缺少预期规则：{absent}')
+    us_apps = (ROOT / 'US-Apps.list').read_text()
+    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com']:
+        if item not in us_apps:
+            raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
     httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
     httpdns_block = text.index('BlockHttpDNS.list,🧱 DNS 防泄露')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
