@@ -6,8 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / 'Shadowrocket.conf'
-FORK_RAW = 'https://sub.qor.com.cn/rules'
+FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main'
+UPDATE_URL = 'https://sub.qor.com.cn/rules/Shadowrocket.conf'
 LEGACY_FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main'
+UPDATE_URL = 'https://sub.qor.com.cn/rules/Shadowrocket.conf'
 UPSTREAM_RAW = 'https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main'
 UK_GROUP = '🇬🇧 英国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇬🇧|英国|UK|London|LHR'
 KR_GROUP = '🇰🇷 韩国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇰🇷|韩国|KR|Korea|ICN|SEL'
@@ -104,7 +106,7 @@ def main() -> None:
         raise RuntimeError('Shadowrocket 配置缺少必要段落')
     text = text.replace(UPSTREAM_RAW, FORK_RAW)
     text = text.replace(LEGACY_FORK_RAW, FORK_RAW)
-    text = re.sub(r'(?m)^update-url\s*=.*$', f'update-url = {FORK_RAW}/Shadowrocket.conf', text, count=1)
+    text = re.sub(r'(?m)^update-url\s*=.*$', f'update-url = {UPDATE_URL}', text, count=1)
     for key, value in GENERAL_SETTINGS.items():
         text = ensure_general_setting(text, key, value)
     match = re.search(r'(?m)^🚀 节点选择\s*=.*$', text)

@@ -64,7 +64,7 @@ def delivery_url(url):
         return url
     owner, repository, branch, path = match.groups()
     if owner == 'fengsx' and repository == 'Shadowrocket-Rules' and branch == 'main':
-        return f'https://sub.qor.com.cn/rules/{path}'
+        return url
     delivery = f'https://cdn.jsdelivr.net/gh/{owner}/{repository}@{branch}/{path}'
     return delivery
 
