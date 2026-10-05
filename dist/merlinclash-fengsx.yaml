@@ -474,6 +474,9 @@ rules:
   - RULE-SET,FENGSX-NodeEndpoints,DIRECT
   - DOMAIN-SUFFIX,mdpi.com,📚 学术网站
   - DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
+  - DOMAIN-SUFFIX,preprints.org,📚 学术网站
+  - DOMAIN-SUFFIX,sciprofiles.com,📚 学术网站
+  - DOMAIN-SUFFIX,scilit.com,📚 学术网站
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
   - DOMAIN,wloc.qor.com.cn,DIRECT

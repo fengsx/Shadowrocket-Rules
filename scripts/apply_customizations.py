@@ -39,6 +39,9 @@ GENERAL_SETTINGS = {
 PERSONAL_BLOCK = f'''# CODEX-BEGIN PERSONAL POLICIES
 DOMAIN-SUFFIX,mdpi.com,📚 学术网站
 DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
+DOMAIN-SUFFIX,preprints.org,📚 学术网站
+DOMAIN-SUFFIX,sciprofiles.com,📚 学术网站
+DOMAIN-SUFFIX,scilit.com,📚 学术网站
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN,wloc.qor.com.cn,DIRECT
