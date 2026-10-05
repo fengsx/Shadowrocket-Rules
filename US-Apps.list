@@ -7,8 +7,13 @@ DOMAIN-SUFFIX,ssl-images-amazon.com
 DOMAIN-SUFFIX,images-amazon.com
 DOMAIN-KEYWORD,ebay
 DOMAIN-KEYWORD,oracle
+# 美国三大信用局：Equifax、Experian、TransUnion
 DOMAIN-KEYWORD,equifax
 DOMAIN-SUFFIX,equifax.com
+DOMAIN-KEYWORD,experian
+DOMAIN-SUFFIX,experian.com
+DOMAIN-KEYWORD,transunion
+DOMAIN-SUFFIX,transunion.com
 DOMAIN-SUFFIX,google.com
 DOMAIN-KEYWORD,majority
 DOMAIN-SUFFIX,majority.com
