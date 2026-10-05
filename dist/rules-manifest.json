@@ -68,11 +68,11 @@
     },
     {
       "attributes": {
-        "interval": "600",
-        "policy-regex-filter": "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|Residential|Home Broadband))",
+        "interval": "300",
+        "policy-regex-filter": "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))",
         "timeout": "5",
         "tolerance": "0",
-        "url": "http://www.gstatic.com/generate_204"
+        "url": "https://chatgpt.com/cdn-cgi/trace"
       },
       "name": "🇺🇸 美国住宅",
       "options": [],
@@ -80,11 +80,11 @@
     },
     {
       "attributes": {
-        "interval": "600",
-        "policy-regex-filter": "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$",
+        "interval": "300",
+        "policy-regex-filter": "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$",
         "timeout": "5",
         "tolerance": "0",
-        "url": "http://www.gstatic.com/generate_204"
+        "url": "https://chatgpt.com/cdn-cgi/trace"
       },
       "name": "🇺🇸 美国普通",
       "options": [],
@@ -105,7 +105,7 @@
     {
       "attributes": {
         "interval": "600",
-        "policy-regex-filter": "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|Residential|Home Broadband))",
+        "policy-regex-filter": "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))",
         "timeout": "5",
         "tolerance": "0",
         "url": "http://www.gstatic.com/generate_204"
@@ -117,7 +117,7 @@
     {
       "attributes": {
         "interval": "600",
-        "policy-regex-filter": "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$",
+        "policy-regex-filter": "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$",
         "timeout": "5",
         "tolerance": "0",
         "url": "http://www.gstatic.com/generate_204"
@@ -176,17 +176,17 @@
     },
     {
       "attributes": {
-        "policy-select-name": "🇺🇸 美国节点"
+        "interval": "300",
+        "timeout": "5",
+        "url": "https://chatgpt.com/cdn-cgi/trace"
       },
       "name": "🤖 AI 服务",
       "options": [
-        "🇺🇸 美国节点",
-        "🚀 节点选择",
-        "PROXY",
-        "DIRECT",
+        "🇺🇸 美国住宅",
+        "🇺🇸 美国普通",
         "REJECT"
       ],
-      "type": "select"
+      "type": "fallback"
     },
     {
       "attributes": {},
@@ -1003,6 +1003,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "1fd7010124411b05d7722d2e21807db4404bfa2daa45d782c7be35522ff9468b"
+    "sha256": "1da562da3eb7a07905edaa85a6f6650dc271e90adeb94a2d391ac12e18a11859"
   }
 }

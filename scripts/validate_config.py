@@ -90,6 +90,7 @@ def main() -> None:
         'DOMAIN-SUFFIX,scilit.com,📚 学术网站',
         '🏠 家宽节点 = url-test',
         '📚 学术网站 = select,🏠 家宽节点',
+        '🤖 AI 服务 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT',
         '💵 美国金融 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT',
         '🇺🇸 美国住宅 = url-test',
         '🇬🇧 英国住宅 = url-test',

@@ -74,21 +74,21 @@ proxy-groups:
   - name: "🇺🇸 美国住宅"
     type: url-test
     include-all: true
-    filter: "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|Residential|Home Broadband))"
+    filter: "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
     proxies:
       - "REJECT"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 600
+    url: "https://chatgpt.com/cdn-cgi/trace"
+    interval: 300
     tolerance: 0
     lazy: true
   - name: "🇺🇸 美国普通"
     type: url-test
     include-all: true
-    filter: "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$"
+    filter: "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
     proxies:
       - "REJECT"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 600
+    url: "https://chatgpt.com/cdn-cgi/trace"
+    interval: 300
     tolerance: 0
     lazy: true
   - name: "🇬🇧 英国节点"
@@ -104,7 +104,7 @@ proxy-groups:
   - name: "🇬🇧 英国住宅"
     type: url-test
     include-all: true
-    filter: "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|Residential|Home Broadband))"
+    filter: "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
     proxies:
       - "REJECT"
     url: "http://www.gstatic.com/generate_204"
@@ -114,7 +114,7 @@ proxy-groups:
   - name: "🇬🇧 英国普通"
     type: url-test
     include-all: true
-    filter: "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|Residential|Home Broadband)).*$"
+    filter: "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
     proxies:
       - "REJECT"
     url: "http://www.gstatic.com/generate_204"
@@ -158,12 +158,14 @@ proxy-groups:
       - "🚀 节点选择"
       - "DIRECT"
   - name: "🤖 AI 服务"
-    type: select
+    type: fallback
     proxies:
-      - "🇺🇸 美国节点"
-      - "🚀 节点选择"
-      - "DIRECT"
+      - "🇺🇸 美国住宅"
+      - "🇺🇸 美国普通"
       - "REJECT"
+    url: "https://chatgpt.com/cdn-cgi/trace"
+    interval: 300
+    lazy: true
   - name: "📹 油管视频"
     type: select
     proxies:
