@@ -24,6 +24,10 @@ DOMAIN-SUFFIX,tktn.be
 DOMAIN-SUFFIX,ooma.com
 DOMAIN-KEYWORD,capitalone
 DOMAIN-SUFFIX,capitalone.com
+# OnePay 美国金融应用（含账户与 App API）
+DOMAIN-KEYWORD,onepay
+DOMAIN-SUFFIX,onepay.com
+DOMAIN-SUFFIX,one.app
 DOMAIN-KEYWORD,redpocket
 DOMAIN-SUFFIX,redpocket.com
 DOMAIN-KEYWORD,revolut
