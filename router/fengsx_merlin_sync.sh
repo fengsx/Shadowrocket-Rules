@@ -81,7 +81,7 @@ download() {
 
 refresh_self() {
     tmp=/tmp/fengsx_merlin_self.$$
-    if download "$RAW_BASE/router/fengsx_merlin_sync.sh" "$tmp" && \
+    if download "$RAW_BASE/router/fengsx_merlin_sync.sh?ts=$(date +%s)" "$tmp" && \
        grep -q 'FENGSX-MERLIN-SYNC-V1' "$tmp"; then
         chmod 0755 "$tmp"
         if ! cmp -s "$tmp" "$SELF"; then
@@ -96,7 +96,7 @@ refresh_self() {
 install_template() {
     tmp=/tmp/fengsx_merlin_template.$$
     template_changed=0
-    if download "$RAW_BASE/dist/merlinclash-fengsx.yaml" "$tmp" && \
+    if download "$RAW_BASE/dist/merlinclash-fengsx.yaml?ts=$(date +%s)" "$tmp" && \
        grep -q 'FENGSX-MERLIN-TEMPLATE-V1' "$tmp" && \
        "$YQ" eval '.' "$tmp" >/dev/null 2>&1; then
         if ! cmp -s "$tmp" "$TEMPLATE"; then
