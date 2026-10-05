@@ -141,6 +141,16 @@ proxy-groups:
     interval: 600
     tolerance: 0
     lazy: true
+  - name: "🏠 家宽节点"
+    type: url-test
+    include-all: true
+    filter: "家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND"
+    proxies:
+      - "REJECT"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 600
+    tolerance: 80
+    lazy: true
   - name: "🧱 DNS 防泄露"
     type: select
     proxies:
@@ -250,6 +260,16 @@ proxy-groups:
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     lazy: true
+  - name: "📚 学术网站"
+    type: select
+    proxies:
+      - "🏠 家宽节点"
+      - "🇭🇰 香港节点"
+      - "🇺🇸 美国住宅"
+      - "🇯🇵 日本节点"
+      - "🇰🇷 韩国节点"
+      - "DIRECT"
+      - "REJECT"
   - name: "🏠 私有网络"
     type: select
     proxies:
@@ -452,6 +472,8 @@ rule-providers:
     interval: 21600
 rules:
   - RULE-SET,FENGSX-NodeEndpoints,DIRECT
+  - DOMAIN-SUFFIX,mdpi.com,📚 学术网站
+  - DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
   - DOMAIN,wloc.qor.com.cn,DIRECT

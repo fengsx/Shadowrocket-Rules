@@ -22,6 +22,8 @@ US_FINANCE_GROUP = '💵 美国金融 = fallback,🇺🇸 美国住宅,🇺🇸 
 UK_FINANCE_GROUP = '💷 英国金融 = fallback,🇬🇧 英国普通,REJECT,url=http://www.gstatic.com/generate_204,interval=300,timeout=5'
 WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
 DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-select-name=REJECT'
+HOME_BROADBAND_GROUP = '🏠 家宽节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=80,timeout=5,policy-regex-filter=家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND'
+ACADEMIC_GROUP = '📚 学术网站 = select,🏠 家宽节点,🇭🇰 香港节点,🇺🇸 美国住宅,🇯🇵 日本节点,🇰🇷 韩国节点,DIRECT,REJECT,policy-select-name=🏠 家宽节点'
 GENERAL_SETTINGS = {
     'dns-server': 'https://cloudflare-dns.com/dns-query#proxy',
     'fallback-dns-server': 'https://dns.google/dns-query#proxy',
@@ -35,6 +37,8 @@ GENERAL_SETTINGS = {
     'block-quic': 'all-proxy',
 }
 PERSONAL_BLOCK = f'''# CODEX-BEGIN PERSONAL POLICIES
+DOMAIN-SUFFIX,mdpi.com,📚 学术网站
+DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN,wloc.qor.com.cn,DIRECT
@@ -127,6 +131,8 @@ def main() -> None:
     text = ensure_group_line(text, '📍 WLOC 定位 =', WLOC_GROUP, '🍏 苹果服务 =')
     text = ensure_group_line(text, '💵 美国金融 =', US_FINANCE_GROUP, '📈 券商服务 =')
     text = ensure_group_line(text, '💷 英国金融 =', UK_FINANCE_GROUP, '💵 美国金融 =')
+    text = ensure_group_line(text, '🏠 家宽节点 =', HOME_BROADBAND_GROUP, '🌐 其他节点 =')
+    text = ensure_group_line(text, '📚 学术网站 =', ACADEMIC_GROUP, '💷 英国金融 =')
     text = ensure_group_line(text, '🧱 DNS 防泄露 =', DNS_GROUP, '🌐 其他节点 =')
     text = re.sub(r'(?m)^RULE-SET,https://raw\.githubusercontent\.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS\.list,.*\n?', '', text)
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
