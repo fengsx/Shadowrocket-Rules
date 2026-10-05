@@ -24,6 +24,22 @@ DOMAIN-SUFFIX,tktn.be
 DOMAIN-SUFFIX,ooma.com
 DOMAIN-KEYWORD,capitalone
 DOMAIN-SUFFIX,capitalone.com
+# Capital One 页面实测第三方依赖：仅匹配精确主机，避免污染共享服务域名
+DOMAIN,mboxedge34.tt.omtrdc.net
+DOMAIN,mboxedge35.tt.omtrdc.net
+DOMAIN,dpm.demdex.net
+DOMAIN,cm.everesttech.net
+DOMAIN,js-agent.newrelic.com
+DOMAIN,bam.nr-data.net
+DOMAIN,tie.cloud.247-inc.net
+DOMAIN,api.cloud.247-inc.net
+DOMAIN,cap1enterprise.ca.assist.247-inc.net
+DOMAIN,logx.optimizely.com
+DOMAIN,prediction.cmab.optimizely.com
+DOMAIN,tapi.optimizely.com
+DOMAIN,rum.optimizely.com
+DOMAIN,cdn3.optimizely.com
+DOMAIN,a27988430061.cdn.optimizely.com
 # OnePay 美国金融应用（含账户与 App API）
 DOMAIN-KEYWORD,onepay
 DOMAIN-SUFFIX,onepay.com
