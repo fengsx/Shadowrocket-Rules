@@ -1,7 +1,8 @@
 import { parse, stringify } from "yaml";
 import type { ManifestGroup, ManifestRule, ProxyNode, RuleManifest, StoredNode } from "./types";
 
-const SUPPORTED = new Set(["vless", "vmess", "trojan", "hysteria2", "ss", "tuic"]);
+const SUPPORTED = new Set(["vless", "vmess", "trojan", "hysteria2", "ss", "tuic", "openvpn"]);
+const URI_SUPPORTED = new Set(["vless", "vmess", "trojan", "hysteria2", "ss", "tuic"]);
 const REGION_RULES: Array<[RegExp, string]> = [
   [/(?:香港|\bhk\b|hong\s*kong)/i, "香港"],
   [/(?:台湾|台北|\btw\b|taiwan|taipei)/i, "台湾"],
@@ -244,7 +245,23 @@ function singBoxProxy(value: Record<string, unknown>): ProxyNode | null {
 function structuredProxies(raw: string): ProxyNode[] {
   try {
     const document = parse(raw) as Record<string, unknown>;
-    if (Array.isArray(document?.proxies)) return document.proxies as ProxyNode[];
+    if (Array.isArray(document?.proxies)) {
+      const proxies = document.proxies as ProxyNode[];
+      const upstreamGroups = Array.isArray(document["proxy-groups"])
+        ? document["proxy-groups"] as Array<Record<string, unknown>>
+        : [];
+      const firstProxyByGroup = new Map<string, string>();
+      for (const group of upstreamGroups) {
+        const members = Array.isArray(group.proxies) ? group.proxies : [];
+        const first = members.find((member) => typeof member === "string");
+        if (str(group.name) && typeof first === "string") firstProxyByGroup.set(str(group.name), first);
+      }
+      return proxies.map((proxy) => {
+        const dialerProxy = str(proxy["dialer-proxy"]);
+        const resolvedDialer = firstProxyByGroup.get(dialerProxy);
+        return resolvedDialer ? { ...proxy, "dialer-proxy": resolvedDialer } : proxy;
+      });
+    }
     if (Array.isArray(document?.servers)) {
       return (document.servers as Array<Record<string, unknown>>).map((server) => ({
         name: str(server.remarks) || str(server.id) || `ss ${str(server.server)}`,
@@ -498,6 +515,7 @@ function ruleLine(rule: ManifestRule, ids: Map<string, string>) {
 }
 
 export function renderMihomo(nodes: ProxyNode[], manifest: RuleManifest, merlin: boolean) {
+  const outputNodes = merlin ? nodes.filter((node) => node.type !== "openvpn") : nodes;
   const provider = providers(manifest.rules, manifest.source.sha256.slice(0, 12));
   const config: Record<string, unknown> = {
     "mixed-port": 7890,
@@ -517,11 +535,11 @@ export function renderMihomo(nodes: ProxyNode[], manifest: RuleManifest, merlin:
       "direct-nameserver": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"],
       "proxy-server-nameserver": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"],
     },
-    proxies: nodes,
-    "proxy-groups": groups(nodes, manifest),
+    proxies: outputNodes,
+    "proxy-groups": groups(outputNodes, manifest),
     "rule-providers": provider.data,
     rules: [
-      ...nodes.map((node) => `DOMAIN,${node.server},DIRECT`),
+      ...outputNodes.map((node) => `DOMAIN,${node.server},DIRECT`),
       ...manifest.rules.map((rule) => ruleLine(rule, provider.ids)),
       `MATCH,${mapped(manifest.finalTarget)}`,
     ],
@@ -535,5 +553,5 @@ export function renderMihomo(nodes: ProxyNode[], manifest: RuleManifest, merlin:
 }
 
 export function renderShadowrocket(nodes: ProxyNode[]) {
-  return encode64(nodes.map(nodeUri).join("\n"));
+  return encode64(nodes.filter((node) => URI_SUPPORTED.has(node.type)).map(nodeUri).join("\n"));
 }
