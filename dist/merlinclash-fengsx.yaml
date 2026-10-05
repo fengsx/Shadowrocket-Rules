@@ -286,14 +286,14 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://sub.qor.com.cn/rules/US-Apps.list"
+    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/US-Apps.list"
     path: ./rule_provider/fengsx/fengsx_us_apps.list
     interval: 21600
   fengsx_uk_finance:
     type: http
     behavior: classical
     format: text
-    url: "https://sub.qor.com.cn/rules/UK-Finance.list"
+    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
   fengsx_block_http_dns:
