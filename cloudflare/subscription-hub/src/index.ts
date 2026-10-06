@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import QRCode from "qrcode-svg";
 import { decrypt, encrypt, sha, token } from "./crypto";
-import { normalizeProxyNode, parseNodes, proxyKey, renderMihomo, renderShadowrocket } from "./core";
+import { normalizeProxyNode, parseNodes, proxyKey, renderMihomo, renderMihomoNodes, renderShadowrocket } from "./core";
 import type { Env, ProxyNode, RuleManifest } from "./types";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -78,6 +78,7 @@ async function build(env: Env) {
     ]);
     if (!nodes.length) throw new Error("没有可用节点");
     const outputs = {
+      nodes: renderMihomoNodes(nodes),
       clash: renderMihomo(nodes, rules, false),
       merlinclash: renderMihomo(nodes, rules, true),
       shadowrocket: renderShadowrocket(shadowrocketNodes),
@@ -230,6 +231,7 @@ function renderSubscriptions(items){
   cards.replaceChildren();
   if(!items.length){const empty=document.createElement("p");empty.textContent="尚未创建客户端订阅";cards.append(empty);return}
   for(const item of items){
+    addCard("节点源 · "+item.label,item.nodes);
     addCard("Clash · "+item.label,item.clash);
     addCard("MerlinClash · "+item.label,item.merlinclash);
     addCard("Shadowrocket · "+item.label,item.shadowrocket);
@@ -474,6 +476,7 @@ app.get("/api/subscriptions", async (c) => {
     const value = await decrypt(c.env.MASTER_KEY, row.encrypted_token);
     output.push({
       label: row.label,
+      nodes: `${base}/s/${value}/nodes`,
       clash: `${base}/s/${value}/clash`,
       merlinclash: `${base}/s/${value}/merlinclash`,
       shadowrocket: `${base}/s/${value}/shadowrocket`,
@@ -517,6 +520,7 @@ app.post("/api/subscriptions", async (c) => {
   const base = new URL(c.req.url).origin;
   return c.json({
     token: value,
+    nodes: `${base}/s/${value}/nodes`,
     clash: `${base}/s/${value}/clash`,
     merlinclash: `${base}/s/${value}/merlinclash`,
     shadowrocket: `${base}/s/${value}/shadowrocket`,
@@ -525,7 +529,7 @@ app.post("/api/subscriptions", async (c) => {
 
 app.get("/s/:token/:format", async (c) => {
   const format = c.req.param("format");
-  if (!["clash", "merlinclash", "shadowrocket"].includes(format)) return c.notFound();
+  if (!["nodes", "clash", "merlinclash", "shadowrocket"].includes(format)) return c.notFound();
   const hash = await sha(c.req.param("token"));
   const valid = await c.env.DB.prepare(
     "SELECT 1 ok FROM subscriptions WHERE token_hash=? AND enabled=1",
