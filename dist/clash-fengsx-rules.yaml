@@ -1,5 +1,5 @@
 # 由 scripts/compile_rules.py 自动生成，请勿手工修改。
-# FENGSX-MERLIN-TEMPLATE-V2
+# FENGSX-CLASH-RULE-SCHEME-V1
 proxy-groups:
   - name: "♻️ 自动选择"
     type: url-test
@@ -287,11 +287,6 @@ proxy-groups:
       - "REJECT"
       - "🇯🇵 日本节点"
 rule-providers:
-  FENGSX-NodeEndpoints:
-    type: file
-    behavior: classical
-    format: yaml
-    path: ./rule_custom/fengsx_node_endpoints.yaml
   fengsx_us_apps:
     type: http
     behavior: classical
@@ -461,7 +456,6 @@ rule-providers:
     path: ./rule_provider/fengsx/fengsx_global_domain.list
     interval: 21600
 rules:
-  - RULE-SET,FENGSX-NodeEndpoints,DIRECT
   - DOMAIN-SUFFIX,mdpi.com,📚 学术网站
   - DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
   - DOMAIN-SUFFIX,preprints.org,📚 学术网站

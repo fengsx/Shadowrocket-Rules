@@ -21,10 +21,10 @@
 
 ## 快速开始
 
-Shadowrocket 配置使用本 fork 的 JSDMirror 公益镜像；东京服务器只负责组装节点订阅。
+GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜像。规则发布与上游同步均不依赖东京服务器或 sub.qor.com.cn。
 
 1. 复制配置文件的 Raw 链接：
-   `https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/Shadowrocket.conf`
+   `https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Shadowrocket.conf`
 2. 打开 Shadowrocket → 配置 → 右上角 `+` → 粘贴链接 → 下载
 3. 点击已下载的配置，设为使用中（✔️）
 4. 首页添加你自己的节点或订阅
@@ -135,11 +135,28 @@ Shadowrocket 配置使用本 fork 的 JSDMirror 公益镜像；东京服务器�
 - 只有合并和验证全部成功才会推送；发生 Git 冲突、上游结构变化或远程规则不可用时保持现有 `main` 不变。
 - 可在 GitHub Actions 中手动运行 `Sync upstream rules`，无需等待定时任务。
 
+## 多客户端发布地址
+
+源码中的仓库内规则只按相对文件名维护，GitHub Actions 构建时分别解析为两套绝对地址：
+
+| 客户端 | GitHub Raw 权威版 | JSDMirror 国内镜像版 |
+|---|---|---|
+| Shadowrocket | `Shadowrocket.conf` | `dist/Shadowrocket-jsdmirror.conf` |
+| Hako iOS Clash / 通用 Clash 规则方案 | `dist/clash-fengsx-rules.yaml` | `dist/clash-fengsx-rules-jsdmirror.yaml` |
+| MerlinClash | `dist/merlinclash-fengsx.yaml` | `dist/merlinclash-fengsx-jsdmirror.yaml` |
+
+完整前缀分别为：
+
+- 权威源：`https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/`
+- 国内镜像：`https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/`
+
+Hako iOS Clash 应在“导入规则/规则方案”中导入通用 Clash YAML，节点仍使用任意原始节点订阅。普通 Mihomo/Clash 客户端可在支持规则覆写、Mixin 或规则方案的位置使用同一文件；只接受完整配置且不支持合并的旧客户端，不能把规则方案当作节点订阅直接使用。
+
 ## MerlinClash 统一规则
 
 - `dist/merlinclash-fengsx.yaml` 由同一份 `Shadowrocket.conf` 自动编译，与 Shadowrocket 共用策略和规则顺序。
 - Magic Catling 2 中选择 `FENGSX规则`，节点仍直接使用原始订阅地址，不经过 Cloudflare 重新组装。
-- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；主用 JSDMirror 公益镜像跟随 main 分支，下载失败时切换到 githubproxy.cc 的 GitHub Raw 透明代理；两者均失败时保留本地已验证版本。
+- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；主用 GitHub Raw 权威源，失败时依次尝试 JSDMirror 国内镜像和 githubproxy.cc Raw 透明代理，全部失败时保留本地已验证版本。
 - 脚本通过 `firewall-start` 在防火墙或 NAT 重建后恢复局域网 TCP 53 劫持，避免等待下一次定时同步。
 - 自动选择与地区组统一排除流量、到期时间、官网和版本等订阅说明节点。
 - 脚本会从已登记订阅的 provider 缓存中提取节点域名/IP，生成最高优先级直连规则；手机开启 Shadowrocket 时避免双重代理，关闭后仍由路由器代理。

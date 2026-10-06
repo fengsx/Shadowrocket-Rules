@@ -1,5 +1,5 @@
 # 由 scripts/compile_rules.py 自动生成，请勿手工修改。
-# FENGSX-MERLIN-TEMPLATE-V2
+# FENGSX-MERLIN-TEMPLATE-V2-JSDMIRROR
 proxy-groups:
   - name: "♻️ 自动选择"
     type: url-test
@@ -296,168 +296,168 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/US-Apps.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/US-Apps.list"
     path: ./rule_provider/fengsx/fengsx_us_apps.list
     interval: 21600
   fengsx_uk_finance:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
   fengsx_block_http_dns:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list"
     path: ./rule_provider/fengsx/fengsx_block_http_dns.list
     interval: 21600
   fengsx_mail:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Mail.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/Mail.list"
     path: ./rule_provider/fengsx/fengsx_mail.list
     interval: 21600
   fengsx_google:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Google.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/Google.list"
     path: ./rule_provider/fengsx/fengsx_google.list
     interval: 21600
   fengsx_ai:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/AI.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/AI.list"
     path: ./rule_provider/fengsx/fengsx_ai.list
     interval: 21600
   fengsx_you_tube:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/YouTube/YouTube.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/YouTube/YouTube.list"
     path: ./rule_provider/fengsx/fengsx_you_tube.list
     interval: 21600
   fengsx_bili_bili:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BiliBili/BiliBili.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/BiliBili/BiliBili.list"
     path: ./rule_provider/fengsx/fengsx_bili_bili.list
     interval: 21600
   fengsx_lan:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Lan/Lan.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Lan/Lan.list"
     path: ./rule_provider/fengsx/fengsx_lan.list
     interval: 21600
   fengsx_telegram:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Telegram/Telegram.list"
     path: ./rule_provider/fengsx/fengsx_telegram.list
     interval: 21600
   fengsx_git_hub:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitHub/GitHub.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/GitHub/GitHub.list"
     path: ./rule_provider/fengsx/fengsx_git_hub.list
     interval: 21600
   fengsx_git_lab:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitLab/GitLab.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/GitLab/GitLab.list"
     path: ./rule_provider/fengsx/fengsx_git_lab.list
     interval: 21600
   fengsx_atlassian:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Atlassian/Atlassian.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Atlassian/Atlassian.list"
     path: ./rule_provider/fengsx/fengsx_atlassian.list
     interval: 21600
   fengsx_microsoft:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Microsoft/Microsoft.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Microsoft/Microsoft.list"
     path: ./rule_provider/fengsx/fengsx_microsoft.list
     interval: 21600
   fengsx_hsbc_hk:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HSBC_HK.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/HSBC_HK.list"
     path: ./rule_provider/fengsx/fengsx_hsbc_hk.list
     interval: 21600
   fengsx_hk_banks_direct:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Banks_Direct.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/HK_Banks_Direct.list"
     path: ./rule_provider/fengsx/fengsx_hk_banks_direct.list
     interval: 21600
   fengsx_hk_broker:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Broker.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/HK_Broker.list"
     path: ./rule_provider/fengsx/fengsx_hk_broker.list
     interval: 21600
   fengsx_apple_push:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/ApplePush.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/ApplePush.list"
     path: ./rule_provider/fengsx/fengsx_apple_push.list
     interval: 21600
   fengsx_apple:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple.list"
+    url: "https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/Apple.list"
     path: ./rule_provider/fengsx/fengsx_apple.list
     interval: 21600
   fengsx_apple_domain:
     type: http
     behavior: domain
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple_Domain.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Apple/Apple_Domain.list"
     path: ./rule_provider/fengsx/fengsx_apple_domain.list
     interval: 21600
   fengsx_china:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/China/China.list"
     path: ./rule_provider/fengsx/fengsx_china.list
     interval: 21600
   fengsx_china_domain:
     type: http
     behavior: domain
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China_Domain.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/China/China_Domain.list"
     path: ./rule_provider/fengsx/fengsx_china_domain.list
     interval: 21600
   fengsx_global:
     type: http
     behavior: classical
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Global/Global.list"
     path: ./rule_provider/fengsx/fengsx_global.list
     interval: 21600
   fengsx_global_domain:
     type: http
     behavior: domain
     format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global_Domain.list"
+    url: "https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/Global/Global_Domain.list"
     path: ./rule_provider/fengsx/fengsx_global_domain.list
     interval: 21600
 rules:

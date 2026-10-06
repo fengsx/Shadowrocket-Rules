@@ -3,7 +3,8 @@
 # 为 Magic Catling 2 安装并同步 fengsx 规则模板，生成已知节点端点直连规则。
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RAW_BASE=https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main
+RAW_BASE=https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main
+MIRROR_BASE=https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main
 RAW_PROXY_BASE=https://githubproxy.cc/https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main
 SELF=/jffs/scripts/fengsx-merlin-sync
 TEMPLATE=/koolshare/merlinclash/rule_configs/rule_mc_custom.yaml
@@ -96,13 +97,19 @@ download() {
         "$RAW_BASE"/*)
             path=${url#"$RAW_BASE"/}
             path=${path%%\?*}
+            mirror_url="$MIRROR_BASE/$path"
             proxy_url="$RAW_PROXY_BASE/$path"
-            if curl -fsSL --connect-timeout 5 --max-time 30 "$proxy_url" -o "$target" 2>/dev/null || \
-               curl_with_bootstrap "$proxy_url" "$target"; then
-                log 'JSDMirror 下载失败，已通过 GitHub Raw 透明代理更新'
+            if curl -fsSL --connect-timeout 5 --max-time 30 "$mirror_url" -o "$target" 2>/dev/null || \
+               curl_with_bootstrap "$mirror_url" "$target"; then
+                log 'GitHub Raw 下载失败，已通过 JSDMirror 镜像更新'
                 return 0
             fi
-            log 'JSDMirror 与 GitHub Raw 透明代理均下载失败，保留已验证的本地版本'
+            if curl -fsSL --connect-timeout 5 --max-time 30 "$proxy_url" -o "$target" 2>/dev/null || \
+               curl_with_bootstrap "$proxy_url" "$target"; then
+                log 'GitHub Raw 与 JSDMirror 均失败，已通过 Raw 透明代理更新'
+                return 0
+            fi
+            log 'GitHub Raw、JSDMirror 与 Raw 透明代理均下载失败，保留已验证的本地版本'
             return 1
             ;;
         *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
@@ -127,7 +134,7 @@ install_template() {
     tmp=/tmp/fengsx_merlin_template.$$
     template_changed=0
     if download "$RAW_BASE/dist/merlinclash-fengsx.yaml?ts=$(date +%s)" "$tmp" && \
-       grep -q 'FENGSX-MERLIN-TEMPLATE-V1' "$tmp" && \
+       grep -q 'FENGSX-MERLIN-TEMPLATE-V2' "$tmp" && \
        "$YQ" eval '.' "$tmp" >/dev/null 2>&1; then
         if ! cmp -s "$tmp" "$TEMPLATE"; then
             mkdir -p "$(dirname "$TEMPLATE")"
@@ -236,7 +243,7 @@ sync_endpoints() {
     : > "$servers"
     : > "$rules"
     collect_servers "$config" "$servers"
-    printf '%s\n' vpn.qor.com.cn cf.qor.com.cn sub.qor.com.cn >> "$servers"
+    printf '%s\n' vpn.qor.com.cn cf.qor.com.cn >> "$servers"
     sort -u "$servers" | while IFS= read -r server; do
         server=$(printf '%s' "$server" | tr -d '[]\r')
         [ -n "$server" ] || continue

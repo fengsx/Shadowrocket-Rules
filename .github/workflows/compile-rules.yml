@@ -35,12 +35,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- Shadowrocket.conf dist/rules-manifest.json dist/merlinclash-fengsx.yaml; then
+          if git diff --quiet -- Shadowrocket.conf dist/rules-manifest.json dist/merlinclash-fengsx.yaml dist/merlinclash-fengsx-jsdmirror.yaml dist/clash-fengsx-rules.yaml dist/clash-fengsx-rules-jsdmirror.yaml dist/Shadowrocket-jsdmirror.conf; then
             echo '规则清单没有变化。'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Shadowrocket.conf dist/rules-manifest.json dist/merlinclash-fengsx.yaml
+          git add Shadowrocket.conf dist/rules-manifest.json dist/merlinclash-fengsx.yaml dist/merlinclash-fengsx-jsdmirror.yaml dist/clash-fengsx-rules.yaml dist/clash-fengsx-rules-jsdmirror.yaml dist/Shadowrocket-jsdmirror.conf
           git commit -m 'build: compile unified routing manifest'
           git push origin HEAD:main
