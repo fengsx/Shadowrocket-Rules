@@ -61,6 +61,27 @@ materialize_miki_provider() {
     log "MIKI 节点已固化为本地提供器：${count} 个"
 }
 
+
+patch_dynamic_finance_groups() {
+    current=$(dbus get merlinclash_set_yamlsel_start)
+    provider=/koolshare/merlinclash/yaml_bak/$current/AP1.yaml
+    [ -f "$provider" ] || return 0
+    finance_changed=0
+    if "$YQ" eval '.proxies[]?.name' "$provider" 2>/dev/null | grep -Eiq '(英国|UK|London|LHR).*(家宽|住宅|resident|residential|home[ _-]*broadband)|(家宽|住宅|resident|residential|home[ _-]*broadband).*(英国|UK|London|LHR)'; then
+        desired='["🇬🇧 英国住宅", "🇬🇧 英国普通", "REJECT"]'
+    else
+        desired='["🇬🇧 英国普通", "REJECT"]'
+    fi
+    for config in /koolshare/merlinclash/yaml_bak/$current.yaml /koolshare/merlinclash/yaml_use/$current.yaml; do
+        [ -f "$config" ] || continue
+        actual=$("$YQ" eval -o=json '."proxy-groups"[] | select(.name == "💷 英国金融") | .proxies' "$config" 2>/dev/null | tr -d ' \n')
+        expected=$(printf '%s' "$desired" | tr -d ' ')
+        [ "$actual" = "$expected" ] && continue
+        "$YQ" eval -i '(."proxy-groups"[] | select(.name == "💷 英国金融").proxies) = '"$desired" "$config"
+        finance_changed=1
+    done
+}
+
 download() {
     url="$1"
     target="$2"
@@ -265,11 +286,18 @@ rebuild_active_custom_config() {
     if [ "$template_changed" = 1 ]; then
         /bin/sh /koolshare/scripts/clash_subscribe.sh 0 subscribe >/dev/null 2>&1 || return 1
         materialize_miki_provider || return 1
+        patch_dynamic_finance_groups
         /bin/sh /koolshare/scripts/clash_config.sh restart restart >/dev/null 2>&1 || return 1
         log '已用新模板重建并重载当前配置'
     else
         materialize_miki_provider || return 1
-        config=/koolshare/merlinclash/yaml_use/${current}.yaml
+        patch_dynamic_finance_groups
+        if [ "$finance_changed" = 1 ]; then
+            /bin/sh /koolshare/scripts/clash_config.sh restart restart >/dev/null 2>&1 || return 1
+            log '英国金融节点候选已变化，已重载当前配置'
+            return 0
+        fi
+        config=/koolshare/merlinclash/yaml_use/$current.yaml
         controller=$("$YQ" eval '.external-controller // ""' "$config" 2>/dev/null)
         secret=$("$YQ" eval '.secret // ""' "$config" 2>/dev/null)
         case "$controller" in http*) api="$controller" ;; *) api="http://$controller" ;; esac
