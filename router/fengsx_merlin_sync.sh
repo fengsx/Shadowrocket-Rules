@@ -187,6 +187,7 @@ sync_endpoints() {
     : > "$servers"
     : > "$rules"
     collect_servers "$config" "$servers"
+    printf '%s\n' vpn.qor.com.cn cf.qor.com.cn sub.qor.com.cn >> "$servers"
     sort -u "$servers" | while IFS= read -r server; do
         server=$(printf '%s' "$server" | tr -d '[]\r')
         [ -n "$server" ] || continue
@@ -194,7 +195,13 @@ sync_endpoints() {
             *[!0-9.]*:*) printf 'IP-CIDR6,%s/128,no-resolve\n' "$server" >> "$rules" ;;
             *[!0-9.]* )
                 printf 'DOMAIN,%s\n' "$server" >> "$rules"
-                nslookup "$server" 223.5.5.5 2>/dev/null | awk '/^Name:/{found=1;next} found && /^Address [0-9]+:/{print $3}' | sed 's/#.*//' | while IFS= read -r address; do
+                for resolver in system 223.5.5.5 119.29.29.29 1.1.1.1 8.8.8.8; do
+                    if [ "$resolver" = system ]; then
+                        nslookup "$server" 2>/dev/null
+                    else
+                        nslookup "$server" "$resolver" 2>/dev/null
+                    fi
+                done | awk '/^Name:/{found=1;next} found && /^Address [0-9]+:/{print $3}' | sort -u | while IFS= read -r address; do
                     case "$address" in
                         *:*) printf 'IP-CIDR6,%s/128,no-resolve\n' "$address" >> "$rules" ;;
                         *.*) printf 'IP-CIDR,%s/32,no-resolve\n' "$address" >> "$rules" ;;
