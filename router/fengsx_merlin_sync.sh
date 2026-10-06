@@ -72,7 +72,13 @@ download() {
     fi
     case "$url" in
         "$RAW_BASE"/*)
-            log 'GitHub Raw 下载失败，保留已验证的本地版本'
+            cdn_url="$CDN_BASE${url#"$RAW_BASE"}"
+            if curl -fsSL --connect-timeout 5 --max-time 30 "$cdn_url" -o "$target" 2>/dev/null || \
+               curl_with_bootstrap "$cdn_url" "$target"; then
+                log 'GitHub Raw 下载失败，已通过 jsDelivr 更新'
+                return 0
+            fi
+            log 'GitHub Raw 与 jsDelivr 均下载失败，保留已验证的本地版本'
             return 1
             ;;
         *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
@@ -129,6 +135,19 @@ ensure_lan_dns_hijack() {
         iptables -t nat -I PREROUTING 1 -i br0 -p tcp --dport 53 -j REDIRECT --to-ports 53
         log '已启用局域网 TCP 53 DNS 劫持'
     fi
+}
+
+ensure_firewall_hook() {
+    hook=/jffs/scripts/firewall-start
+    touch "$hook"
+    if ! grep -q 'FENGSX-DNS-HIJACK-BEGIN' "$hook" 2>/dev/null; then
+        {
+            printf '\n# FENGSX-DNS-HIJACK-BEGIN\n'
+            printf '/jffs/scripts/fengsx-merlin-sync dns-hijack >/tmp/fengsx_dns_hijack.log 2>&1\n'
+            printf '# FENGSX-DNS-HIJACK-END\n'
+        } >> "$hook"
+    fi
+    chmod 0755 "$hook"
 }
 patch_web() {
     [ -f "$WEB" ] || return 0
@@ -265,6 +284,10 @@ rebuild_active_custom_config() {
 }
 
 main() {
+    if [ "$1" = dns-hijack ]; then
+        ensure_lan_dns_hijack
+        exit 0
+    fi
     : > "$LOG"
     [ "$1" = updated ] || refresh_self
     if ! grep -q 'MCrule_Custom)' /koolshare/scripts/clash_subscribe.sh 2>/dev/null; then
@@ -275,6 +298,7 @@ main() {
     install_template
     patch_dns_compatibility
     ensure_lan_dns_hijack
+    ensure_firewall_hook
     patch_web
     ensure_schedule
     rebuild_active_custom_config

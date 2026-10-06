@@ -12,6 +12,7 @@ SOURCE=ROOT/'Shadowrocket.conf'
 OUTPUT=ROOT/'dist/rules-manifest.json'
 MERLIN_OUTPUT=ROOT/'dist/merlinclash-fengsx.yaml'
 BUILTINS={'DIRECT','PROXY','REJECT'}
+METADATA_EXCLUDE='剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧'
 def section_lines(text,name):
     marker=f'[{name}]'
     if marker not in text: raise RuntimeError(f'缺少配置段：{marker}')
@@ -89,6 +90,7 @@ def compile_merlin(groups, rules, final):
         '  - name: "♻️ 自动选择"',
         '    type: url-test',
         '    include-all: true',
+        f'    exclude-filter: {yaml_value(METADATA_EXCLUDE)}',
         '    proxies:',
         '      - "REJECT"',
         '    url: "https://www.gstatic.com/generate_204"',
@@ -112,6 +114,7 @@ def compile_merlin(groups, rules, final):
         lines.append(f'    type: {kind}')
         if kind == 'url-test':
             lines.append('    include-all: true')
+            lines.append(f'    exclude-filter: {yaml_value(METADATA_EXCLUDE)}')
             lines.append(f'    filter: {yaml_value(group["attributes"].get("policy-regex-filter", ".+"))}')
             append_list(lines, 'proxies', ['REJECT'])
             lines.append(f'    url: {yaml_value(group["attributes"].get("url", "https://www.gstatic.com/generate_204"))}')
@@ -126,6 +129,7 @@ def compile_merlin(groups, rules, final):
                 options.append(mapped)
         if name == '🚀 节点选择':
             lines.append('    include-all: true')
+            lines.append(f'    exclude-filter: {yaml_value(METADATA_EXCLUDE)}')
             options.insert(0, '♻️ 自动选择')
         selected = mapped_target(group['attributes'].get('policy-select-name', ''))
         if selected and selected in options:

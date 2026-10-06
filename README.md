@@ -105,7 +105,7 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 - 节点域名启动解析：使用直连的 Cloudflare / AliDNS DoH 获取节点真实 IP，避免连接 MerlinClash Fake-IP 网络时节点域名落入 198.18.0.0/15
 - HTTPDNS：采用上游 `BlockHttpDNS.list`，默认由 `🧱 DNS 防泄露` 策略组 REJECT
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
-- QUIC 屏蔽：对代理连接屏蔽 UDP/443，强制回退 HTTP/2
+- Shadowrocket QUIC 策略：仅对 Shadowrocket 的代理连接屏蔽 UDP/443 并回退 HTTP/2；MerlinClash 不做全局 UDP/443 拦截
 - 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
 - Apple 分流：采用上游 Apple / ApplePush 规则和策略组；WLOC 定位域名保留 DIRECT 例外
 - 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
@@ -139,7 +139,9 @@ Shadowrocket 配置唯一稳定来源为本 fork 的 GitHub Raw；东京服务�
 
 - `dist/merlinclash-fengsx.yaml` 由同一份 `Shadowrocket.conf` 自动编译，与 Shadowrocket 共用策略和规则顺序。
 - Magic Catling 2 中选择 `FENGSX规则`，节点仍直接使用原始订阅地址，不经过 Cloudflare 重新组装。
-- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；GitHub Raw 不可达时自动改用 jsDelivr 的 GitHub CDN。
+- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；GitHub Raw 不可达时自动改用 jsDelivr，二者均失败才保留本地已验证版本。
+- 脚本通过 `firewall-start` 在防火墙或 NAT 重建后恢复局域网 TCP 53 劫持，避免等待下一次定时同步。
+- 自动选择与地区组统一排除流量、到期时间、官网和版本等订阅说明节点。
 - 脚本会从已登记订阅的 provider 缓存中提取节点域名/IP，生成最高优先级直连规则；手机开启 Shadowrocket 时避免双重代理，关闭后仍由路由器代理。
 - 临时 SOCKS5 只要存在于已登记订阅中，其端点也会自动直连；未知节点不做流量特征猜测。
 
