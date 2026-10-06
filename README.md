@@ -139,7 +139,7 @@ Shadowrocket 配置使用本 fork 的 JSDMirror 公益镜像；东京服务器�
 
 - `dist/merlinclash-fengsx.yaml` 由同一份 `Shadowrocket.conf` 自动编译，与 Shadowrocket 共用策略和规则顺序。
 - Magic Catling 2 中选择 `FENGSX规则`，节点仍直接使用原始订阅地址，不经过 Cloudflare 重新组装。
-- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；GitHub Raw 不可达时先通过 GitHub API 确定 main 的提交 SHA，再使用该固定提交的 jsDelivr 地址，避免 @main 缓存滞后；全部失败才保留本地已验证版本。
+- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；主用 JSDMirror 公益镜像跟随 main 分支，下载失败时切换到 githubproxy.cc 的 GitHub Raw 透明代理；两者均失败时保留本地已验证版本。
 - 脚本通过 `firewall-start` 在防火墙或 NAT 重建后恢复局域网 TCP 53 劫持，避免等待下一次定时同步。
 - 自动选择与地区组统一排除流量、到期时间、官网和版本等订阅说明节点。
 - 脚本会从已登记订阅的 provider 缓存中提取节点域名/IP，生成最高优先级直连规则；手机开启 Shadowrocket 时避免双重代理，关闭后仍由路由器代理。
