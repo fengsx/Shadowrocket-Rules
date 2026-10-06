@@ -245,7 +245,6 @@ proxy-groups:
   - name: "💷 英国金融"
     type: fallback
     proxies:
-      - "🇬🇧 英国住宅"
       - "🇬🇧 英国普通"
       - "REJECT"
     url: "http://www.gstatic.com/generate_204"

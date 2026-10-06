@@ -99,7 +99,7 @@ def main() -> None:
         '🇬🇧 英国住宅 = url-test',
         '🇺🇸 美国普通 = url-test',
         '🇬🇧 英国普通 = url-test',
-        '💷 英国金融 = fallback,🇬🇧 英国住宅,🇬🇧 英国普通,REJECT',
+        '💷 英国金融 = fallback,🇬🇧 英国普通,REJECT',
         '🏦 汇丰香港 = select,🇭🇰 香港节点,DIRECT',
         '🏦 香港银行 = select,🇭🇰 香港节点,DIRECT',
         '剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧',

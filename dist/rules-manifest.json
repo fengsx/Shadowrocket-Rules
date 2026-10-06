@@ -359,7 +359,6 @@
       },
       "name": "💷 英国金融",
       "options": [
-        "🇬🇧 英国住宅",
         "🇬🇧 英国普通",
         "REJECT"
       ],
@@ -1028,6 +1027,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "ea605001a4fffe2bc88c101bb49820cc342be4e75c35bf00a97e01f6fd536fad"
+    "sha256": "58e9b0e1f96998ef083bd25d4b857ccbaf10f42a224ea4d18ac4271bf351ae90"
   }
 }
