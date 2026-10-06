@@ -124,6 +124,12 @@ patch_dns_compatibility() {
     log '已设置规则下载域名的直连 DNS 引导'
 }
 
+ensure_lan_dns_hijack() {
+    if ! iptables -t nat -C PREROUTING -i br0 -p tcp --dport 53 -j REDIRECT --to-ports 53 >/dev/null 2>&1; then
+        iptables -t nat -I PREROUTING 1 -i br0 -p tcp --dport 53 -j REDIRECT --to-ports 53
+        log '已启用局域网 TCP 53 DNS 劫持'
+    fi
+}
 patch_web() {
     [ -f "$WEB" ] || return 0
     grep -q 'value="MCrule_Custom"' "$WEB" && return 0
@@ -268,6 +274,7 @@ main() {
     ensure_endpoint_file
     install_template
     patch_dns_compatibility
+    ensure_lan_dns_hijack
     patch_web
     ensure_schedule
     rebuild_active_custom_config
