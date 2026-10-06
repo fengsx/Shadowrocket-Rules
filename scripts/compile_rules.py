@@ -91,8 +91,6 @@ def compile_merlin(groups, rules, final):
         '    type: url-test',
         '    include-all: true',
         f'    exclude-filter: {yaml_value(METADATA_EXCLUDE)}',
-        '    proxies:',
-        '      - "REJECT"',
         '    url: "https://www.gstatic.com/generate_204"',
         '    interval: 300',
         '    tolerance: 80',
@@ -116,7 +114,6 @@ def compile_merlin(groups, rules, final):
             lines.append('    include-all: true')
             lines.append(f'    exclude-filter: {yaml_value(METADATA_EXCLUDE)}')
             lines.append(f'    filter: {yaml_value(group["attributes"].get("policy-regex-filter", ".+"))}')
-            append_list(lines, 'proxies', ['REJECT'])
             lines.append(f'    url: {yaml_value(group["attributes"].get("url", "https://www.gstatic.com/generate_204"))}')
             lines.append(f'    interval: {int(group["attributes"].get("interval", 600))}')
             lines.append(f'    tolerance: {int(group["attributes"].get("tolerance", 80))}')

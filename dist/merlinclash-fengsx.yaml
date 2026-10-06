@@ -5,8 +5,6 @@ proxy-groups:
     type: url-test
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
-    proxies:
-      - "REJECT"
     url: "https://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 80
@@ -38,8 +36,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇭🇰|HK|Hong|hong|香港|深港|沪港|京港|港"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -49,8 +45,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇹🇼|TW|TWN|Taiwan|Taipei|taiwan|台湾|台灣|台北|台中|新北|彰化"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -60,8 +54,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇯🇵|JP|Japan|japan|Tokyo|tokyo|日本|东京|大阪"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -71,8 +63,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇺🇸|US|USA|America|america|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约|沪美|美"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -82,8 +72,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
-    proxies:
-      - "REJECT"
     url: "https://chatgpt.com/cdn-cgi/trace"
     interval: 300
     tolerance: 0
@@ -93,8 +81,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "^(?=.*(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
-    proxies:
-      - "REJECT"
     url: "https://chatgpt.com/cdn-cgi/trace"
     interval: 300
     tolerance: 0
@@ -104,8 +90,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇬🇧|英国|UK|London|LHR"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -115,8 +99,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "(?=.*(?:🇬🇧|英国|UK|London|LHR))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -126,8 +108,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "^(?=.*(?:🇬🇧|英国|UK|London|LHR))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -137,8 +117,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "🇰🇷|韩国|KR|Korea|ICN|SEL"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -148,8 +126,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "^(?!.*(?:剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧))((?!(🇭🇰|HK|Hong|hong|香港|深港|沪港|京港|港|🇹🇼|TW|TWN|Taiwan|Taipei|taiwan|台湾|台灣|台北|台中|新北|彰化|🇯🇵|JP|Japan|japan|Tokyo|tokyo|日本|东京|大阪|🇺🇸|US|USA|America|america|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约|沪美|美|🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL)).)*$"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 0
@@ -159,8 +135,6 @@ proxy-groups:
     include-all: true
     exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
     filter: "家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND"
-    proxies:
-      - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 600
     tolerance: 80
