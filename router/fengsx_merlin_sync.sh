@@ -195,7 +195,7 @@ sync_endpoints() {
             *[!0-9.]*:*) printf 'IP-CIDR6,%s/128,no-resolve\n' "$server" >> "$rules" ;;
             *[!0-9.]* )
                 printf 'DOMAIN,%s\n' "$server" >> "$rules"
-                for resolver in system 223.5.5.5 119.29.29.29 1.1.1.1 8.8.8.8; do
+                for resolver in system 223.5.5.5; do
                     if [ "$resolver" = system ]; then
                         nslookup "$server" 2>/dev/null
                     else
