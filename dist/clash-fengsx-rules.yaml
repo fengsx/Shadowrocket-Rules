@@ -468,6 +468,7 @@ rules:
   - RULE-SET,fengsx_uk_finance,💷 英国金融
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
+  - DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
   - DOMAIN,gs-loc.apple.com,DIRECT
   - DOMAIN,gs-loc-cn.apple.com,DIRECT
   - DOMAIN,gsp-ssl.ls.apple.com,DIRECT

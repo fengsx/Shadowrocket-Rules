@@ -50,6 +50,8 @@ RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
+# 蜜雪冰城小程序及静态资源明确使用国内直连，避免依赖 GEOIP 兜底。
+DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
 DOMAIN,gs-loc.apple.com,DIRECT
 DOMAIN,gs-loc-cn.apple.com,DIRECT
 DOMAIN,gsp-ssl.ls.apple.com,DIRECT

@@ -78,6 +78,7 @@ def main() -> None:
         'block-quic = all-proxy',
         'httpdns-api.aliyuncs.com,DIRECT',
         'httpdns.volcengineapi.com,DIRECT',
+        'DOMAIN-SUFFIX,mxbc.net,🔒 国内服务',
         'BlockHttpDNS.list,🧱 DNS 防泄露',
         'ApplePush.list,🍎 苹果推送',
         'Apple.list,🍏 苹果服务',
