@@ -69,14 +69,15 @@ patch_dynamic_finance_groups() {
     finance_changed=0
     if "$YQ" eval '.proxies[]?.name' "$provider" 2>/dev/null | grep -Eiq '(英国|UK|London|LHR).*(家宽|住宅|resident|residential|home[ _-]*broadband)|(家宽|住宅|resident|residential|home[ _-]*broadband).*(英国|UK|London|LHR)'; then
         desired='["🇬🇧 英国住宅", "🇬🇧 英国普通", "REJECT"]'
+        desired_csv='🇬🇧 英国住宅,🇬🇧 英国普通,REJECT'
     else
         desired='["🇬🇧 英国普通", "REJECT"]'
+        desired_csv='🇬🇧 英国普通,REJECT'
     fi
     for config in /koolshare/merlinclash/yaml_bak/$current.yaml /koolshare/merlinclash/yaml_use/$current.yaml; do
         [ -f "$config" ] || continue
-        actual=$("$YQ" eval -o=json '."proxy-groups"[] | select(.name == "💷 英国金融") | .proxies' "$config" 2>/dev/null | tr -d ' \n')
-        expected=$(printf '%s' "$desired" | tr -d ' ')
-        [ "$actual" = "$expected" ] && continue
+        actual=$("$YQ" eval '."proxy-groups"[] | select(.name == "💷 英国金融") | .proxies[]' "$config" 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+        [ "$actual" = "$desired_csv" ] && continue
         "$YQ" eval -i '(."proxy-groups"[] | select(.name == "💷 英国金融").proxies) = '"$desired" "$config"
         finance_changed=1
     done
