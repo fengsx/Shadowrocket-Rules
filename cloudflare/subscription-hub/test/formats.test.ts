@@ -1,26 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { nodeUri, parseNodes, renderMihomoNodes } from "../src/core";
-import { parse } from "yaml";
+import { nodeUri, parseNodes } from "../src/core";
 
 const encoded = (value: string) => Buffer.from(value, "utf8").toString("base64");
-
-describe("仅节点订阅", () => {
-  it("只输出 proxies，不混入规则和策略组", () => {
-    const content = renderMihomoNodes([{
-      name: "日本测试节点",
-      type: "ss",
-      server: "jp.example.com",
-      port: 8388,
-      cipher: "aes-128-gcm",
-      password: "secret",
-    }]);
-    const value = parse(content);
-    expect(value.proxies).toHaveLength(1);
-    expect(value["proxy-groups"]).toBeUndefined();
-    expect(value.rules).toBeUndefined();
-    expect(value["rule-providers"]).toBeUndefined();
-  });
-});
 
 describe("常见订阅格式", () => {
   it("解析 Base64 URI 列表以及 VMess、SS、hy2、TUIC", async () => {

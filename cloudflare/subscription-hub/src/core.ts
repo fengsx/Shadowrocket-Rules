@@ -514,10 +514,6 @@ function ruleLine(rule: ManifestRule, ids: Map<string, string>) {
   return `${tokens[rule.kind]},${rule.value},${target}${rule.noResolve ? ",no-resolve" : ""}`;
 }
 
-export function renderMihomoNodes(nodes: ProxyNode[]) {
-  return stringify({ proxies: nodes.filter((node) => node.type !== "openvpn") });
-}
-
 export function renderMihomo(nodes: ProxyNode[], manifest: RuleManifest, merlin: boolean) {
   const outputNodes = merlin ? nodes.filter((node) => node.type !== "openvpn") : nodes;
   const provider = providers(manifest.rules, manifest.source.sha256.slice(0, 12));
