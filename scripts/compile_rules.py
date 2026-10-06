@@ -11,12 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'Shadowrocket.conf'
 OUTPUT=ROOT/'dist/rules-manifest.json'
 MERLIN_OUTPUT=ROOT/'dist/merlinclash-fengsx.yaml'
-MERLIN_MIRROR_OUTPUT=ROOT/'dist/merlinclash-fengsx-jsdmirror.yaml'
 CLASH_OUTPUT=ROOT/'dist/clash-fengsx-rules.yaml'
-CLASH_MIRROR_OUTPUT=ROOT/'dist/clash-fengsx-rules-jsdmirror.yaml'
-SHADOWROCKET_MIRROR_OUTPUT=ROOT/'dist/Shadowrocket-jsdmirror.conf'
-FORK_RAW='https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main'
-FORK_MIRROR='https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main'
 BUILTINS={'DIRECT','PROXY','REJECT'}
 METADATA_EXCLUDE='剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧'
 def section_lines(text,name):
@@ -65,13 +60,6 @@ def yaml_value(value):
 def mapped_target(name):
     return '🚀 节点选择' if name == 'PROXY' else name
 
-def delivery_url(url, mirror=False):
-    match = re.fullmatch(r'https://raw\.githubusercontent\.com/([^/]+)/([^/]+)/(?:refs/heads/)?([^/]+)/(.*)', url)
-    if not match or not mirror:
-        return url
-    owner, repository, branch, path = match.groups()
-    return f'https://cdn.jsdmirror.com/gh/{owner}/{repository}@{branch}/{path}'
-
 def append_list(lines, key, values, indent=4):
     lines.append(' ' * indent + f'{key}:')
     for value in values:
@@ -85,7 +73,7 @@ def provider_base_name(url):
         raise RuntimeError(f'无法从规则地址生成可读名称：{url}')
     return f'fengsx_{stem}'
 
-def compile_clash(groups, rules, final, output, marker, include_node_endpoints, mirror):
+def compile_clash(groups, rules, final, output, marker, include_node_endpoints):
     lines = [
         '# 由 scripts/compile_rules.py 自动生成，请勿手工修改。',
         f'# {marker}',
@@ -174,7 +162,7 @@ def compile_clash(groups, rules, final, output, marker, include_node_endpoints, 
             '    type: http',
             f'    behavior: {"domain" if rule["kind"] == "domain_set" else "classical"}',
             '    format: text',
-            f'    url: {yaml_value(delivery_url(rule["value"], mirror=mirror))}',
+            f'    url: {yaml_value(rule["value"])}',
             f'    path: ./rule_provider/fengsx/{provider}.list',
             '    interval: 21600',
         ])
@@ -209,10 +197,7 @@ def main():
     rules,final=compile_rules(text,BUILTINS|{g['name'] for g in groups})
     manifest={'schemaVersion':1,'source':{'repository':'fengsx/Shadowrocket-Rules','path':'Shadowrocket.conf','sha256':hashlib.sha256(raw).hexdigest()},'policyGroups':groups,'rules':rules,'finalTarget':final}
     OUTPUT.parent.mkdir(parents=True,exist_ok=True); OUTPUT.write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
-    compile_clash(groups, rules, final, MERLIN_OUTPUT, 'FENGSX-MERLIN-TEMPLATE-V2', True, False)
-    compile_clash(groups, rules, final, MERLIN_MIRROR_OUTPUT, 'FENGSX-MERLIN-TEMPLATE-V2-JSDMIRROR', True, True)
-    compile_clash(groups, rules, final, CLASH_OUTPUT, 'FENGSX-CLASH-RULE-SCHEME-V1', False, False)
-    compile_clash(groups, rules, final, CLASH_MIRROR_OUTPUT, 'FENGSX-CLASH-RULE-SCHEME-V1-JSDMIRROR', False, True)
-    SHADOWROCKET_MIRROR_OUTPUT.write_text(text.replace(FORK_RAW, FORK_MIRROR))
-    print(f'编译完成：策略组={len(groups)}，规则={len(rules)}，Clash/MerlinClash/Shadowrocket Raw 与镜像产物已生成')
+    compile_clash(groups, rules, final, MERLIN_OUTPUT, 'FENGSX-MERLIN-TEMPLATE-V2', True)
+    compile_clash(groups, rules, final, CLASH_OUTPUT, 'FENGSX-CLASH-RULE-SCHEME-V1', False)
+    print(f'编译完成：策略组={len(groups)}，规则={len(rules)}，Clash/MerlinClash/Shadowrocket 权威产物已生成')
 if __name__=='__main__': main()

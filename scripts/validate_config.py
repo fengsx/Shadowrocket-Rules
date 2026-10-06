@@ -133,25 +133,18 @@ def main() -> None:
         for url in sorted(urls):
             check_online(url)
     artifacts = {
-        ROOT / 'dist/merlinclash-fengsx.yaml': ('FENGSX-MERLIN-TEMPLATE-V2', False),
-        ROOT / 'dist/merlinclash-fengsx-jsdmirror.yaml': ('FENGSX-MERLIN-TEMPLATE-V2-JSDMIRROR', True),
-        ROOT / 'dist/clash-fengsx-rules.yaml': ('FENGSX-CLASH-RULE-SCHEME-V1', False),
-        ROOT / 'dist/clash-fengsx-rules-jsdmirror.yaml': ('FENGSX-CLASH-RULE-SCHEME-V1-JSDMIRROR', True),
-        ROOT / 'dist/Shadowrocket-jsdmirror.conf': ('[General]', True),
+        ROOT / 'dist/merlinclash-fengsx.yaml': 'FENGSX-MERLIN-TEMPLATE-V2',
+        ROOT / 'dist/clash-fengsx-rules.yaml': 'FENGSX-CLASH-RULE-SCHEME-V1',
     }
-    for path, (marker, mirrored) in artifacts.items():
+    for path, marker in artifacts.items():
         content = path.read_text()
         if marker not in content:
             raise RuntimeError(f'发布产物缺少标记：{path.name}')
         if 'sub.qor.com.cn' in content:
             raise RuntimeError(f'发布产物仍依赖 sub.qor.com.cn：{path.name}')
-        own_mirror = 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main'
-        own_raw = 'raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main'
-        if mirrored and own_mirror not in content:
-            raise RuntimeError(f'镜像产物未使用 JSDMirror：{path.name}')
-        if not mirrored and own_mirror in content:
+        if 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main' in content:
             raise RuntimeError(f'权威产物错误写入 JSDMirror：{path.name}')
-        if not mirrored and own_raw not in content:
+        if 'raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main' not in content:
             raise RuntimeError(f'权威产物未使用 GitHub Raw：{path.name}')
     if 'FENGSX-NodeEndpoints' in (ROOT / 'dist/clash-fengsx-rules.yaml').read_text():
         raise RuntimeError('通用 Clash 规则不应包含 MerlinClash 本地端点提供器')

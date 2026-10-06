@@ -4,8 +4,6 @@
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RAW_BASE=https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main
-MIRROR_BASE=https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main
-RAW_PROXY_BASE=https://githubproxy.cc/https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main
 SELF=/jffs/scripts/fengsx-merlin-sync
 TEMPLATE=/koolshare/merlinclash/rule_configs/rule_mc_custom.yaml
 ENDPOINTS=/koolshare/merlinclash/rule_custom/fengsx_node_endpoints.yaml
@@ -87,35 +85,13 @@ patch_dynamic_finance_groups() {
 download() {
     url="$1"
     target="$2"
-    if curl -fsSL --connect-timeout 5 --max-time 15 "$url" -o "$target" 2>/dev/null; then
+    if curl -fsSL --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null || \
+       curl_with_bootstrap "$url" "$target"; then
         return 0
     fi
-    if curl_with_bootstrap "$url" "$target"; then
-        return 0
-    fi
-    case "$url" in
-        "$RAW_BASE"/*)
-            path=${url#"$RAW_BASE"/}
-            path=${path%%\?*}
-            mirror_url="$MIRROR_BASE/$path"
-            proxy_url="$RAW_PROXY_BASE/$path"
-            if curl -fsSL --connect-timeout 5 --max-time 30 "$mirror_url" -o "$target" 2>/dev/null || \
-               curl_with_bootstrap "$mirror_url" "$target"; then
-                log 'GitHub Raw 下载失败，已通过 JSDMirror 镜像更新'
-                return 0
-            fi
-            if curl -fsSL --connect-timeout 5 --max-time 30 "$proxy_url" -o "$target" 2>/dev/null || \
-               curl_with_bootstrap "$proxy_url" "$target"; then
-                log 'GitHub Raw 与 JSDMirror 均失败，已通过 Raw 透明代理更新'
-                return 0
-            fi
-            log 'GitHub Raw、JSDMirror 与 Raw 透明代理均下载失败，保留已验证的本地版本'
-            return 1
-            ;;
-        *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
-    esac
+    log 'GitHub Raw 下载失败，保留已验证的本地版本'
+    return 1
 }
-
 refresh_self() {
     tmp=/tmp/fengsx_merlin_self.$$
     if download "$RAW_BASE/router/fengsx_merlin_sync.sh?ts=$(date +%s)" "$tmp" && \
