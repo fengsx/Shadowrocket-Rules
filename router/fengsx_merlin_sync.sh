@@ -93,13 +93,26 @@ download() {
     fi
     case "$url" in
         "$RAW_BASE"/*)
-            cdn_url="$CDN_BASE${url#"$RAW_BASE"}"
+            meta=/tmp/fengsx_github_meta.$$
+            api=https://api.github.com/repos/fengsx/Shadowrocket-Rules/commits/main
+            if curl -fsSL --connect-timeout 5 --max-time 20 "$api" -o "$meta" 2>/dev/null || \
+               curl_with_bootstrap "$api" "$meta"; then
+                sha=$(sed -n 's/^[[:space:]]*"sha": "\([0-9a-f]\{40\}\)",$/\1/p' "$meta" | head -1)
+            fi
+            rm -f "$meta"
+            case "$sha" in
+                [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*) ;;
+                *) log 'GitHub Raw 下载失败且无法确定 main 提交，保留已验证的本地版本'; return 1 ;;
+            esac
+            path=${url#"$RAW_BASE"/}
+            path=${path%%\?*}
+            cdn_url="https://cdn.jsdelivr.net/gh/fengsx/Shadowrocket-Rules@$sha/$path"
             if curl -fsSL --connect-timeout 5 --max-time 30 "$cdn_url" -o "$target" 2>/dev/null || \
                curl_with_bootstrap "$cdn_url" "$target"; then
-                log 'GitHub Raw 下载失败，已通过 jsDelivr 更新'
+                log "GitHub Raw 下载失败，已通过 jsDelivr 固定提交 $sha 更新"
                 return 0
             fi
-            log 'GitHub Raw 与 jsDelivr 均下载失败，保留已验证的本地版本'
+            log 'GitHub Raw 与固定提交 jsDelivr 均下载失败，保留已验证的本地版本'
             return 1
             ;;
         *) wget -q -T 45 -O "$target" "$url" 2>/dev/null ;;
