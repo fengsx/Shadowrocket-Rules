@@ -576,83 +576,83 @@
     },
     {
       "id": "rule-0019",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 190,
       "target": "🇭🇰 香港节点",
-      "value": "getsupport.apple.com"
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple-HK.list"
     },
     {
       "id": "rule-0020",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 200,
-      "target": "🇭🇰 香港节点",
-      "value": "support.apple.com"
+      "target": "🇺🇸 美国节点",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Twitter-US.list"
     },
     {
       "id": "rule-0021",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 210,
-      "target": "🇺🇸 美国节点",
-      "value": "twitter.com"
+      "target": "DIRECT",
+      "value": "dns.jd.com"
     },
     {
       "id": "rule-0022",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 220,
-      "target": "🇺🇸 美国节点",
-      "value": "x.com"
+      "target": "DIRECT",
+      "value": "dns.weibo.cn"
     },
     {
       "id": "rule-0023",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 230,
-      "target": "🇺🇸 美国节点",
-      "value": "twimg.com"
+      "target": "DIRECT",
+      "value": "dns.weixin.qq.com"
     },
     {
       "id": "rule-0024",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 240,
-      "target": "🇺🇸 美国节点",
-      "value": "t.co"
+      "target": "DIRECT",
+      "value": "dns.weixin.qq.com.cn"
     },
     {
       "id": "rule-0025",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 250,
-      "target": "🇺🇸 美国节点",
-      "value": "twittercdn.com"
+      "target": "DIRECT",
+      "value": "httpdns-api.aliyuncs.com"
     },
     {
       "id": "rule-0026",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 260,
-      "target": "🇺🇸 美国节点",
-      "value": "tweetdeck.com"
+      "target": "DIRECT",
+      "value": "httpdns-sc.aliyuncs.com"
     },
     {
       "id": "rule-0027",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 270,
-      "target": "🇺🇸 美国节点",
-      "value": "pscp.tv"
+      "target": "DIRECT",
+      "value": "httpdns.alicdn.com"
     },
     {
       "id": "rule-0028",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 280,
-      "target": "🇺🇸 美国节点",
-      "value": "periscope.tv"
+      "target": "DIRECT",
+      "value": "httpdns.bilivideo.com"
     },
     {
       "id": "rule-0029",
@@ -660,7 +660,7 @@
       "noResolve": false,
       "position": 290,
       "target": "DIRECT",
-      "value": "dns.jd.com"
+      "value": "httpdns.c.cdnhwc2.com"
     },
     {
       "id": "rule-0030",
@@ -668,7 +668,7 @@
       "noResolve": false,
       "position": 300,
       "target": "DIRECT",
-      "value": "dns.weibo.cn"
+      "value": "httpdns.meituan.com"
     },
     {
       "id": "rule-0031",
@@ -676,7 +676,7 @@
       "noResolve": false,
       "position": 310,
       "target": "DIRECT",
-      "value": "dns.weixin.qq.com"
+      "value": "httpdns.music.163.com"
     },
     {
       "id": "rule-0032",
@@ -684,7 +684,7 @@
       "noResolve": false,
       "position": 320,
       "target": "DIRECT",
-      "value": "dns.weixin.qq.com.cn"
+      "value": "httpdns.n.netease.com"
     },
     {
       "id": "rule-0033",
@@ -692,7 +692,7 @@
       "noResolve": false,
       "position": 330,
       "target": "DIRECT",
-      "value": "httpdns-api.aliyuncs.com"
+      "value": "httpdns.push.oppomobile.com"
     },
     {
       "id": "rule-0034",
@@ -700,7 +700,7 @@
       "noResolve": false,
       "position": 340,
       "target": "DIRECT",
-      "value": "httpdns-sc.aliyuncs.com"
+      "value": "httpdns.volcengineapi.com"
     },
     {
       "id": "rule-0035",
@@ -708,7 +708,7 @@
       "noResolve": false,
       "position": 350,
       "target": "DIRECT",
-      "value": "httpdns.alicdn.com"
+      "value": "httpdns.yunxindns.com"
     },
     {
       "id": "rule-0036",
@@ -716,7 +716,7 @@
       "noResolve": false,
       "position": 360,
       "target": "DIRECT",
-      "value": "httpdns.bilivideo.com"
+      "value": "lofter.httpdns.c.163.com"
     },
     {
       "id": "rule-0037",
@@ -724,39 +724,39 @@
       "noResolve": false,
       "position": 370,
       "target": "DIRECT",
-      "value": "httpdns.c.cdnhwc2.com"
+      "value": "music.httpdns.c.163.com"
     },
     {
       "id": "rule-0038",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 380,
       "target": "DIRECT",
-      "value": "httpdns.meituan.com"
+      "value": "httpdns.baidu.com"
     },
     {
       "id": "rule-0039",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 390,
       "target": "DIRECT",
-      "value": "httpdns.music.163.com"
+      "value": "httpdns.baidubce.com"
     },
     {
       "id": "rule-0040",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 400,
       "target": "DIRECT",
-      "value": "httpdns.n.netease.com"
+      "value": "httpsdns.baidu.com"
     },
     {
       "id": "rule-0041",
-      "kind": "domain",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 410,
-      "target": "DIRECT",
-      "value": "httpdns.push.oppomobile.com"
+      "target": "🧱 DNS 防泄露",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list"
     },
     {
       "id": "rule-0042",
@@ -764,95 +764,95 @@
       "noResolve": false,
       "position": 420,
       "target": "DIRECT",
-      "value": "httpdns.volcengineapi.com"
+      "value": "localhost.weixin.qq.com"
     },
     {
       "id": "rule-0043",
       "kind": "domain",
       "noResolve": false,
       "position": 430,
-      "target": "DIRECT",
-      "value": "httpdns.yunxindns.com"
+      "target": "🔒 国内服务",
+      "value": "dns.weixin.qq.com.cn"
     },
     {
       "id": "rule-0044",
       "kind": "domain",
       "noResolve": false,
       "position": 440,
-      "target": "DIRECT",
-      "value": "lofter.httpdns.c.163.com"
+      "target": "🔒 国内服务",
+      "value": "dns.weixin.qq.com"
     },
     {
       "id": "rule-0045",
       "kind": "domain",
       "noResolve": false,
       "position": 450,
-      "target": "DIRECT",
-      "value": "music.httpdns.c.163.com"
+      "target": "🔒 国内服务",
+      "value": "multimedia.nt.qq.com.cn"
     },
     {
       "id": "rule-0046",
       "kind": "domain_suffix",
       "noResolve": false,
       "position": 460,
-      "target": "DIRECT",
-      "value": "httpdns.baidu.com"
+      "target": "🔒 国内服务",
+      "value": "qlogo.cn"
     },
     {
       "id": "rule-0047",
       "kind": "domain_suffix",
       "noResolve": false,
       "position": 470,
-      "target": "DIRECT",
-      "value": "httpdns.baidubce.com"
+      "target": "🔒 国内服务",
+      "value": "qpic.cn"
     },
     {
       "id": "rule-0048",
       "kind": "domain_suffix",
       "noResolve": false,
       "position": 480,
-      "target": "DIRECT",
-      "value": "httpsdns.baidu.com"
+      "target": "🔒 国内服务",
+      "value": "weixin.com"
     },
     {
       "id": "rule-0049",
-      "kind": "rule_set",
-      "noResolve": false,
+      "kind": "cidr",
+      "noResolve": true,
       "position": 490,
-      "target": "🧱 DNS 防泄露",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list"
+      "target": "🔒 国内服务",
+      "value": "119.29.29.98/31"
     },
     {
       "id": "rule-0050",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 500,
-      "target": "DIRECT",
-      "value": "localhost.weixin.qq.com"
+      "target": "🏠 私有网络",
+      "value": "local"
     },
     {
       "id": "rule-0051",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 510,
-      "target": "🔒 国内服务",
-      "value": "dns.weixin.qq.com.cn"
+      "target": "🏠 私有网络",
+      "value": "in-addr.arpa"
     },
     {
       "id": "rule-0052",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 520,
-      "target": "🔒 国内服务",
-      "value": "dns.weixin.qq.com"
+      "target": "🏠 私有网络",
+      "value": "ip6.arpa"
     },
     {
       "id": "rule-0053",
-      "kind": "domain",
+      "kind": "domain_suffix",
       "noResolve": false,
       "position": 530,
       "target": "🔒 国内服务",
-      "value": "multimedia.nt.qq.com.cn"
+      "value": "doubao.com"
     },
     {
       "id": "rule-0054",
@@ -860,7 +860,7 @@
       "noResolve": false,
       "position": 540,
       "target": "🔒 国内服务",
-      "value": "qlogo.cn"
+      "value": "deepseek.com"
     },
     {
       "id": "rule-0055",
@@ -868,277 +868,213 @@
       "noResolve": false,
       "position": 550,
       "target": "🔒 国内服务",
-      "value": "qpic.cn"
+      "value": "deepseeksvc.com"
     },
     {
       "id": "rule-0056",
-      "kind": "domain_suffix",
+      "kind": "raw",
       "noResolve": false,
       "position": 560,
-      "target": "🔒 国内服务",
-      "value": "weixin.com"
+      "target": "🍎 苹果推送",
+      "value": "AND,((PROTOCOL,TCP),(DST-PORT,5223))"
     },
     {
       "id": "rule-0057",
       "kind": "cidr",
       "noResolve": true,
       "position": 570,
-      "target": "🔒 国内服务",
-      "value": "119.29.29.98/31"
+      "target": "🇺🇸 美国节点",
+      "value": "208.54.0.0/16"
     },
     {
       "id": "rule-0058",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 580,
-      "target": "🏠 私有网络",
-      "value": "local"
+      "target": "📧 邮件服务",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Mail.list"
     },
     {
       "id": "rule-0059",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 590,
-      "target": "🏠 私有网络",
-      "value": "in-addr.arpa"
+      "target": "📹 油管视频",
+      "value": "translate.googleapis.com"
     },
     {
       "id": "rule-0060",
-      "kind": "domain_suffix",
+      "kind": "domain",
       "noResolve": false,
       "position": 600,
-      "target": "🏠 私有网络",
-      "value": "ip6.arpa"
+      "target": "📹 油管视频",
+      "value": "translate-pa.googleapis.com"
     },
     {
       "id": "rule-0061",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 610,
-      "target": "🔒 国内服务",
-      "value": "doubao.com"
+      "target": "🔍 谷歌服务",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Google.list"
     },
     {
       "id": "rule-0062",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 620,
-      "target": "🔒 国内服务",
-      "value": "deepseek.com"
+      "target": "🤖 AI 服务",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/AI.list"
     },
     {
       "id": "rule-0063",
-      "kind": "domain_suffix",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 630,
-      "target": "🔒 国内服务",
-      "value": "deepseeksvc.com"
+      "target": "📹 油管视频",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/YouTube/YouTube.list"
     },
     {
       "id": "rule-0064",
-      "kind": "raw",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 640,
-      "target": "🍎 苹果推送",
-      "value": "AND,((PROTOCOL,TCP),(DST-PORT,5223))"
+      "target": "🔒 国内服务",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BiliBili/BiliBili.list"
     },
     {
       "id": "rule-0065",
-      "kind": "cidr",
-      "noResolve": true,
+      "kind": "rule_set",
+      "noResolve": false,
       "position": 650,
-      "target": "🇺🇸 美国节点",
-      "value": "208.54.0.0/16"
+      "target": "🏠 私有网络",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Lan/Lan.list"
     },
     {
       "id": "rule-0066",
       "kind": "rule_set",
       "noResolve": false,
       "position": 660,
-      "target": "📧 邮件服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Mail.list"
+      "target": "📲 电报消息",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list"
     },
     {
       "id": "rule-0067",
-      "kind": "domain",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 670,
-      "target": "📹 油管视频",
-      "value": "translate.googleapis.com"
+      "target": "🐱 代码托管",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitHub/GitHub.list"
     },
     {
       "id": "rule-0068",
-      "kind": "domain",
+      "kind": "rule_set",
       "noResolve": false,
       "position": 680,
-      "target": "📹 油管视频",
-      "value": "translate-pa.googleapis.com"
+      "target": "🐱 代码托管",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitLab/GitLab.list"
     },
     {
       "id": "rule-0069",
       "kind": "rule_set",
       "noResolve": false,
       "position": 690,
-      "target": "🔍 谷歌服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Google.list"
+      "target": "🐱 代码托管",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Atlassian/Atlassian.list"
     },
     {
       "id": "rule-0070",
       "kind": "rule_set",
       "noResolve": false,
       "position": 700,
-      "target": "🤖 AI 服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/AI.list"
+      "target": "Ⓜ️ 微软服务",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Microsoft/Microsoft.list"
     },
     {
       "id": "rule-0071",
       "kind": "rule_set",
       "noResolve": false,
       "position": 710,
-      "target": "📹 油管视频",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/YouTube/YouTube.list"
+      "target": "🏦 汇丰香港",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HSBC_HK.list"
     },
     {
       "id": "rule-0072",
       "kind": "rule_set",
       "noResolve": false,
       "position": 720,
-      "target": "🔒 国内服务",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BiliBili/BiliBili.list"
+      "target": "🏦 香港银行",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Banks_Direct.list"
     },
     {
       "id": "rule-0073",
       "kind": "rule_set",
       "noResolve": false,
       "position": 730,
-      "target": "🏠 私有网络",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Lan/Lan.list"
+      "target": "📈 券商服务",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Broker.list"
     },
     {
       "id": "rule-0074",
       "kind": "rule_set",
       "noResolve": false,
       "position": 740,
-      "target": "📲 电报消息",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list"
+      "target": "🍎 苹果推送",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/ApplePush.list"
     },
     {
       "id": "rule-0075",
       "kind": "rule_set",
       "noResolve": false,
       "position": 750,
-      "target": "🐱 代码托管",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitHub/GitHub.list"
+      "target": "🍏 苹果服务",
+      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple.list"
     },
     {
       "id": "rule-0076",
-      "kind": "rule_set",
+      "kind": "domain_set",
       "noResolve": false,
       "position": 760,
-      "target": "🐱 代码托管",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitLab/GitLab.list"
+      "target": "🍏 苹果服务",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple_Domain.list"
     },
     {
       "id": "rule-0077",
       "kind": "rule_set",
       "noResolve": false,
       "position": 770,
-      "target": "🐱 代码托管",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Atlassian/Atlassian.list"
+      "target": "🔒 国内服务",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list"
     },
     {
       "id": "rule-0078",
-      "kind": "rule_set",
+      "kind": "domain_set",
       "noResolve": false,
       "position": 780,
-      "target": "Ⓜ️ 微软服务",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Microsoft/Microsoft.list"
+      "target": "🔒 国内服务",
+      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China_Domain.list"
     },
     {
       "id": "rule-0079",
       "kind": "rule_set",
       "noResolve": false,
       "position": 790,
-      "target": "🏦 汇丰香港",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HSBC_HK.list"
-    },
-    {
-      "id": "rule-0080",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 800,
-      "target": "🏦 香港银行",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Banks_Direct.list"
-    },
-    {
-      "id": "rule-0081",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 810,
-      "target": "📈 券商服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK_Broker.list"
-    },
-    {
-      "id": "rule-0082",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 820,
-      "target": "🍎 苹果推送",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/ApplePush.list"
-    },
-    {
-      "id": "rule-0083",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 830,
-      "target": "🍏 苹果服务",
-      "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple.list"
-    },
-    {
-      "id": "rule-0084",
-      "kind": "domain_set",
-      "noResolve": false,
-      "position": 840,
-      "target": "🍏 苹果服务",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple_Domain.list"
-    },
-    {
-      "id": "rule-0085",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 850,
-      "target": "🔒 国内服务",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list"
-    },
-    {
-      "id": "rule-0086",
-      "kind": "domain_set",
-      "noResolve": false,
-      "position": 860,
-      "target": "🔒 国内服务",
-      "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China_Domain.list"
-    },
-    {
-      "id": "rule-0087",
-      "kind": "rule_set",
-      "noResolve": false,
-      "position": 870,
       "target": "🌍 非中国",
       "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global.list"
     },
     {
-      "id": "rule-0088",
+      "id": "rule-0080",
       "kind": "domain_set",
       "noResolve": false,
-      "position": 880,
+      "position": 800,
       "target": "🌍 非中国",
       "value": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global_Domain.list"
     },
     {
-      "id": "rule-0089",
+      "id": "rule-0081",
       "kind": "geoip",
       "noResolve": false,
-      "position": 890,
+      "position": 810,
       "target": "🔒 国内服务",
       "value": "CN"
     }
@@ -1147,6 +1083,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "858ffa882a9e6712f891ac5b3542f9a937e1610c5aa3229a550609e4b4617001"
+    "sha256": "6ce0bcdb9d0f408884bd38af860a61b8da4e3e4b0786f9ae61c948e82f01335a"
   }
 }

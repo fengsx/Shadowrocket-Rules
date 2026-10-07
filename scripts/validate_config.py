@@ -48,7 +48,7 @@ def main() -> None:
     if 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main' in text:
         raise RuntimeError('权威 Shadowrocket 配置不应写死 JSDMirror')
     sections = parse_sections(text)
-    required = {'General','Proxy','Proxy Group','Rule','Script','Host','URL Rewrite','MITM'}
+    required = {'General','Proxy','Proxy Group','Rule','Host','URL Rewrite','MITM'}
     missing = required - sections.keys()
     if missing:
         raise RuntimeError(f'缺少配置段：{sorted(missing)}')
@@ -79,12 +79,6 @@ def main() -> None:
         'httpdns-api.aliyuncs.com,DIRECT',
         'httpdns.volcengineapi.com,DIRECT',
         'DOMAIN-SUFFIX,mxbc.net,🔒 国内服务',
-        'DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点',
-        'DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点',
-        'DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点',
-        'DOMAIN-SUFFIX,x.com,🇺🇸 美国节点',
-        'DOMAIN-SUFFIX,twimg.com,🇺🇸 美国节点',
-        'DOMAIN-SUFFIX,t.co,🇺🇸 美国节点',
         'BlockHttpDNS.list,🧱 DNS 防泄露',
         'ApplePush.list,🍎 苹果推送',
         'Apple.list,🍏 苹果服务',
@@ -113,14 +107,28 @@ def main() -> None:
         '🏦 香港银行 = select,🇭🇰 香港节点,DIRECT',
         '剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧',
         '🇺🇸 美国节点 = url-test',
-        '# CODEX-BEGIN WLOC',
-        'gsp-ssl.ls.apple.com',
-        'enable = true',
+        'Apple-HK.list,🇭🇰 香港节点',
+        'Twitter-US.list,🇺🇸 美国节点',
         '🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL',
     ]
     absent=[item for item in expected if item not in text]
     if absent:
         raise RuntimeError(f'缺少预期规则：{absent}')
+    for forbidden in ['# CODEX-BEGIN WLOC', 'Apple WLOC = type=http-response', 'WLOC Settings = type=http-request', 'enable = true']:
+        if forbidden in text:
+            raise RuntimeError(f'Shadowrocket 主配置仍内嵌 WLOC/MITM 状态：{forbidden}')
+    mitm_body = text.split('[MITM]', 1)[1]
+    for host in ['gs-loc.apple.com', 'gs-loc-cn.apple.com', 'gsp-ssl.ls.apple.com', 'bluedot.is.autonavi.com']:
+        if host in mitm_body:
+            raise RuntimeError(f'Shadowrocket 主配置仍内嵌 WLOC MITM 域名：{host}')
+    apple_hk = (ROOT / 'Apple-HK.list').read_text()
+    for item in ['getsupport.apple.com', 'support.apple.com']:
+        if item not in apple_hk:
+            raise RuntimeError(f'Apple-HK.list 缺少域名：{item}')
+    twitter_us = (ROOT / 'Twitter-US.list').read_text()
+    for item in ['twitter.com', 'x.com', 'twimg.com', 't.co']:
+        if item not in twitter_us:
+            raise RuntimeError(f'Twitter-US.list 缺少域名：{item}')
     us_apps = (ROOT / 'US-Apps.list').read_text()
     for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com']:
         if item not in us_apps:

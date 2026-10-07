@@ -64,6 +64,7 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 - [iab0x00/ProxyRules](https://github.com/iab0x00/ProxyRules) — AI 服务补充规则
 - `Mail.list` 收录 Apple、Gmail、Outlook、Yahoo、Yandex 的邮件协议端点
 - `Apple.list` 基于 blackmatrix7 Apple 规则，并配套加载 `Apple_Domain.list`，补充 iCloud Photos / Apple CDN 直连域名
+- `Apple-HK.list` 维护需经香港节点访问的 Apple 支持页面；`Twitter-US.list` 维护 Twitter / X 的美国分流
 - `HK_Broker.list` 补充富途 / moomoo / 长桥 / 老虎 / 雪盈 / TradeUP / Schwab 证券域名及交易 IP 段
 - `HSBC_HK.list` 与 `HK_Banks_Direct.list` 收录香港银行网站及 App 服务域名
 
@@ -79,9 +80,9 @@ MIT
 - 美国策略：Amazon、eBay、Oracle、Equifax、Google.com、Majority、Talkatone、Capital One、Red Pocket、Revolut。
 - 英国金融策略：Krak、Kraken、Lloyds、Zopa、Monzo、Freetrade、Tide、Trading 212、Plum、iFAST GB，默认使用英国节点。
 - 英国、韩国节点策略组，便于不同设备独立选择默认出口。
-- WLOC Shadowrocket 脚本、Apple 网络定位域名、MITM 主机列表及私有控制入口。
+- WLOC 分流策略组及私有控制入口；WLOC 脚本和 MITM 主机列表由 `fengsx/wloc` 独立模块维护。
 - DNS 覆写使用 Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH；国内直连域名继续使用系统 DNS。
 - 所有仓库内规则引用和 update-url 均指向本 fork。
 
-WLOC 需要在 Shadowrocket 中启用 HTTPS 解密，并完全信任 Shadowrocket 生成的 CA。iOS 27 正式版存在系统级 MITM 限制，详见 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法)。
+WLOC 模块地址：`https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module`。安装并启用模块后，在 Shadowrocket 中生成、安装并完全信任本机 CA 一次。日常域名调整通过远程 `.list` 自动更新，不需要重新更新完整 `Shadowrocket.conf`，因此不会替换 WLOC 模块或 CA。只有策略组或 DNS 结构变化时才重新导入主配置。iOS 27 正式版存在系统级 MITM 限制，详见 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法)。
 <!-- CODEX-END CUSTOMIZATION -->

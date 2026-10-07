@@ -301,6 +301,20 @@ rule-providers:
     url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 21600
+  fengsx_apple_hk:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Apple-HK.list"
+    path: ./rule_provider/fengsx/fengsx_apple_hk.list
+    interval: 21600
+  fengsx_twitter_us:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Twitter-US.list"
+    path: ./rule_provider/fengsx/fengsx_twitter_us.list
+    interval: 21600
   fengsx_block_http_dns:
     type: http
     behavior: classical
@@ -474,16 +488,8 @@ rules:
   - DOMAIN,gsp-ssl.ls.apple.com,📍 WLOC 定位
   - DOMAIN,bluedot.is.autonavi.com,📍 WLOC 定位
   - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
-  - DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
-  - DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点
-  - DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,x.com,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,twimg.com,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,t.co,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,twittercdn.com,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,tweetdeck.com,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,pscp.tv,🇺🇸 美国节点
-  - DOMAIN-SUFFIX,periscope.tv,🇺🇸 美国节点
+  - RULE-SET,fengsx_apple_hk,🇭🇰 香港节点
+  - RULE-SET,fengsx_twitter_us,🇺🇸 美国节点
   - DOMAIN,dns.jd.com,DIRECT
   - DOMAIN,dns.weibo.cn,DIRECT
   - DOMAIN,dns.weixin.qq.com,DIRECT

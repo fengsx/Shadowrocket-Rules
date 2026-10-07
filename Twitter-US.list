@@ -1,0 +1,9 @@
+# Twitter / X 及其静态资源走美国节点。
+DOMAIN-SUFFIX,twitter.com
+DOMAIN-SUFFIX,x.com
+DOMAIN-SUFFIX,twimg.com
+DOMAIN-SUFFIX,t.co
+DOMAIN-SUFFIX,twittercdn.com
+DOMAIN-SUFFIX,tweetdeck.com
+DOMAIN-SUFFIX,pscp.tv
+DOMAIN-SUFFIX,periscope.tv

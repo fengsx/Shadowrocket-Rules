@@ -58,19 +58,9 @@ DOMAIN,gsp-ssl.ls.apple.com,📍 WLOC 定位
 DOMAIN,bluedot.is.autonavi.com,📍 WLOC 定位
 DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
 
-# Apple 支持页面走香港；App Store、iCloud 和其他 Apple 服务仍由通用 Apple 规则直连。
-DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
-DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点
-
-# Twitter / X 及其静态资源统一走美国节点。
-DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点
-DOMAIN-SUFFIX,x.com,🇺🇸 美国节点
-DOMAIN-SUFFIX,twimg.com,🇺🇸 美国节点
-DOMAIN-SUFFIX,t.co,🇺🇸 美国节点
-DOMAIN-SUFFIX,twittercdn.com,🇺🇸 美国节点
-DOMAIN-SUFFIX,tweetdeck.com,🇺🇸 美国节点
-DOMAIN-SUFFIX,pscp.tv,🇺🇸 美国节点
-DOMAIN-SUFFIX,periscope.tv,🇺🇸 美国节点
+# Apple 支持与 Twitter / X 使用独立远程规则集；更新域名时不替换完整配置。
+RULE-SET,{FORK_RAW}/Apple-HK.list,🇭🇰 香港节点
+RULE-SET,{FORK_RAW}/Twitter-US.list,🇺🇸 美国节点
 
 # 国内 App 的 HTTPDNS 兼容例外必须位于通用拦截规则之前。
 DOMAIN,dns.jd.com,DIRECT
@@ -95,10 +85,6 @@ DOMAIN-SUFFIX,httpdns.baidubce.com,DIRECT
 DOMAIN-SUFFIX,httpsdns.baidu.com,DIRECT
 RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS.list,🧱 DNS 防泄露
 # CODEX-END PERSONAL POLICIES'''
-SCRIPT_BLOCK = '''# CODEX-BEGIN WLOC
-Apple WLOC = type=http-response,pattern=^https?:\\/\\/(?:gs-loc(?:-cn)?\\.apple\\.com|gsp-ssl\\.ls\\.apple\\.com|bluedot\\.is\\.autonavi\\.com(?:\\.gds\\.alibabadns\\.com)?)\\/clls\\/wloc,requires-body=1,binary-body-mode=1,max-size=0,timeout=30,script-path=https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/dist/wloc.js,argument=longitude=113.94114&latitude=22.544577&accuracy=25&randomRadius=0&logLevel=info
-WLOC Settings = type=http-request,pattern=^https?:\\/\\/gs-loc(-cn)?\\.apple\\.com\\/wloc-settings\\/save,requires-body=0,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/dist/wloc-settings.js
-# CODEX-END WLOC'''
 WLOC_HOSTS = ['gs-loc.apple.com', 'gs-loc-cn.apple.com', 'gsp-ssl.ls.apple.com', 'bluedot.is.autonavi.com', 'bluedot.is.autonavi.com.gds.alibabadns.com']
 
 def replace_managed(text: str, begin: str, end: str, block: str, anchor: str) -> str:
@@ -108,6 +94,10 @@ def replace_managed(text: str, begin: str, end: str, block: str, anchor: str) ->
     if anchor not in text:
         raise RuntimeError(f'缺少插入锚点：{anchor}')
     return text.replace(anchor, anchor + block + '\n\n', 1)
+
+def remove_managed(text: str, begin: str, end: str) -> str:
+    pattern = re.compile(re.escape(begin) + r'.*?' + re.escape(end) + r'\n*', re.DOTALL)
+    return pattern.sub('', text, count=1)
 
 def ensure_group_line(text: str, prefix: str, line: str, anchor_prefix: str) -> str:
     pattern = re.compile(rf'(?m)^{re.escape(prefix)}.*$')
@@ -161,28 +151,19 @@ def main() -> None:
     text = ensure_group_line(text, '🤖 AI 服务 =', AI_GROUP, '🧱 DNS 防泄露 =')
     text = re.sub(r'(?m)^RULE-SET,https://raw\.githubusercontent\.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS\.list,.*\n?', '', text)
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
-    if '[Script]' not in text:
-        if '[Host]' not in text:
-            raise RuntimeError('缺少 [Host]，无法插入 WLOC Script')
-        text = text.replace('[Host]', '[Script]\n' + SCRIPT_BLOCK + '\n\n[Host]', 1)
-    else:
-        text = replace_managed(text, '# CODEX-BEGIN WLOC', '# CODEX-END WLOC', SCRIPT_BLOCK, '[Script]\n')
+    # WLOC 脚本与 MITM 域名由 fengsx/wloc 的独立模块维护，避免完整配置更新替换本机 CA 状态。
+    text = remove_managed(text, '# CODEX-BEGIN WLOC', '# CODEX-END WLOC')
+    text = text.replace('# WLOC HTTPS 解密域名覆盖：Apple 定位、Apple gsp-ssl 与高德定位', '# Google 防跳转所需的 HTTPS 解密域名')
+    text = re.sub(r'(?ms)^\[Script\]\n\s*(?=^\[)', '', text, count=1)
     mitm = re.search(r'(?m)^hostname\s*=\s*(.*)$', text)
     if not mitm:
         raise RuntimeError('缺少 MITM hostname')
-    hosts = [item.strip() for item in mitm.group(1).split(',') if item.strip()]
-    for host in WLOC_HOSTS:
-        if host not in hosts:
-            hosts.append(host)
+    hosts = [item.strip() for item in mitm.group(1).split(',') if item.strip() and item.strip() not in WLOC_HOSTS]
     text = text[:mitm.start()] + 'hostname = ' + ', '.join(hosts) + text[mitm.end():]
     mitm_section = re.search(r'(?ms)^\[MITM\]\n(?P<body>.*?)(?=^\[|\Z)', text)
     if not mitm_section:
         raise RuntimeError('缺少 [MITM] 配置段')
-    body = mitm_section.group('body')
-    if re.search(r'(?m)^enable\s*=', body):
-        body = re.sub(r'(?m)^enable\s*=.*$', 'enable = true', body, count=1)
-    else:
-        body = 'enable = true\n' + body
+    body = re.sub(r'(?m)^enable\s*=.*\n?', '', mitm_section.group('body'), count=1)
     text = text[:mitm_section.start('body')] + body + text[mitm_section.end('body'):]
     CONFIG.write_text(text)
 
