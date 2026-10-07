@@ -514,7 +514,11 @@ rules:
   - DOMAIN,localhost.weixin.qq.com,DIRECT
   - DOMAIN,dns.weixin.qq.com.cn,🔒 国内服务
   - DOMAIN,dns.weixin.qq.com,🔒 国内服务
+  - DOMAIN,multimedia.nt.qq.com.cn,🔒 国内服务
+  - DOMAIN-SUFFIX,qlogo.cn,🔒 国内服务
+  - DOMAIN-SUFFIX,qpic.cn,🔒 国内服务
   - DOMAIN-SUFFIX,weixin.com,🔒 国内服务
+  - IP-CIDR,119.29.29.98/31,🔒 国内服务,no-resolve
   - DOMAIN-SUFFIX,local,🏠 私有网络
   - DOMAIN-SUFFIX,in-addr.arpa,🏠 私有网络
   - DOMAIN-SUFFIX,ip6.arpa,🏠 私有网络

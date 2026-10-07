@@ -38,24 +38,25 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 
 | 序号 | 服务 | 默认策略 |
 |--------|------|----------|
-| 1 | 📧 邮件服务（IMAP / POP3 / SMTP） | PROXY，可切换 DIRECT 或地区节点 |
-| 2 | 🔍 谷歌服务（含 Gemini） | 日本节点，可手动切香港节点 |
-| 3 | 🤖 AI 服务（ChatGPT、Claude 等） | 美国节点 |
-| 4 | 📹 油管视频（含 YouTube 翻译 API） | 节点选择 |
-| 5 | 🔒 哔哩哔哩 | 国内服务（默认 DIRECT） |
-| 6 | 🏠 私有网络 / 局域网 | DIRECT |
-| 7 | 📲 电报消息 | 节点选择 |
-| 8 | 🐱 代码托管（GitHub、GitLab、Atlassian） | 节点选择 |
-| 9 | Ⓜ️ 微软服务 | 节点选择 |
-| 10 | 🏦 汇丰香港（含 Reward+） | DIRECT |
-| 11 | 🏦 其他香港银行 | DIRECT |
-| 12 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈） | 香港节点 |
-| 13 | 🍎 苹果推送 | 节点选择 |
-| 14 | 🍏 苹果服务 | DIRECT |
-| 15 | 🔒 国内服务 | DIRECT |
-| 16 | 🌍 非中国（境外流量） | PROXY |
-| 17 | GEOIP CN | DIRECT |
-| 18 | 🐟 漏网之鱼（兜底） | PROXY |
+| 1 | 🧱 DNS 防泄露（HTTPDNS） | REJECT |
+| 2 | 📧 邮件服务（IMAP / POP3 / SMTP） | PROXY，可切换 DIRECT 或地区节点 |
+| 3 | 🔍 谷歌服务（含 Gemini） | 日本节点，可手动切香港节点 |
+| 4 | 🤖 AI 服务（ChatGPT、Claude、苹果智能等） | 美国节点 |
+| 5 | 📹 油管视频（含 YouTube 翻译 API） | 节点选择 |
+| 6 | 🔒 哔哩哔哩 | DIRECT |
+| 7 | 🏠 私有网络 / 局域网 | DIRECT |
+| 8 | 📲 电报消息 | 节点选择 |
+| 9 | 🐱 代码托管（GitHub、GitLab、Atlassian） | 节点选择 |
+| 10 | Ⓜ️ 微软服务 | 节点选择 |
+| 11 | 🏦 汇丰香港（含 Reward+） | DIRECT |
+| 12 | 🏦 其他香港银行 | DIRECT |
+| 13 | 📈 券商服务（富途 / moomoo / 长桥 / 老虎 / 雪盈 / 盈透） | 香港节点 |
+| 14 | 🍎 苹果推送 | 节点选择 |
+| 15 | 🍏 苹果服务 | DIRECT |
+| 16 | 🔒 国内服务 | DIRECT |
+| 17 | 🌍 非中国（境外流量） | PROXY |
+| 18 | GEOIP CN | DIRECT |
+| 19 | 🐟 漏网之鱼（兜底） | PROXY |
 
 ## 规则集来源
 
@@ -65,102 +66,6 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 - `Apple.list` 基于 blackmatrix7 Apple 规则，并配套加载 `Apple_Domain.list`，补充 iCloud Photos / Apple CDN 直连域名
 - `HK_Broker.list` 补充富途 / moomoo / 长桥 / 老虎 / 雪盈 / TradeUP / Schwab 证券域名及交易 IP 段
 - `HSBC_HK.list` 与 `HK_Banks_Direct.list` 收录香港银行网站及 App 服务域名
-
-## 当前重点
-
-- 优化 DNS 防泄露
-   - 代理域名默认通过代理访问 Cloudflare DoH，备用使用 Google DoH
-   - 代理 DNS 不回退系统 DNS，避免代理域名查询从本地网络泄露
-   - 直连域名使用系统 DNS，改善国内服务和 CDN 调度
-   - 扩展常见硬编码 DNS 劫持范围
-- 新增 `Mail.list`
-   - 精确收录常见 IMAP、POP3 与 SMTP 服务端点
-   - 默认使用 PROXY，可手动切换 DIRECT 或地区节点
-- 新增 `HK_Broker.list`
-   - 补充富途 / moomoo / 长桥券商域名
-   - 合并老虎证券域名，不再依赖外部券商规则
-   - 补充富途交易相关域名：`futuapi.com`、`futuin.com`、`futuhk1.com`、`futuhongkong.com`、`qtlcdn.com`
-   - 补充长桥交易相关域名：`lbkrs.com`、`longbridge.app`、`longportapp.com`
-   - 合并 Arthur-vx Broker 规则中的精确 API / 交易域名、IP 段、TradeUP 和 Schwab 域名
-   - 补充雪盈证券 / Snowball X 官方及 OpenAPI 域名
-- 新增香港银行分流
-   - 汇丰香港及 Reward+ 默认直连，避免代理出口触发风控或导致 App 反复重试
-   - 其他香港银行默认直连，减少代理 IP 变化带来的风控风险
-   - 美国运通因不同地区共用主域名，不纳入自动分流
-- Google AI 相关规则已并入 `Google.list`
-- `🔍 谷歌服务` 默认走日本节点，同时提供香港节点作为手动可选分区，便于在不同网络环境下切换。
-- 同步上游 `ApplePush.list`
-   - Apple Push Notification service 域名与 TCP 5223 归入 `🍎 苹果推送` 策略组
-   - 默认跟随节点选择，可手动切换 PROXY 或 DIRECT。
-- 本仓库维护 `Apple.list`
-   - 基于 blackmatrix7 的 Apple 规则
-   - 配套加载 `Apple_Domain.list`，补齐完整 Apple 域名集
-   - 补充 iCloud Photos、CloudKit、Apple CDN 相关域名，优化 iCloud 照片同步。
-
-## 其他特性
-
-- DNS：Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH，国内直连域名使用系统 DNS
-- 国内服务：采用上游 China / China_Domain / GEOIP CN 规则并归入 `🔒 国内服务`，该组默认 DIRECT。
-- DNS 劫持：拦截常见硬编码 53 端口 DNS，防止应用绕过规则
-- 节点域名启动解析：使用直连的 Cloudflare / AliDNS DoH 获取节点真实 IP，避免连接 MerlinClash Fake-IP 网络时节点域名落入 198.18.0.0/15
-- HTTPDNS：采用上游 `BlockHttpDNS.list`，默认由 `🧱 DNS 防泄露` 策略组 REJECT
-- 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
-- Shadowrocket QUIC 策略：仅对 Shadowrocket 的代理连接屏蔽 UDP/443 并回退 HTTP/2；MerlinClash 不做全局 UDP/443 拦截
-- 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
-- Apple 分流：采用上游 Apple / ApplePush 规则和策略组；WLOC 定位域名优先命中“📍 WLOC 定位”策略组
-- 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
-- DNS 上游：Cloudflare / Google DoH 经代理并行查询；失败时仅回退直连的加密 Cloudflare DoH，不回退明文系统 DNS
-- 局域网解析保护：`*.in-addr.arpa`、`*.ip6.arpa`、`*.local` 前置直连并交给系统解析，补充常见 DNS-SD 反查模式，避免 Bonjour / PTR 反查打到公共 DoH
-- TUN 边界：保留 `198.18.0.0/15` 给 fake-IP / TUN 内部使用，不加入排除路由，私网桥接网段仍通过 `10.0.0.0/8`、`192.168.0.0/16` 等排除
-- Apple 推送：采用上游策略组，默认跟随节点选择
-   - `push.apple.com`
-   - `gateway.push.apple.com`
-   - `api.push.apple.com`
-   - `sandbox.push.apple.com` 
-- Google 防跳转：`google.cn` / `g.cn` 自动 302 到 `google.com`
-- MITM：显式启用 HTTPS 解密，并覆盖通配域名 *.google.cn 及 WLOC 所需的 Apple / 高德定位域名（包含 gsp-ssl.ls.apple.com）
-
-## 注意事项
-
-- 地区分组通过节点名称关键词自动匹配；`其他节点` 已排除香港、台湾、日本、美国、英国和韩国关键词
-- 银行服务对出口 IP 和 VPN 环境较敏感，默认直连；如手动切换香港代理，建议尽量保持同一节点
-- Google、AI、非中国和漏网之鱼的默认出口可在 App 内手动切换
-- 如需 HTTPS 解密功能，请在 Shadowrocket 中生成并安装 CA 证书
-
-## 自动同步上游
-
-- GitHub Actions 每 6 小时检查一次 `LingJingMaster/Shadowrocket-Rules` 的 `main` 分支。
-- 发现新提交后以 Git merge 保留上游历史，再运行 `scripts/apply_customizations.py` 重新应用 fengsx 定制。
-- `scripts/validate_config.py` 会检查配置段、策略引用、WLOC、美国/英国规则以及所有远程规则地址。
-- 只有合并和验证全部成功才会推送；发生 Git 冲突、上游结构变化或远程规则不可用时保持现有 `main` 不变。
-- 可在 GitHub Actions 中手动运行 `Sync upstream rules`，无需等待定时任务。
-
-## 多客户端发布地址
-
-规则与节点订阅完全分离：以下文件只包含策略组和分流规则，不包含、代理或改写节点订阅。节点可以继续使用任意原始订阅地址。
-
-| 客户端 | 仓库文件 |
-|---|---|
-| Shadowrocket | `Shadowrocket.conf` |
-| Hako iOS Clash / 通用 Clash 规则方案 | `dist/clash-fengsx-rules.yaml` |
-| MerlinClash | `dist/merlinclash-fengsx.yaml` |
-
-每个文件只有一份权威内容，可从两个入口访问：
-
-- GitHub Raw：`https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/<文件路径>`
-- JSDMirror 镜像：`https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/<文件路径>`
-
-JSDMirror 只是同一仓库文件的访问镜像，因此不再维护带 `-jsdmirror` 后缀的重复产物。Hako iOS Clash 应在“导入规则/规则方案”中导入通用 Clash YAML；普通 Mihomo/Clash 客户端在支持规则覆写、Mixin 或规则方案的位置使用同一文件。
-
-## MerlinClash 统一规则
-
-- `dist/merlinclash-fengsx.yaml` 由同一份 `Shadowrocket.conf` 自动编译，与 Shadowrocket 共用策略和规则顺序。
-- Magic Catling 2 中选择 `FENGSX规则`，节点仍直接使用原始订阅地址，不经过 Cloudflare 重新组装。
-- `router/fengsx_merlin_sync.sh` 每 6 小时同步模板，并在插件更新或路由器重启后自动恢复界面入口；直接从 GitHub Raw 权威源下载，失败时保留本地已验证版本。
-- 脚本通过 `firewall-start` 在防火墙或 NAT 重建后恢复局域网 TCP 53 劫持，避免等待下一次定时同步。
-- 自动选择与地区组统一排除流量、到期时间、官网和版本等订阅说明节点。
-- 脚本会从已登记订阅的 provider 缓存中提取节点域名/IP，生成最高优先级直连规则；手机开启 Shadowrocket 时避免双重代理，关闭后仍由路由器代理。
-- 临时 SOCKS5 只要存在于已登记订阅中，其端点也会自动直连；未知节点不做流量特征猜测。
 
 ## License
 
