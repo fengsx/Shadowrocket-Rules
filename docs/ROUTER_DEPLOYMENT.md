@@ -43,7 +43,7 @@ chmod 0755 /jffs/scripts/fengsx-merlin-sync
 
 - 国内域名、Apple 常规服务、国内 HTTPDNS 使用 DIRECT。
 - 蜜雪冰城 `mxbc.net` 使用显式国内直连和国内 DNS，避免仅依赖 GEOIP 兜底。
-- Apple 自有域名及已确认的 Apple Akamai CNAME 链固定使用阿里加密 DoH，避免 Apple 支持页面在 CNAME 末级重新命中远端 CDN。
+- Apple 自有域名及已确认的 Apple Akamai CNAME 链在 `nameserver-policy` 中置于 `geosite:cn` 之前，并固定使用阿里加密 DoH，避免先命中国内通用规则后获得远端 CDN。
 - WLOC 规则保持在通用 Apple 规则之前，不受 Apple 直连规则覆盖。
 - 美国金融优先美国住宅/家宽，无可用住宅节点时回退美国普通节点。
 - 英国金融使用英国节点；仅在订阅中存在英国住宅节点时加入住宅候选。
