@@ -474,6 +474,16 @@ rules:
   - DOMAIN,gsp-ssl.ls.apple.com,DIRECT
   - DOMAIN,bluedot.is.autonavi.com,DIRECT
   - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
+  - DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,x.com,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,twimg.com,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,t.co,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,twittercdn.com,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,tweetdeck.com,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,pscp.tv,🇺🇸 美国节点
+  - DOMAIN-SUFFIX,periscope.tv,🇺🇸 美国节点
   - DOMAIN,dns.jd.com,DIRECT
   - DOMAIN,dns.weibo.cn,DIRECT
   - DOMAIN,dns.weixin.qq.com,DIRECT

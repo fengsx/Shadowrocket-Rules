@@ -44,6 +44,8 @@ chmod 0755 /jffs/scripts/fengsx-merlin-sync
 - 国内域名、Apple 常规服务、国内 HTTPDNS 使用 DIRECT。
 - 蜜雪冰城 `mxbc.net` 使用显式国内直连和国内 DNS，避免仅依赖 GEOIP 兜底。
 - WLOC 规则保持在通用 Apple 规则之前，不受 Apple 直连规则覆盖。
+- Apple 支持页面走香港节点；App Store、iCloud 与其他 Apple 服务继续直连。
+- Twitter/X 及其静态资源固定使用美国节点。
 - 美国金融优先美国住宅/家宽，无可用住宅节点时回退美国普通节点。
 - 英国金融使用英国节点；仅在订阅中存在英国住宅节点时加入住宅候选。
 - 香港银行、汇丰香港和券商服务使用香港节点。

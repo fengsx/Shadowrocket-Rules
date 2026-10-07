@@ -57,6 +57,20 @@ DOMAIN,gsp-ssl.ls.apple.com,DIRECT
 DOMAIN,bluedot.is.autonavi.com,DIRECT
 DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
 
+# Apple 支持页面走香港；App Store、iCloud 和其他 Apple 服务仍由通用 Apple 规则直连。
+DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
+DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点
+
+# Twitter / X 及其静态资源统一走美国节点。
+DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点
+DOMAIN-SUFFIX,x.com,🇺🇸 美国节点
+DOMAIN-SUFFIX,twimg.com,🇺🇸 美国节点
+DOMAIN-SUFFIX,t.co,🇺🇸 美国节点
+DOMAIN-SUFFIX,twittercdn.com,🇺🇸 美国节点
+DOMAIN-SUFFIX,tweetdeck.com,🇺🇸 美国节点
+DOMAIN-SUFFIX,pscp.tv,🇺🇸 美国节点
+DOMAIN-SUFFIX,periscope.tv,🇺🇸 美国节点
+
 # 国内 App 的 HTTPDNS 兼容例外必须位于通用拦截规则之前。
 DOMAIN,dns.jd.com,DIRECT
 DOMAIN,dns.weibo.cn,DIRECT
