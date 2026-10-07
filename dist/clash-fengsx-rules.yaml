@@ -469,11 +469,11 @@ rules:
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
   - DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
-  - DOMAIN,gs-loc.apple.com,DIRECT
-  - DOMAIN,gs-loc-cn.apple.com,DIRECT
-  - DOMAIN,gsp-ssl.ls.apple.com,DIRECT
-  - DOMAIN,bluedot.is.autonavi.com,DIRECT
-  - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
+  - DOMAIN,gs-loc.apple.com,📍 WLOC 定位
+  - DOMAIN,gs-loc-cn.apple.com,📍 WLOC 定位
+  - DOMAIN,gsp-ssl.ls.apple.com,📍 WLOC 定位
+  - DOMAIN,bluedot.is.autonavi.com,📍 WLOC 定位
+  - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
   - DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
   - DOMAIN-SUFFIX,support.apple.com,🇭🇰 香港节点
   - DOMAIN-SUFFIX,twitter.com,🇺🇸 美国节点

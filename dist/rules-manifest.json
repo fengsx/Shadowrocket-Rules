@@ -539,7 +539,7 @@
       "kind": "domain",
       "noResolve": false,
       "position": 140,
-      "target": "DIRECT",
+      "target": "📍 WLOC 定位",
       "value": "gs-loc.apple.com"
     },
     {
@@ -547,7 +547,7 @@
       "kind": "domain",
       "noResolve": false,
       "position": 150,
-      "target": "DIRECT",
+      "target": "📍 WLOC 定位",
       "value": "gs-loc-cn.apple.com"
     },
     {
@@ -555,7 +555,7 @@
       "kind": "domain",
       "noResolve": false,
       "position": 160,
-      "target": "DIRECT",
+      "target": "📍 WLOC 定位",
       "value": "gsp-ssl.ls.apple.com"
     },
     {
@@ -563,7 +563,7 @@
       "kind": "domain",
       "noResolve": false,
       "position": 170,
-      "target": "DIRECT",
+      "target": "📍 WLOC 定位",
       "value": "bluedot.is.autonavi.com"
     },
     {
@@ -571,7 +571,7 @@
       "kind": "domain",
       "noResolve": false,
       "position": 180,
-      "target": "DIRECT",
+      "target": "📍 WLOC 定位",
       "value": "bluedot.is.autonavi.com.gds.alibabadns.com"
     },
     {
@@ -1115,6 +1115,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "0dd20c0e2d944e35808003c3f0b0820b81cdfd9b5b4210392d3f1868c90f3dc0"
+    "sha256": "dd453de0ea3c7a1181a9fa82234db7aa5f2f2a54d0f7b36e7a0fe7f54345cbc0"
   }
 }

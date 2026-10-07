@@ -51,11 +51,12 @@ DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
 # 蜜雪冰城小程序及静态资源明确使用国内直连，避免依赖 GEOIP 兜底。
 DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
-DOMAIN,gs-loc.apple.com,DIRECT
-DOMAIN,gs-loc-cn.apple.com,DIRECT
-DOMAIN,gsp-ssl.ls.apple.com,DIRECT
-DOMAIN,bluedot.is.autonavi.com,DIRECT
-DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,DIRECT
+# WLOC 请求必须进入 WLOC 策略组，避免完整配置更新后策略组存在但从未命中。
+DOMAIN,gs-loc.apple.com,📍 WLOC 定位
+DOMAIN,gs-loc-cn.apple.com,📍 WLOC 定位
+DOMAIN,gsp-ssl.ls.apple.com,📍 WLOC 定位
+DOMAIN,bluedot.is.autonavi.com,📍 WLOC 定位
+DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
 
 # Apple 支持页面走香港；App Store、iCloud 和其他 Apple 服务仍由通用 Apple 规则直连。
 DOMAIN-SUFFIX,getsupport.apple.com,🇭🇰 香港节点
@@ -174,6 +175,15 @@ def main() -> None:
         if host not in hosts:
             hosts.append(host)
     text = text[:mitm.start()] + 'hostname = ' + ', '.join(hosts) + text[mitm.end():]
+    mitm_section = re.search(r'(?ms)^\[MITM\]\n(?P<body>.*?)(?=^\[|\Z)', text)
+    if not mitm_section:
+        raise RuntimeError('缺少 [MITM] 配置段')
+    body = mitm_section.group('body')
+    if re.search(r'(?m)^enable\s*=', body):
+        body = re.sub(r'(?m)^enable\s*=.*$', 'enable = true', body, count=1)
+    else:
+        body = 'enable = true\n' + body
+    text = text[:mitm_section.start('body')] + body + text[mitm_section.end('body'):]
     CONFIG.write_text(text)
 
 if __name__ == '__main__':

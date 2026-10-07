@@ -115,6 +115,7 @@ def main() -> None:
         '🇺🇸 美国节点 = url-test',
         '# CODEX-BEGIN WLOC',
         'gsp-ssl.ls.apple.com',
+        'enable = true',
         '🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL',
     ]
     absent=[item for item in expected if item not in text]
@@ -127,7 +128,7 @@ def main() -> None:
     httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
     httpdns_block = text.index('BlockHttpDNS.list,🧱 DNS 防泄露')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
-    wloc_rule = text.index('DOMAIN,gs-loc.apple.com,DIRECT')
+    wloc_rule = text.index('DOMAIN,gs-loc.apple.com,📍 WLOC 定位')
     if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule:
         raise RuntimeError('HTTPDNS 兼容例外或 WLOC 规则顺序错误')
     urls=set()

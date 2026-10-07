@@ -107,7 +107,7 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 - 邮件分流：常见邮件协议端点默认使用 PROXY，可按网络情况切换直连或地区节点
 - Shadowrocket QUIC 策略：仅对 Shadowrocket 的代理连接屏蔽 UDP/443 并回退 HTTP/2；MerlinClash 不做全局 UDP/443 拦截
 - 本地服务保护：`localhost.weixin.qq.com` 固定解析到 `127.0.0.1` 并强制直连，避免 fake-IP 影响微信本地回调
-- Apple 分流：采用上游 Apple / ApplePush 规则和策略组；WLOC 定位域名保留 DIRECT 例外
+- Apple 分流：采用上游 Apple / ApplePush 规则和策略组；WLOC 定位域名优先命中“📍 WLOC 定位”策略组
 - 豆包服务：`doubao.com` 明确直连，避免语音及输入法接口因解析 IP 不同而改变出口
 - DNS 上游：Cloudflare / Google DoH 经代理并行查询；失败时仅回退直连的加密 Cloudflare DoH，不回退明文系统 DNS
 - 局域网解析保护：`*.in-addr.arpa`、`*.ip6.arpa`、`*.local` 前置直连并交给系统解析，补充常见 DNS-SD 反查模式，避免 Bonjour / PTR 反查打到公共 DoH
@@ -118,7 +118,7 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
    - `api.push.apple.com`
    - `sandbox.push.apple.com` 
 - Google 防跳转：`google.cn` / `g.cn` 自动 302 到 `google.com`
-- MITM：解密通配域名 *.google.cn 及 WLOC 所需的 Apple / 高德定位域名（包含 gsp-ssl.ls.apple.com）
+- MITM：显式启用 HTTPS 解密，并覆盖通配域名 *.google.cn 及 WLOC 所需的 Apple / 高德定位域名（包含 gsp-ssl.ls.apple.com）
 
 ## 注意事项
 
