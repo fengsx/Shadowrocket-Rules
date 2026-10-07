@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: sync-upstream-main
+  group: rules-main-writer
   cancel-in-progress: false
 
 jobs:

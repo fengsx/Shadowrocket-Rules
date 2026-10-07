@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: compile-unified-rules
+  group: rules-main-writer
   cancel-in-progress: false
 
 jobs:
