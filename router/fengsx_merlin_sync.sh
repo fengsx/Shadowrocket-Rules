@@ -133,32 +133,8 @@ patch_dns_compatibility() {
         "$YQ" eval 'del(.dns."nameserver-policy"."rule-set:AI", .dns."nameserver-policy"."rule-set:Crypto", .dns."nameserver-policy"."rule-set:Proxy")' -i "$dns"
         log '已移除与 FENGSX 规则不兼容的旧 DNS rule-set 引用'
     fi
-    "$YQ" eval '.dns."nameserver-policy"."a1222.dscb.akamai.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."a527.dscg4.akamai.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."e6858.dsce9.akamaiedge.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.apple.com.edgesuite.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.apple.com.edgekey.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.apple-support.akadns.net" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.apple.com" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.aaplimg.com" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.cdn-apple.com" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.mzstatic.com" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.icloud.com" = ["https://dns.alidns.com/dns-query"] | .dns."nameserver-policy"."+.mxbc.net" = ["119.29.29.29", "223.5.5.5"] | .dns."nameserver-policy"."+.jsdmirror.com" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.githubproxy.cc" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.jsdelivr.net" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.githubusercontent.com" = ["223.5.5.5", "119.29.29.29"]' -i "$dns"
-    # nameserver-policy 按顺序匹配；Apple 必须位于 geosite:cn 之前，否则会先命中国内通用 DNS。
-    for key in '+.apple.com' '+.aaplimg.com' '+.cdn-apple.com' '+.mzstatic.com' '+.icloud.com' '+.apple.com.edgesuite.net' '+.apple.com.edgekey.net' '+.apple-support.akadns.net' 'a1222.dscb.akamai.net' 'a527.dscg4.akamai.net' 'e6858.dsce9.akamaiedge.net'; do
-        "$YQ" eval 'del(.dns."nameserver-policy"."'"$key"'")' -i "$dns"
-    done
-    ordered=/tmp/fengsx_dns_ordered.$$
-    awk '''
-      /^[[:space:]]*"geosite:gfw":/ && !inserted {
-        print "    \"+.apple.com\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.aaplimg.com\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.cdn-apple.com\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.mzstatic.com\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.icloud.com\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.apple.com.edgesuite.net\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.apple.com.edgekey.net\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"+.apple-support.akadns.net\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"a1222.dscb.akamai.net\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"a527.dscg4.akamai.net\":"; print "      - https://dns.alidns.com/dns-query"
-        print "    \"e6858.dsce9.akamaiedge.net\":"; print "      - https://dns.alidns.com/dns-query"
-        inserted=1
-      }
-      { print }
-      END { if (!inserted) exit 1 }
-    ''' "$dns" > "$ordered" && mv -f "$ordered" "$dns"
-    rm -f "$ordered"
-    log '已设置规则下载域名和 Apple CDN 的直连 DNS 引导'
+    "$YQ" eval '.dns."nameserver-policy"."+.mxbc.net" = ["119.29.29.29", "223.5.5.5"] | .dns."nameserver-policy"."+.jsdmirror.com" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.githubproxy.cc" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.jsdelivr.net" = ["223.5.5.5", "119.29.29.29"] | .dns."nameserver-policy"."+.githubusercontent.com" = ["223.5.5.5", "119.29.29.29"]' -i "$dns"
+    log '已设置规则下载域名的直连 DNS 引导'
 }
 
 ensure_lan_dns_hijack() {
