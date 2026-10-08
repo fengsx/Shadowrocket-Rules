@@ -1,23 +1,9 @@
-# Shadowrocket 配置文件
+# Shadowrocket Config
 
-一份开箱即用的 Shadowrocket 规则配置，导入后添加自己的节点或订阅即可使用。
-
-## 默认策略
-
-| 服务 | 默认策略 | 可选策略 |
-|------|----------|----------|
-| 📧 邮件服务 | PROXY | DIRECT、节点选择、日本节点、香港节点 |
-| 🔍 谷歌服务 | 🇯🇵 日本节点 | 🇭🇰 香港节点、节点选择、PROXY、DIRECT |
-| 🤖 AI 服务 | 🇺🇸 美国节点 | 节点选择、PROXY、DIRECT |
-| 🧱 DNS 防泄露 | REJECT | 节点选择、DIRECT |
-| 🍎 苹果推送 | 🚀 节点选择 | PROXY、DIRECT |
-| 🍏 苹果服务 | DIRECT | 节点选择、PROXY |
-| 🏦 汇丰香港 | DIRECT | 🇭🇰 香港节点、节点选择、PROXY |
-| 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
-| 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
-| 💷 英国金融 | 🇬🇧 英国节点 | 节点选择、PROXY、DIRECT |
-| 🌍 非中国 | PROXY | 节点选择、DIRECT、日本节点 |
-| 🐟 漏网之鱼 | PROXY | 节点选择、DIRECT、日本节点 |
+一份开箱即用的 Shadowrocket 规则配置
+- 支持前沿的苹果智能（Apple Intelligence）
+- 在新规下的香港券商访问
+- 导入后添加自己的节点或订阅即可使用
 
 ## 快速开始
 
@@ -58,6 +44,29 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 | 18 | GEOIP CN | DIRECT |
 | 19 | 🐟 漏网之鱼（兜底） | PROXY |
 
+
+## 默认策略
+
+| 服务 | 默认策略 | 可选策略 |
+|------|----------|----------|
+| 🧱 DNS 防泄露 | REJECT | 节点选择、DIRECT |
+| 📧 邮件服务 | PROXY | DIRECT、节点选择、日本节点、香港节点 |
+| 🔍 谷歌服务 | 🇯🇵 日本节点 | 🇭🇰 香港节点、节点选择、PROXY、DIRECT |
+| 🤖 AI 服务 | 🇺🇸 美国节点 | 节点选择、PROXY、DIRECT |
+| 🍎 苹果推送 | 🚀 节点选择 | PROXY、DIRECT |
+| 🍏 苹果服务 | DIRECT | 节点选择、PROXY |
+| 🏦 汇丰香港 | DIRECT | 🇭🇰 香港节点、节点选择、PROXY |
+| 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
+| 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
+| 🌍 非中国 | PROXY | 节点选择、DIRECT、日本节点 |
+| 🐟 漏网之鱼 | PROXY | 节点选择、DIRECT、日本节点 |
+
+
+
+
+
+
+
 ## 规则集来源
 
 - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) — 主要规则集
@@ -67,6 +76,10 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 - `Apple-HK.list` 维护需经香港节点访问的 Apple 支持页面；`Twitter-US.list` 维护 Twitter / X 的美国分流
 - `HK_Broker.list` 补充富途 / moomoo / 长桥 / 老虎 / 雪盈 / TradeUP / Schwab 证券域名及交易 IP 段
 - `HSBC_HK.list` 与 `HK_Banks_Direct.list` 收录香港银行网站及 App 服务域名
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/chart?repos=lingjingmaster/shadowrocket-rules&type=date&legend=top-left)](https://www.star-history.com/?repos=lingjingmaster%2Fshadowrocket-rules&type=date&legend=top-left)
 
 ## License
 
