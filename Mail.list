@@ -1,15 +1,17 @@
 # NAME: Mail
 # AUTHOR: LingJingMaster
-# DESC: Mail transport endpoints for IMAP, POP3, and SMTP
-# DOMAIN: 14
-# DOMAIN-SUFFIX: 2
-# TOTAL: 16
+# DESC: Webmail and mail transport endpoints
+# DOMAIN: 15
+# DOMAIN-SUFFIX: 3
+# TOTAL: 18
 
 # Apple iCloud Mail
 DOMAIN-SUFFIX,mail.icloud.com.cn
 DOMAIN-SUFFIX,mail.me.com
 
 # Gmail
+DOMAIN,mail.google.com
+DOMAIN-SUFFIX,gmail.com
 DOMAIN,imap.gmail.com
 DOMAIN,pop.gmail.com
 DOMAIN,smtp.gmail.com

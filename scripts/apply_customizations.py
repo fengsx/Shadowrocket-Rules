@@ -6,6 +6,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / 'Shadowrocket.conf'
+MAIL_LIST = ROOT / 'Mail.list'
+GMAIL_WEB_RULES = ('DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com')
 FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main'
 UPDATE_URL = f'{FORK_RAW}/Shadowrocket.conf'
 LEGACY_FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main'
@@ -24,6 +26,8 @@ WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,po
 DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-select-name=REJECT'
 HOME_BROADBAND_GROUP = '🏠 家宽节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=80,timeout=5,policy-regex-filter=家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND'
 ACADEMIC_GROUP = '📚 学术网站 = select,🏠 家宽节点,🇭🇰 香港节点,🇺🇸 美国住宅,🇯🇵 日本节点,🇰🇷 韩国节点,DIRECT,REJECT,policy-select-name=🏠 家宽节点'
+GOOGLE_GROUP = '🔍 谷歌服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
+MAIL_GROUP = '📧 邮件服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
 GENERAL_SETTINGS = {
     'dns-server': 'https://cloudflare-dns.com/dns-query#proxy',
     'fallback-dns-server': 'https://dns.google/dns-query#proxy',
@@ -117,6 +121,31 @@ def ensure_general_setting(text: str, key: str, value: str) -> str:
         raise RuntimeError('缺少配置段：[Proxy]')
     return text.replace('[Proxy]', line + '\n\n[Proxy]', 1)
 
+def normalize_auto_test_groups(text: str) -> str:
+    lines = []
+    for line in text.splitlines():
+        if ' = url-test,' in line:
+            line = re.sub(r'interval=\d+', 'interval=300', line)
+            line = re.sub(r'tolerance=\d+', 'tolerance=50', line)
+        lines.append(line)
+    return '\n'.join(lines) + ('\n' if text.endswith('\n') else '')
+
+def ensure_gmail_web_rules() -> None:
+    text = MAIL_LIST.read_text()
+    missing = [rule for rule in GMAIL_WEB_RULES if rule not in text.splitlines()]
+    if missing:
+        anchor = '# Gmail\n'
+        if anchor not in text:
+            raise RuntimeError('Mail.list 缺少 Gmail 插入锚点')
+        text = text.replace(anchor, anchor + '\n'.join(missing) + '\n', 1)
+    domain_count = len(re.findall(r'(?m)^DOMAIN,', text))
+    suffix_count = len(re.findall(r'(?m)^DOMAIN-SUFFIX,', text))
+    text = re.sub(r'(?m)^# DESC:.*$', '# DESC: Webmail and mail transport endpoints', text, count=1)
+    text = re.sub(r'(?m)^# DOMAIN:.*$', f'# DOMAIN: {domain_count}', text, count=1)
+    text = re.sub(r'(?m)^# DOMAIN-SUFFIX:.*$', f'# DOMAIN-SUFFIX: {suffix_count}', text, count=1)
+    text = re.sub(r'(?m)^# TOTAL:.*$', f'# TOTAL: {domain_count + suffix_count}', text, count=1)
+    MAIL_LIST.write_text(text)
+
 def main() -> None:
     text = CONFIG.read_text()
     if '[Proxy Group]' not in text or '[Rule]' not in text:
@@ -149,6 +178,9 @@ def main() -> None:
     text = ensure_group_line(text, '📚 学术网站 =', ACADEMIC_GROUP, '💷 英国金融 =')
     text = ensure_group_line(text, '🧱 DNS 防泄露 =', DNS_GROUP, '🌐 其他节点 =')
     text = ensure_group_line(text, '🤖 AI 服务 =', AI_GROUP, '🧱 DNS 防泄露 =')
+    text = ensure_group_line(text, '🔍 谷歌服务 =', GOOGLE_GROUP, '🤖 AI 服务 =')
+    text = ensure_group_line(text, '📧 邮件服务 =', MAIL_GROUP, 'Ⓜ️ 微软服务 =')
+    text = normalize_auto_test_groups(text)
     text = re.sub(r'(?m)^RULE-SET,https://raw\.githubusercontent\.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS\.list,.*\n?', '', text)
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')
     # WLOC 脚本与 MITM 域名由 fengsx/wloc 的独立模块维护，避免完整配置更新替换本机 CA 状态。
@@ -166,6 +198,7 @@ def main() -> None:
     body = re.sub(r'(?m)^enable\s*=.*\n?', '', mitm_section.group('body'), count=1)
     text = text[:mitm_section.start('body')] + body + text[mitm_section.end('body'):]
     CONFIG.write_text(text)
+    ensure_gmail_web_rules()
 
 if __name__ == '__main__':
     main()

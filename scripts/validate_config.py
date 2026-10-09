@@ -133,6 +133,14 @@ def main() -> None:
     for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com']:
         if item not in us_apps:
             raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
+    mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
+    for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
+        if item not in mail_rules:
+            raise RuntimeError(f'Mail.list 缺少 Gmail 网页规则：{item}')
+    for line in text.splitlines():
+        if ' = url-test,' in line:
+            if 'interval=300' not in line or 'tolerance=50' not in line:
+                raise RuntimeError(f'自动测速组参数未统一：{line}')
     httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
     httpdns_block = text.index('BlockHttpDNS.list,🧱 DNS 防泄露')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
