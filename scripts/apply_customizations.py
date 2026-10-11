@@ -9,7 +9,6 @@ CONFIG = ROOT / 'Shadowrocket.conf'
 MAIL_LIST = ROOT / 'Mail.list'
 GMAIL_WEB_RULES = ('DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com')
 FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main'
-UPDATE_URL = f'{FORK_RAW}/Shadowrocket.conf'
 LEGACY_FORK_RAW = 'https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/main'
 UPSTREAM_RAW = 'https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main'
 UK_GROUP = '🇬🇧 英国节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=0,timeout=5,policy-regex-filter=🇬🇧|英国|UK|London|LHR'
@@ -158,7 +157,8 @@ def main() -> None:
     text = text.replace(UPSTREAM_RAW, FORK_RAW)
     text = text.replace(LEGACY_FORK_RAW, FORK_RAW)
     text = text.replace('https://sub.qor.com.cn/rules/', FORK_RAW + '/')
-    text = re.sub(r'(?m)^update-url\s*=.*$', f'update-url = {UPDATE_URL}', text, count=1)
+    # 完整配置更新会重置本机 WLOC 模块、MITM 状态或 CA 关联，因此禁止主配置自更新。
+    text = re.sub(r'(?m)^update-url\s*=.*\n?', '', text)
     for key, value in GENERAL_SETTINGS.items():
         text = ensure_general_setting(text, key, value)
     match = re.search(r'(?m)^🚀 节点选择\s*=.*$', text)

@@ -43,6 +43,8 @@ def main() -> None:
     text = CONFIG.read_text()
     if '<<<<<<<' in text or '>>>>>>>' in text:
         raise RuntimeError('配置中残留 Git 冲突标记')
+    if re.search(r'(?m)^update-url\s*=', text):
+        raise RuntimeError('Shadowrocket 主配置不应包含 update-url，以免重置 WLOC/MITM/CA 状态')
     if 'sub.qor.com.cn' in text:
         raise RuntimeError('配置仍依赖已废弃的 sub.qor.com.cn')
     if 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main' in text:
