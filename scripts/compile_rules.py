@@ -164,7 +164,7 @@ def compile_clash(groups, rules, final, output, marker, include_node_endpoints):
             '    format: text',
             f'    url: {yaml_value(rule["value"])}',
             f'    path: ./rule_provider/fengsx/{provider}.list',
-            '    interval: 21600',
+            '    interval: 86400',
         ])
 
     tokens = {

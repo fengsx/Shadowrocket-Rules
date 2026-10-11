@@ -188,6 +188,10 @@ def main() -> None:
             raise RuntimeError(f'权威产物错误写入 JSDMirror：{path.name}')
         if 'raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main' not in content:
             raise RuntimeError(f'权威产物未使用 GitHub Raw：{path.name}')
+        if '    interval: 21600' in content:
+            raise RuntimeError(f'发布产物仍使用 6 小时规则刷新周期：{path.name}')
+        if '    interval: 86400' not in content:
+            raise RuntimeError(f'发布产物缺少每日规则刷新周期：{path.name}')
     if 'FENGSX-NodeEndpoints' in (ROOT / 'dist/clash-fengsx-rules.yaml').read_text():
         raise RuntimeError('通用 Clash 规则不应包含 MerlinClash 本地端点提供器')
     suffix=f'，远程规则={len(urls)}' if args.online else ''
