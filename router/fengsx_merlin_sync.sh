@@ -175,7 +175,7 @@ patch_web() {
 
 ensure_schedule() {
     cru d FENGSX_MERLIN_SYNC >/dev/null 2>&1
-    cru a FENGSX_MERLIN_SYNC '17 */6 * * * /jffs/scripts/fengsx-merlin-sync cron' >/dev/null 2>&1
+    cru a FENGSX_MERLIN_SYNC '17 4 * * * /jffs/scripts/fengsx-merlin-sync cron' >/dev/null 2>&1
     if ! grep -q 'FENGSX-MERLIN-BEGIN' /jffs/scripts/services-start 2>/dev/null; then
         {
             printf '\n# FENGSX-MERLIN-BEGIN\n'

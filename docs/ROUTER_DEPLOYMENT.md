@@ -74,7 +74,7 @@ chmod 0755 /jffs/scripts/fengsx-merlin-sync
 脚本自动维护：
 
 ```text
-17 */6 * * * /jffs/scripts/fengsx-merlin-sync cron
+17 4 * * * /jffs/scripts/fengsx-merlin-sync cron
 ```
 
 同时写入：
@@ -125,7 +125,7 @@ ls -l /koolshare/merlinclash/rule_custom/fengsx_node_endpoints.yaml
 正确结果应包括：
 
 - 一条 `br0` TCP 53 重定向和一条 UDP 53 重定向；
-- `FENGSX_MERLIN_SYNC` 每 6 小时运行；
+- `FENGSX_MERLIN_SYNC` 每天 04:17 运行；
 - `ipv6_service=disabled`；
 - 三个安装文件存在且非空；
 - 日志最后出现“同步完成”。

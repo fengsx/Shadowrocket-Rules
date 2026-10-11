@@ -194,6 +194,12 @@ def main() -> None:
             raise RuntimeError(f'发布产物缺少每日规则刷新周期：{path.name}')
     if 'FENGSX-NodeEndpoints' in (ROOT / 'dist/clash-fengsx-rules.yaml').read_text():
         raise RuntimeError('通用 Clash 规则不应包含 MerlinClash 本地端点提供器')
+    router_sync = (ROOT / 'router/fengsx_merlin_sync.sh').read_text()
+    daily_cron = "cru a FENGSX_MERLIN_SYNC '17 4 * * * /jffs/scripts/fengsx-merlin-sync cron'"
+    if daily_cron not in router_sync:
+        raise RuntimeError('路由器同步脚本缺少每天 04:17 的定时任务')
+    if '17 */6 * * *' in router_sync:
+        raise RuntimeError('路由器同步脚本仍包含每 6 小时定时任务')
     suffix=f'，远程规则={len(urls)}' if args.online else ''
     print(f'验证通过：配置段={len(sections)}，策略组={len(groups)-3}，规则={len(sections["Rule"])}{suffix}')
 
