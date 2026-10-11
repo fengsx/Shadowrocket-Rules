@@ -49,6 +49,8 @@ DOMAIN-SUFFIX,scilit.com,📚 学术网站
 DOMAIN-SUFFIX,ethenapay-api.co,🇭🇰 香港节点
 DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
 DOMAIN,pay.ethena.fi,🇭🇰 香港节点
+# 英国国家域名统一使用英国节点；同时覆盖 .co.uk、.org.uk、.me.uk 等二级后缀。
+DOMAIN-SUFFIX,uk,🇬🇧 英国节点
 RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融

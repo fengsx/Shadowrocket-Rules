@@ -95,6 +95,7 @@ def main() -> None:
         'DOMAIN-SUFFIX,ethenapay-api.co,🇭🇰 香港节点',
         'DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点',
         'DOMAIN,pay.ethena.fi,🇭🇰 香港节点',
+        'DOMAIN-SUFFIX,uk,🇬🇧 英国节点',
         '🏠 家宽节点 = url-test',
         '📚 学术网站 = select,🏠 家宽节点',
         '🤖 AI 服务 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT',
