@@ -40,10 +40,8 @@ DOMAIN-SUFFIX,withplum.com
 DOMAIN-KEYWORD,ifastgb
 DOMAIN-SUFFIX,ifastgb.com
 
-# WorldFirst / 万里汇
-DOMAIN-KEYWORD,worldfirst
+# WorldFirst 国际站
 DOMAIN-SUFFIX,worldfirst.com
-DOMAIN-SUFFIX,worldfirst.com.cn
 DOMAIN,api.prod2.kustomerapp.com
 DOMAIN,cdn-settings.segment.com
 DOMAIN,api.segment.io

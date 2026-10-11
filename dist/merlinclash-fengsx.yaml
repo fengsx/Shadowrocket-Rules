@@ -493,6 +493,7 @@ rules:
   - DOMAIN-SUFFIX,ethenapay-api.co,🇭🇰 香港节点
   - DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
   - DOMAIN,pay.ethena.fi,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
   - DOMAIN-SUFFIX,uk,🇬🇧 英国节点
   - RULE-SET,fengsx_mailcom_us,🇺🇸 美国节点
   - RULE-SET,fengsx_us_apps,💵 美国金融

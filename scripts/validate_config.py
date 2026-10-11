@@ -95,6 +95,7 @@ def main() -> None:
         'DOMAIN-SUFFIX,ethenapay-api.co,🇭🇰 香港节点',
         'DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点',
         'DOMAIN,pay.ethena.fi,🇭🇰 香港节点',
+        'DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务',
         'DOMAIN-SUFFIX,uk,🇬🇧 英国节点',
         '🏠 家宽节点 = url-test',
         '📚 学术网站 = select,🏠 家宽节点',
@@ -143,9 +144,12 @@ def main() -> None:
         if item not in mailcom_us:
             raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
     uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
-    for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,worldfirst.com.cn']:
+    for item in ['DOMAIN-SUFFIX,worldfirst.com']:
         if item not in uk_finance:
             raise RuntimeError(f'UK-Finance.list 缺少 WorldFirst 域名：{item}')
+    for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn']:
+        if item in uk_finance:
+            raise RuntimeError(f'UK-Finance.list 不应包含万里汇中国站规则：{item}')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
     for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
         if item not in mail_rules:
