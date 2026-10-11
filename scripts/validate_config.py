@@ -141,6 +141,10 @@ def main() -> None:
     ]:
         if item not in mailcom_us:
             raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
+    uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
+    for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,worldfirst.com.cn']:
+        if item not in uk_finance:
+            raise RuntimeError(f'UK-Finance.list 缺少 WorldFirst 域名：{item}')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
     for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
         if item not in mail_rules:
