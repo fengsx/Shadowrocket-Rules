@@ -84,6 +84,7 @@ def main() -> None:
         'Apple.list,🍏 苹果服务',
         'China.list,🔒 国内服务',
         'GEOIP,CN,🔒 国内服务',
+        'Mailcom-US.list,🇺🇸 美国节点',
         'US-Apps.list,💵 美国金融',
         'UK-Finance.list,💷 英国金融',
         'DOMAIN-SUFFIX,mdpi.com,📚 学术网站',
@@ -133,6 +134,13 @@ def main() -> None:
     for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com']:
         if item not in us_apps:
             raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
+    mailcom_us = (ROOT / 'Mailcom-US.list').read_text().splitlines()
+    for item in [
+        'DOMAIN-SUFFIX,mail.com', 'DOMAIN-SUFFIX,email.com',
+        'DOMAIN-SUFFIX,usa.com', 'DOMAIN-SUFFIX,post.com',
+    ]:
+        if item not in mailcom_us:
+            raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
     for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
         if item not in mail_rules:

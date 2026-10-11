@@ -49,6 +49,7 @@ DOMAIN-SUFFIX,scilit.com,📚 学术网站
 DOMAIN-SUFFIX,ethenapay-api.co,🇭🇰 香港节点
 DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
 DOMAIN,pay.ethena.fi,🇭🇰 香港节点
+RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN,wloc.qor.com.cn,DIRECT
