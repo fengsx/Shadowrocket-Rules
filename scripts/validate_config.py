@@ -98,7 +98,11 @@ def main() -> None:
         'DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点',
         'DOMAIN,pay.ethena.fi,🇭🇰 香港节点',
         'DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务',
-        'DOMAIN-SUFFIX,uk,🇬🇧 英国节点',
+        'DOMAIN-SUFFIX,lebara.co.uk,DIRECT',
+        'DOMAIN-SUFFIX,voxi.co.uk,DIRECT',
+        'DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务',
+        'DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务',
+        'DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务',
         '🏠 家宽节点 = url-test',
         '📚 学术网站 = select,🏠 家宽节点',
         '🤖 AI 服务 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT',
@@ -149,9 +153,11 @@ def main() -> None:
     for item in ['DOMAIN-SUFFIX,worldfirst.com']:
         if item not in uk_finance:
             raise RuntimeError(f'UK-Finance.list 缺少 WorldFirst 域名：{item}')
-    for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn']:
+    for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn', 'DOMAIN-SUFFIX,lebara.co.uk']:
         if item in uk_finance:
-            raise RuntimeError(f'UK-Finance.list 不应包含万里汇中国站规则：{item}')
+            raise RuntimeError(f'UK-Finance.list 不应包含直连或中国站规则：{item}')
+    if 'DOMAIN-SUFFIX,uk,🇬🇧 英国节点' in text:
+        raise RuntimeError('不应按整个 .uk 后缀统一代理')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
     for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
         if item not in mail_rules:

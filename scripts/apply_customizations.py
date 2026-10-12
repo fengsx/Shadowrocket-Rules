@@ -50,11 +50,16 @@ DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
 DOMAIN,pay.ethena.fi,🇭🇰 香港节点
 # 万里汇中国站使用国内直连，必须位于 WorldFirst 国际站规则之前。
 DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
-# 英国国家域名统一使用英国节点；同时覆盖 .co.uk、.org.uk、.me.uk 等二级后缀。
-DOMAIN-SUFFIX,uk,🇬🇧 英国节点
+# 英国移动通信网站明确直连，不再按整个 .uk 后缀统一代理。
+DOMAIN-SUFFIX,lebara.co.uk,DIRECT
+DOMAIN-SUFFIX,voxi.co.uk,DIRECT
 RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
+# 小红书核心域名提前直连，避免远程中国规则未及时加载时落入代理兜底。
+DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务
+DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务
+DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
 # 蜜雪冰城小程序及静态资源明确使用国内直连，避免依赖 GEOIP 兜底。
