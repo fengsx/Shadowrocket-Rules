@@ -281,13 +281,6 @@ proxy-groups:
       - "DIRECT"
       - "REJECT"
       - "🇯🇵 日本节点"
-  - name: "🐟 漏网之鱼"
-    type: select
-    proxies:
-      - "🚀 节点选择"
-      - "DIRECT"
-      - "REJECT"
-      - "🇯🇵 日本节点"
 rule-providers:
   fengsx_mailcom_us:
     type: http
@@ -309,6 +302,13 @@ rule-providers:
     format: text
     url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
+    interval: 86400
+  fengsx_we_chat:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/WeChat/WeChat.list"
+    path: ./rule_provider/fengsx/fengsx_we_chat.list
     interval: 86400
   fengsx_apple_hk:
     type: http
@@ -496,6 +496,7 @@ rules:
   - DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务
   - DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务
   - DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务
+  - RULE-SET,fengsx_we_chat,DIRECT
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
   - DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
@@ -568,4 +569,4 @@ rules:
   - RULE-SET,fengsx_global,🌍 非中国
   - RULE-SET,fengsx_global_domain,🌍 非中国
   - GEOIP,CN,🔒 国内服务
-  - MATCH,🐟 漏网之鱼
+  - MATCH,DIRECT

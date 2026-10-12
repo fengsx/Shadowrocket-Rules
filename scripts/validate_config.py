@@ -86,6 +86,8 @@ def main() -> None:
         'Apple.list,🍏 苹果服务',
         'China.list,🔒 国内服务',
         'GEOIP,CN,🔒 国内服务',
+        'WeChat/WeChat.list,DIRECT',
+        'FINAL,DIRECT',
         'Mailcom-US.list,🇺🇸 美国节点',
         'US-Apps.list,💵 美国金融',
         'UK-Finance.list,💷 英国金融',
@@ -156,6 +158,12 @@ def main() -> None:
     for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn', 'DOMAIN-SUFFIX,lebara.co.uk']:
         if item in uk_finance:
             raise RuntimeError(f'UK-Finance.list 不应包含直连或中国站规则：{item}')
+    if re.search(r'(?m)^🐟 漏网之鱼\s*=', text):
+        raise RuntimeError('国内优先模式不应保留可切换的旧兜底策略组')
+    for group in ['💵 美国金融', '💷 英国金融']:
+        line = next(line for _, line in sections['Proxy Group'] if line.startswith(group + ' ='))
+        if ',DIRECT' in line or ',PROXY' in line or not ',REJECT' in line:
+            raise RuntimeError(f'严格金融策略不得回退普通代理或直连，且必须失败关闭：{line}')
     if 'DOMAIN-SUFFIX,uk,🇬🇧 英国节点' in text:
         raise RuntimeError('不应按整个 .uk 后缀统一代理')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
@@ -168,10 +176,13 @@ def main() -> None:
                 raise RuntimeError(f'自动测速组参数未统一：{line}')
     httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
     httpdns_block = text.index('BlockHttpDNS.list,🧱 DNS 防泄露')
+    us_finance_rule = text.index('US-Apps.list,💵 美国金融')
+    uk_finance_rule = text.index('UK-Finance.list,💷 英国金融')
+    global_rule = text.index('/Global/Global.list,🌍 非中国')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
     wloc_rule = text.index('DOMAIN,gs-loc.apple.com,📍 WLOC 定位')
-    if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule:
-        raise RuntimeError('HTTPDNS 兼容例外或 WLOC 规则顺序错误')
+    if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule or not max(us_finance_rule, uk_finance_rule) < global_rule:
+        raise RuntimeError('HTTPDNS、WLOC 或严格金融规则顺序错误')
     urls=set()
     for _,line in sections['Rule']:
         match=re.search(r'https://[^,]+',line)

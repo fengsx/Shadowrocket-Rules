@@ -60,6 +60,8 @@ RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务
 DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务
 DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务
+# 微信完整业务规则优先直连，覆盖图片、视频、上传、小程序和支付依赖。
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/WeChat/WeChat.list,DIRECT
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
 # 蜜雪冰城小程序及静态资源明确使用国内直连，避免依赖 GEOIP 兜底。
@@ -190,6 +192,10 @@ def main() -> None:
     text = ensure_group_line(text, '🤖 AI 服务 =', AI_GROUP, '🧱 DNS 防泄露 =')
     text = ensure_group_line(text, '🔍 谷歌服务 =', GOOGLE_GROUP, '🤖 AI 服务 =')
     text = ensure_group_line(text, '📧 邮件服务 =', MAIL_GROUP, 'Ⓜ️ 微软服务 =')
+    # 国内优先模式：未知流量默认直连；严格金融规则在此前已优先匹配并失败关闭。
+    text = re.sub(r'(?m)^FINAL,.*$', 'FINAL,DIRECT', text, count=1)
+    # FINAL 已直接指定 DIRECT，不再保留容易误选为代理的旧兜底策略组。
+    text = re.sub(r'(?m)^🐟 漏网之鱼\s*=.*\n?', '', text, count=1)
     text = normalize_auto_test_groups(text)
     text = re.sub(r'(?m)^RULE-SET,https://raw\.githubusercontent\.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/BlockHttpDNS/BlockHttpDNS\.list,.*\n?', '', text)
     text = replace_managed(text, '# CODEX-BEGIN PERSONAL POLICIES', '# CODEX-END PERSONAL POLICIES', PERSONAL_BLOCK, '[Rule]\n')

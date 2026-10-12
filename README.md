@@ -42,7 +42,9 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 | 16 | 🔒 国内服务 | DIRECT |
 | 17 | 🌍 非中国（境外流量） | PROXY |
 | 18 | GEOIP CN | DIRECT |
-| 19 | 🐟 漏网之鱼（兜底） | PROXY |
+| 19 | 未匹配流量（兜底） | DIRECT |
+
+
 
 
 ## 默认策略
@@ -59,7 +61,9 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 | 🏦 香港银行 | DIRECT | 香港节点、节点选择、PROXY |
 | 📈 券商服务 | 🇭🇰 香港节点 | DIRECT、节点选择、PROXY |
 | 🌍 非中国 | PROXY | 节点选择、DIRECT、日本节点 |
-| 🐟 漏网之鱼 | PROXY | 节点选择、DIRECT、日本节点 |
+| 未匹配流量 | DIRECT | 固定国内优先，不回退普通代理 |
+
+
 
 
 
@@ -70,6 +74,7 @@ GitHub Raw 是本 fork 的权威发布源；JSDMirror 仅作为国内访问镜�
 ## 规则集来源
 
 - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) — 主要规则集
+- 微信使用 blackmatrix7 的独立 `WeChat.list` 优先直连；未知流量最终直连，严格金融规则仍优先匹配并失败关闭
 - [iab0x00/ProxyRules](https://github.com/iab0x00/ProxyRules) — AI 服务补充规则
 - `Mail.list` 收录 Apple、Gmail、Outlook、Yahoo、Yandex 的邮件协议端点
 - `Apple.list` 基于 blackmatrix7 Apple 规则，并配套加载 `Apple_Domain.list`，补充 iCloud Photos / Apple CDN 直连域名
