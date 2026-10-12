@@ -308,13 +308,6 @@ rule-providers:
     url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
     interval: 86400
-  fengsx_we_chat:
-    type: http
-    behavior: classical
-    format: text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/WeChat/WeChat.list"
-    path: ./rule_provider/fengsx/fengsx_we_chat.list
-    interval: 86400
   fengsx_apple_hk:
     type: http
     behavior: classical
@@ -494,18 +487,11 @@ rules:
   - DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
   - DOMAIN,pay.ethena.fi,🇭🇰 香港节点
   - DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
-  - DOMAIN-SUFFIX,lebara.co.uk,DIRECT
-  - DOMAIN-SUFFIX,voxi.co.uk,DIRECT
   - RULE-SET,fengsx_mailcom_us,🇺🇸 美国节点
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
-  - DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务
-  - DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务
-  - DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务
-  - RULE-SET,fengsx_we_chat,DIRECT
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
-  - DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
   - DOMAIN,gs-loc.apple.com,📍 WLOC 定位
   - DOMAIN,gs-loc-cn.apple.com,📍 WLOC 定位
   - DOMAIN,gsp-ssl.ls.apple.com,📍 WLOC 定位

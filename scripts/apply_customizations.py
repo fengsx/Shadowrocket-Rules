@@ -50,22 +50,11 @@ DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
 DOMAIN,pay.ethena.fi,🇭🇰 香港节点
 # 万里汇中国站使用国内直连，必须位于 WorldFirst 国际站规则之前。
 DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
-# 英国移动通信网站明确直连，不再按整个 .uk 后缀统一代理。
-DOMAIN-SUFFIX,lebara.co.uk,DIRECT
-DOMAIN-SUFFIX,voxi.co.uk,DIRECT
 RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
-# 小红书核心域名提前直连，避免远程中国规则未及时加载时落入代理兜底。
-DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务
-DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务
-DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务
-# 微信完整业务规则优先直连，覆盖图片、视频、上传、小程序和支付依赖。
-RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/WeChat/WeChat.list,DIRECT
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
-# 蜜雪冰城小程序及静态资源明确使用国内直连，避免依赖 GEOIP 兜底。
-DOMAIN-SUFFIX,mxbc.net,🔒 国内服务
 # WLOC 请求必须进入 WLOC 策略组，避免完整配置更新后策略组存在但从未命中。
 DOMAIN,gs-loc.apple.com,📍 WLOC 定位
 DOMAIN,gs-loc-cn.apple.com,📍 WLOC 定位

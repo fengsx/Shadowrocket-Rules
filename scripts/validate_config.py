@@ -80,13 +80,11 @@ def main() -> None:
         'block-quic = all-proxy',
         'httpdns-api.aliyuncs.com,DIRECT',
         'httpdns.volcengineapi.com,DIRECT',
-        'DOMAIN-SUFFIX,mxbc.net,🔒 国内服务',
         'BlockHttpDNS.list,🧱 DNS 防泄露',
         'ApplePush.list,🍎 苹果推送',
         'Apple.list,🍏 苹果服务',
         'China.list,🔒 国内服务',
         'GEOIP,CN,🔒 国内服务',
-        'WeChat/WeChat.list,DIRECT',
         'FINAL,DIRECT',
         'Mailcom-US.list,🇺🇸 美国节点',
         'US-Apps.list,💵 美国金融',
@@ -100,11 +98,6 @@ def main() -> None:
         'DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点',
         'DOMAIN,pay.ethena.fi,🇭🇰 香港节点',
         'DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务',
-        'DOMAIN-SUFFIX,lebara.co.uk,DIRECT',
-        'DOMAIN-SUFFIX,voxi.co.uk,DIRECT',
-        'DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务',
-        'DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务',
-        'DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务',
         '🏠 家宽节点 = url-test',
         '📚 学术网站 = select,🏠 家宽节点',
         '🤖 AI 服务 = fallback,🇺🇸 美国住宅,🇺🇸 美国普通,REJECT',
@@ -166,6 +159,18 @@ def main() -> None:
             raise RuntimeError(f'严格金融策略不得回退普通代理或直连，且必须失败关闭：{line}')
     if 'DOMAIN-SUFFIX,uk,🇬🇧 英国节点' in text:
         raise RuntimeError('不应按整个 .uk 后缀统一代理')
+    redundant_direct_rules = [
+        'DOMAIN-SUFFIX,lebara.co.uk,DIRECT',
+        'DOMAIN-SUFFIX,voxi.co.uk,DIRECT',
+        'DOMAIN-SUFFIX,xiaohongshu.com,🔒 国内服务',
+        'DOMAIN-SUFFIX,xhscdn.com,🔒 国内服务',
+        'DOMAIN-SUFFIX,xhscdn.net,🔒 国内服务',
+        'WeChat/WeChat.list,DIRECT',
+        'DOMAIN-SUFFIX,mxbc.net,🔒 国内服务',
+    ]
+    for item in redundant_direct_rules:
+        if item in text:
+            raise RuntimeError(f'黑名单模式不应重复维护国内直连补丁：{item}')
     mail_rules = (ROOT / 'Mail.list').read_text().splitlines()
     for item in ['DOMAIN,mail.google.com', 'DOMAIN-SUFFIX,gmail.com']:
         if item not in mail_rules:
