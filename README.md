@@ -102,5 +102,8 @@ MIT
 - DNS 覆写使用 Cloudflare / Google DoH 经代理并行查询；代理 DNS 失败时回退直连的加密 Cloudflare DoH；国内直连域名继续使用系统 DNS。
 - 所有仓库内规则引用和 update-url 均指向本 fork。
 
-WLOC 模块地址：`https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module`。安装并启用模块后，在 Shadowrocket 中生成、安装并完全信任本机 CA 一次。日常域名调整通过远程 `.list` 自动更新，不需要重新更新完整 `Shadowrocket.conf`，因此不会替换 WLOC 模块或 CA。只有策略组或 DNS 结构变化时才重新导入主配置。iOS 27 正式版存在系统级 MITM 限制，详见 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法)。
+WLOC 功能模块：`https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module`。
+Shadowrocket CA 持久化模板：`https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc-ca.module`。功能模块负责脚本和 MITM 域名，CA 模板负责把已信任证书作为本机参数保留；公开模板不包含证书内容。按 [WLOC 使用说明](https://github.com/fengsx/wloc#使用方法) 完成一次本机配置后，更新或切换完整 `Shadowrocket.conf` 不应再重复安装 CA。
+
+日常域名调整通过远程 `.list` 自动更新，不需要重新导入完整 `Shadowrocket.conf`。只有策略组或 DNS 结构变化时才更新主配置。iOS 27 正式版存在系统级 MITM 限制，详见 WLOC 使用说明。
 <!-- CODEX-END CUSTOMIZATION -->
