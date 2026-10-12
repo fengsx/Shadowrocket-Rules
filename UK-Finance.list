@@ -52,5 +52,10 @@ DOMAIN,h6wmjp.launches.appsflyersdk.com
 DOMAIN,h6wmjp.cdn-settings.appsflyersdk.com
 DOMAIN,sdk.fra-01.braze.eu
 DOMAIN,o23827.ingest.sentry.io
+# Yonder 与 LemFi（英国金融服务）
+DOMAIN-SUFFIX,yonder.com
+DOMAIN-SUFFIX,lemfi.com
+DOMAIN-SUFFIX,lemfiapp.com
+# Uphold（英国账户及卡服务）
 DOMAIN-SUFFIX,uphold.com
 DOMAIN,ios.us-east2.aws.oscilar.com

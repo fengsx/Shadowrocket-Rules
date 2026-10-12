@@ -1,4 +1,6 @@
 # 美国节点专用应用
+# Pangea Money Transfer（美国汇款服务）
+DOMAIN-SUFFIX,pangeamoneytransfer.com
 # Amazon 官方购物、支付与静态资源；不匹配共享的 amazonaws.com
 DOMAIN-SUFFIX,amazon.com
 DOMAIN-SUFFIX,amazonpay.com

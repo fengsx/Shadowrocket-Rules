@@ -139,7 +139,7 @@ def main() -> None:
         if item not in twitter_us:
             raise RuntimeError(f'Twitter-US.list 缺少域名：{item}')
     us_apps = (ROOT / 'US-Apps.list').read_text()
-    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com']:
+    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com', 'pangeamoneytransfer.com']:
         if item not in us_apps:
             raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
     mailcom_us = (ROOT / 'Mailcom-US.list').read_text().splitlines()
@@ -150,7 +150,7 @@ def main() -> None:
         if item not in mailcom_us:
             raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
     uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
-    for item in ['DOMAIN-SUFFIX,worldfirst.com']:
+    for item in ['DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com', 'DOMAIN-SUFFIX,lemfiapp.com', 'DOMAIN-SUFFIX,uphold.com']:
         if item not in uk_finance:
             raise RuntimeError(f'UK-Finance.list 缺少 WorldFirst 域名：{item}')
     for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn', 'DOMAIN-SUFFIX,lebara.co.uk']:
