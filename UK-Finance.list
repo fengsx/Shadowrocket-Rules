@@ -40,6 +40,10 @@ DOMAIN-SUFFIX,withplum.com
 DOMAIN-KEYWORD,ifastgb
 DOMAIN-SUFFIX,ifastgb.com
 
+# Ria Money Transfer
+DOMAIN-KEYWORD,riamoneytransfer
+DOMAIN-SUFFIX,riamoneytransfer.com
+
 # WorldFirst 国际站
 DOMAIN-SUFFIX,worldfirst.com
 DOMAIN,api.prod2.kustomerapp.com

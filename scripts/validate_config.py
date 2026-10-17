@@ -145,9 +145,13 @@ def main() -> None:
         if item not in mailcom_us:
             raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
     uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
-    for item in ['DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com', 'DOMAIN-SUFFIX,lemfiapp.com', 'DOMAIN-SUFFIX,uphold.com']:
+    for item in [
+        'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com',
+        'DOMAIN-SUFFIX,lemfiapp.com', 'DOMAIN-SUFFIX,uphold.com',
+        'DOMAIN-KEYWORD,riamoneytransfer', 'DOMAIN-SUFFIX,riamoneytransfer.com',
+    ]:
         if item not in uk_finance:
-            raise RuntimeError(f'UK-Finance.list 缺少 WorldFirst 域名：{item}')
+            raise RuntimeError(f'UK-Finance.list 缺少英国金融域名：{item}')
     for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn', 'DOMAIN-SUFFIX,lebara.co.uk']:
         if item in uk_finance:
             raise RuntimeError(f'UK-Finance.list 不应包含直连或中国站规则：{item}')
