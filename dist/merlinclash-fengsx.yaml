@@ -145,6 +145,12 @@ proxy-groups:
       - "REJECT"
       - "🚀 节点选择"
       - "DIRECT"
+  - name: "🛡️ WebRTC 防泄露"
+    type: select
+    proxies:
+      - "REJECT"
+      - "🚀 节点选择"
+      - "DIRECT"
   - name: "🤖 AI 服务"
     type: fallback
     proxies:
@@ -520,6 +526,12 @@ rules:
   - DOMAIN-SUFFIX,httpdns.baidubce.com,DIRECT
   - DOMAIN-SUFFIX,httpsdns.baidu.com,DIRECT
   - RULE-SET,fengsx_block_http_dns,🧱 DNS 防泄露
+  - AND,((NETWORK,UDP),(DST-PORT,3478),(GEOIP,CN)),🔒 国内服务
+  - AND,((NETWORK,UDP),(DST-PORT,5349),(GEOIP,CN)),🔒 国内服务
+  - AND,((NETWORK,UDP),(DST-PORT,19302-19309),(GEOIP,CN)),🔒 国内服务
+  - AND,((NETWORK,UDP),(DST-PORT,3478)),🛡️ WebRTC 防泄露
+  - AND,((NETWORK,UDP),(DST-PORT,5349)),🛡️ WebRTC 防泄露
+  - AND,((NETWORK,UDP),(DST-PORT,19302-19309)),🛡️ WebRTC 防泄露
   - DOMAIN,localhost.weixin.qq.com,DIRECT
   - DOMAIN,dns.weixin.qq.com.cn,🔒 国内服务
   - DOMAIN,dns.weixin.qq.com,🔒 国内服务
