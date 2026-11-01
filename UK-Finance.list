@@ -63,3 +63,7 @@ DOMAIN-SUFFIX,lemfiapp.com
 # Uphold（英国账户及卡服务）
 DOMAIN-SUFFIX,uphold.com
 DOMAIN,ios.us-east2.aws.oscilar.com
+# Zilch（英国先买后付）
+DOMAIN-SUFFIX,zilch.com
+DOMAIN-SUFFIX,payzilch.com
+DOMAIN-SUFFIX,payzilch.co.uk

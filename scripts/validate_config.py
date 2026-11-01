@@ -149,6 +149,7 @@ def main() -> None:
         'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com',
         'DOMAIN-SUFFIX,lemfiapp.com', 'DOMAIN-SUFFIX,uphold.com',
         'DOMAIN-KEYWORD,riamoneytransfer', 'DOMAIN-SUFFIX,riamoneytransfer.com',
+        'DOMAIN-SUFFIX,zilch.com', 'DOMAIN-SUFFIX,payzilch.com', 'DOMAIN-SUFFIX,payzilch.co.uk',
     ]:
         if item not in uk_finance:
             raise RuntimeError(f'UK-Finance.list 缺少英国金融域名：{item}')
