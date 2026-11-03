@@ -40,6 +40,15 @@ GENERAL_SETTINGS = {
     'block-quic': 'all-proxy',
 }
 PERSONAL_BLOCK = f'''# CODEX-BEGIN PERSONAL POLICIES
+# Qoder / QoderWork 官方站、API、更新下载与工作区域名全部直连。
+DOMAIN-SUFFIX,qoder.com,DIRECT
+DOMAIN-SUFFIX,qoder.cn,DIRECT
+DOMAIN-SUFFIX,qoder.com.cn,DIRECT
+DOMAIN-SUFFIX,qoder.ai,DIRECT
+DOMAIN-SUFFIX,qoder.sh,DIRECT
+DOMAIN-SUFFIX,qoderwork.com,DIRECT
+DOMAIN-SUFFIX,qoderwork.ai,DIRECT
+DOMAIN-SUFFIX,qoder-ide.oss-accelerate.aliyuncs.com,DIRECT
 DOMAIN-SUFFIX,mdpi.com,📚 学术网站
 DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
 DOMAIN-SUFFIX,preprints.org,📚 学术网站

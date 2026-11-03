@@ -478,6 +478,14 @@ rule-providers:
     path: ./rule_provider/fengsx/fengsx_global_domain.list
     interval: 86400
 rules:
+  - DOMAIN-SUFFIX,qoder.com,DIRECT
+  - DOMAIN-SUFFIX,qoder.cn,DIRECT
+  - DOMAIN-SUFFIX,qoder.com.cn,DIRECT
+  - DOMAIN-SUFFIX,qoder.ai,DIRECT
+  - DOMAIN-SUFFIX,qoder.sh,DIRECT
+  - DOMAIN-SUFFIX,qoderwork.com,DIRECT
+  - DOMAIN-SUFFIX,qoderwork.ai,DIRECT
+  - DOMAIN-SUFFIX,qoder-ide.oss-accelerate.aliyuncs.com,DIRECT
   - DOMAIN-SUFFIX,mdpi.com,📚 学术网站
   - DOMAIN-SUFFIX,mdpi-res.com,📚 学术网站
   - DOMAIN-SUFFIX,preprints.org,📚 学术网站
