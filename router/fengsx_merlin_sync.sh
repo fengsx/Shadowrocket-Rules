@@ -316,6 +316,10 @@ main() {
         log '当前 Magic Catling 不支持 MCrule_Custom，已停止安装'
         exit 1
     fi
+    if [ "$(dbus get merlinclash_sub_type)" != 'MCrule_Custom' ]; then
+        dbus set merlinclash_sub_type=MCrule_Custom
+        log '规则模式已重置为 MCrule_Custom'
+    fi
     ensure_endpoint_file
     install_template
     patch_dns_compatibility
