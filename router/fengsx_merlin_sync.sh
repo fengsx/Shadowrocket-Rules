@@ -1,5 +1,5 @@
 #!/bin/sh
-# FENGSX-MERLIN-SYNC-V1
+# FENGSX-MERLIN-SYNC-V2
 # 为 Magic Catling 2 安装并同步 fengsx 规则模板，生成已知节点端点直连规则。
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -11,6 +11,9 @@ ENDPOINTS=/koolshare/merlinclash/rule_custom/fengsx_node_endpoints.yaml
 WEB=/koolshare/webs/Module_merlinclash.asp
 YQ=/koolshare/bin/yq
 LOG=/tmp/fengsx_merlin_sync.log
+# 镜像可能长时间缓存旧产物，缺少这些关键个人规则时必须拒绝安装。
+TEMPLATE_REQUIRED_RULES='DOMAIN-SUFFIX,qoder.com,DIRECT
+DOMAIN-SUFFIX,qoderwork.com,DIRECT'
 
 log() {
     logger -t fengsx-merlin "$*"
@@ -100,36 +103,60 @@ download() {
     log '规则源下载失败，保留已验证的本地版本'
     return 1
 }
+fetch_once() {
+    url="$1"
+    target="$2"
+    curl -fsSL --connect-timeout 8 --max-time 45 "$url" -o "$target" 2>/dev/null || \
+        curl_with_bootstrap "$url" "$target"
+}
+template_is_current() {
+    file="$1"
+    grep -q 'FENGSX-MERLIN-TEMPLATE-V2' "$file" || return 1
+    "$YQ" eval '.' "$file" >/dev/null 2>&1 || return 1
+    for rule in $TEMPLATE_REQUIRED_RULES; do
+        grep -Fq "$rule" "$file" || { log "规则模板缺少关键规则：$rule"; return 1; }
+    done
+}
 refresh_self() {
     tmp=/tmp/fengsx_merlin_self.$$
-    if download "$RAW_BASE/router/fengsx_merlin_sync.sh?ts=$(date +%s)" "$tmp" && \
-       grep -q 'FENGSX-MERLIN-SYNC-V1' "$tmp"; then
-        chmod 0755 "$tmp"
-        if ! cmp -s "$tmp" "$SELF"; then
-            mv -f "$tmp" "$SELF"
-            log '同步脚本已更新'
-            exec "$SELF" updated
+    for base in "$RAW_BASE" "$RAW_FALLBACK"; do
+        url="$base/router/fengsx_merlin_sync.sh?ts=$(date +%s)"
+        if fetch_once "$url" "$tmp" && \
+           grep -q 'FENGSX-MERLIN-SYNC-V2' "$tmp" && \
+           grep -q 'template_is_current' "$tmp"; then
+            chmod 0755 "$tmp"
+            if ! cmp -s "$tmp" "$SELF"; then
+                mv -f "$tmp" "$SELF"
+                log '同步脚本已更新'
+                exec "$SELF" updated
+            fi
+            break
         fi
-    fi
+        log "同步脚本内容过旧，已拒绝：$base"
+    done
     rm -f "$tmp"
 }
 
 install_template() {
     tmp=/tmp/fengsx_merlin_template.$$
     template_changed=0
-    if download "$RAW_BASE/dist/merlinclash-fengsx.yaml?ts=$(date +%s)" "$tmp" && \
-       grep -q 'FENGSX-MERLIN-TEMPLATE-V2' "$tmp" && \
-       "$YQ" eval '.' "$tmp" >/dev/null 2>&1; then
-        if ! cmp -s "$tmp" "$TEMPLATE"; then
-            mkdir -p "$(dirname "$TEMPLATE")"
-            mv -f "$tmp" "$TEMPLATE"
-            chmod 0644 "$TEMPLATE"
-            template_changed=1
-            log '规则模板已更新'
+    accepted=0
+    for base in "$RAW_BASE" "$RAW_FALLBACK"; do
+        url="$base/dist/merlinclash-fengsx.yaml?ts=$(date +%s)"
+        if fetch_once "$url" "$tmp" && template_is_current "$tmp"; then
+            accepted=1
+            if ! cmp -s "$tmp" "$TEMPLATE"; then
+                mkdir -p "$(dirname "$TEMPLATE")"
+                mv -f "$tmp" "$TEMPLATE"
+                chmod 0644 "$TEMPLATE"
+                template_changed=1
+                log "规则模板已更新：$base"
+            fi
+            break
         fi
-    else
-        log '规则模板下载或校验失败，保留现有版本'
-    fi
+        log "规则模板不可用或内容过旧，已拒绝：$base"
+    done
+    [ "$accepted" = 1 ] || log '规则模板下载或校验失败，保留现有版本'
     rm -f "$tmp"
 }
 
