@@ -124,7 +124,8 @@ refresh_self() {
         url="$base/router/fengsx_merlin_sync.sh?ts=$(date +%s)"
         if fetch_once "$url" "$tmp" && \
            grep -q 'FENGSX-MERLIN-SYNC-V2' "$tmp" && \
-           grep -q 'template_is_current' "$tmp"; then
+           grep -q 'template_is_current' "$tmp" && \
+           grep -q 'DOMAIN-SUFFIX,outlook.com' "$tmp"; then
             chmod 0755 "$tmp"
             if ! cmp -s "$tmp" "$SELF"; then
                 mv -f "$tmp" "$SELF"
