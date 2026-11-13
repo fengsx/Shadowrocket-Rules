@@ -115,7 +115,8 @@ def main() -> None:
         '🇺🇸 美国普通 = url-test',
         '🇬🇧 英国普通 = url-test',
         '💷 英国金融 = fallback,🇬🇧 英国普通,REJECT',
-        'Ⓜ️ 微软服务 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT',
+        'Ⓜ️ 微软服务 = select,🚀 节点选择,PROXY,DIRECT,REJECT',
+        '📮 微软邮箱 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT',
         '🏦 汇丰香港 = select,🇭🇰 香港节点,DIRECT',
         '🏦 香港银行 = select,🇭🇰 香港节点,DIRECT',
         '剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧',
@@ -208,10 +209,13 @@ def main() -> None:
     us_finance_rule = text.index('US-Apps.list,💵 美国金融')
     uk_finance_rule = text.index('UK-Finance.list,💷 英国金融')
     global_rule = text.index('/Global/Global.list,🌍 非中国')
+    microsoft_mail_rule = text.index('DOMAIN-SUFFIX,outlook.com,📮 微软邮箱')
+    generic_mail_rule = text.index('Mail.list,📧 邮件服务')
+    microsoft_rule = text.index('Microsoft.list,Ⓜ️ 微软服务')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
     wloc_rule = text.index('DOMAIN,gs-loc.apple.com,📍 WLOC 定位')
-    if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule or not max(us_finance_rule, uk_finance_rule) < global_rule:
-        raise RuntimeError('HTTPDNS、WLOC 或严格金融规则顺序错误')
+    if not httpdns_exception < httpdns_block or not wloc_rule < apple_rule or not max(us_finance_rule, uk_finance_rule) < global_rule or not microsoft_mail_rule < min(generic_mail_rule, microsoft_rule):
+        raise RuntimeError('HTTPDNS、WLOC、严格金融或微软邮箱规则顺序错误')
     urls=set()
     for _,line in sections['Rule']:
         match=re.search(r'https://[^,]+',line)

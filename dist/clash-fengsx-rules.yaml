@@ -178,8 +178,8 @@ proxy-groups:
   - name: "Ⓜ️ 微软服务"
     type: select
     proxies:
-      - "DIRECT"
       - "🚀 节点选择"
+      - "DIRECT"
       - "REJECT"
   - name: "📧 邮件服务"
     type: url-test
@@ -190,6 +190,12 @@ proxy-groups:
     interval: 300
     tolerance: 50
     lazy: true
+  - name: "📮 微软邮箱"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🚀 节点选择"
+      - "REJECT"
   - name: "🍏 苹果服务"
     type: select
     proxies:
@@ -495,6 +501,11 @@ rules:
   - DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
   - DOMAIN,pay.ethena.fi,🇭🇰 香港节点
   - DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
+  - DOMAIN-SUFFIX,outlook.com,📮 微软邮箱
+  - DOMAIN-SUFFIX,office365.com,📮 微软邮箱
+  - DOMAIN-SUFFIX,hotmail.com,📮 微软邮箱
+  - DOMAIN,login.live.com,📮 微软邮箱
+  - DOMAIN-SUFFIX,mira.tm.svc.cloud.microsoft,📮 微软邮箱
   - RULE-SET,fengsx_mailcom_us,🇺🇸 美国节点
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
