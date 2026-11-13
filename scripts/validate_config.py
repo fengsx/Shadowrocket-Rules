@@ -250,6 +250,8 @@ def main() -> None:
         raise RuntimeError('路由器同步脚本缺少每天 04:17 的定时任务')
     if '17 */6 * * *' in router_sync:
         raise RuntimeError('路由器同步脚本仍包含每 6 小时定时任务')
+    if 'DOMAIN-SUFFIX,outlook.com,📮 微软邮箱' not in router_sync:
+        raise RuntimeError('路由器同步脚本缺少微软邮箱模板防旧缓存校验')
     suffix=f'，远程规则={len(urls)}' if args.online else ''
     print(f'验证通过：配置段={len(sections)}，策略组={len(groups)-3}，规则={len(sections["Rule"])}{suffix}')
 
