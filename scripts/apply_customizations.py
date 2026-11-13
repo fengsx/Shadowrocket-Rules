@@ -65,6 +65,7 @@ DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
 DOMAIN-SUFFIX,outlook.com,📮 微软邮箱
 DOMAIN-SUFFIX,office365.com,📮 微软邮箱
 DOMAIN-SUFFIX,hotmail.com,📮 微软邮箱
+DOMAIN-SUFFIX,msn.com,📮 微软邮箱
 DOMAIN,login.live.com,📮 微软邮箱
 DOMAIN-SUFFIX,mira.tm.svc.cloud.microsoft,📮 微软邮箱
 RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点

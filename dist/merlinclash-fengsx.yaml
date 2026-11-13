@@ -510,6 +510,7 @@ rules:
   - DOMAIN-SUFFIX,outlook.com,📮 微软邮箱
   - DOMAIN-SUFFIX,office365.com,📮 微软邮箱
   - DOMAIN-SUFFIX,hotmail.com,📮 微软邮箱
+  - DOMAIN-SUFFIX,msn.com,📮 微软邮箱
   - DOMAIN,login.live.com,📮 微软邮箱
   - DOMAIN-SUFFIX,mira.tm.svc.cloud.microsoft,📮 微软邮箱
   - RULE-SET,fengsx_mailcom_us,🇺🇸 美国节点

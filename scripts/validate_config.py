@@ -210,6 +210,8 @@ def main() -> None:
     uk_finance_rule = text.index('UK-Finance.list,💷 英国金融')
     global_rule = text.index('/Global/Global.list,🌍 非中国')
     microsoft_mail_rule = text.index('DOMAIN-SUFFIX,outlook.com,📮 微软邮箱')
+    if 'DOMAIN-SUFFIX,msn.com,📮 微软邮箱' not in text:
+        raise RuntimeError('缺少 MSN 邮箱直连规则')
     generic_mail_rule = text.index('Mail.list,📧 邮件服务')
     microsoft_rule = text.index('Microsoft.list,Ⓜ️ 微软服务')
     apple_rule = text.index('Apple.list,🍏 苹果服务')
