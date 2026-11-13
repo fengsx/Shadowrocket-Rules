@@ -45,3 +45,10 @@ DOMAIN-SUFFIX,fusionbank.com
 DOMAIN-SUFFIX,paob.com.hk
 DOMAIN-SUFFIX,antbank.hk
 DOMAIN-SUFFIX,airstarbank.com
+
+# SoSIM（香港电信服务）
+DOMAIN-SUFFIX,sosimhk.com
+DOMAIN-SUFFIX,sosim.hk
+# MyCUniq（中国联通国际香港服务）
+DOMAIN-KEYWORD,cuniq
+DOMAIN-SUFFIX,cuniq.com

@@ -152,6 +152,13 @@ def main() -> None:
     ]:
         if item not in mailcom_us:
             raise RuntimeError(f'Mailcom-US.list 缺少 Mail.com 域名：{item}')
+    hk_banks = (ROOT / 'HK_Banks_Direct.list').read_text().splitlines()
+    for item in [
+        'DOMAIN-SUFFIX,sosimhk.com', 'DOMAIN-SUFFIX,sosim.hk',
+        'DOMAIN-KEYWORD,cuniq', 'DOMAIN-SUFFIX,cuniq.com',
+    ]:
+        if item not in hk_banks:
+            raise RuntimeError(f'HK_Banks_Direct.list 缺少香港金融应用域名：{item}')
     uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
     for item in [
         'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com',
