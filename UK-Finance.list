@@ -44,6 +44,17 @@ DOMAIN-SUFFIX,ifastgb.com
 DOMAIN-KEYWORD,riamoneytransfer
 DOMAIN-SUFFIX,riamoneytransfer.com
 
+# Bunq
+DOMAIN-KEYWORD,bunq
+DOMAIN-SUFFIX,bunq.com
+
+# Taptap Send
+DOMAIN-KEYWORD,taptapsend
+DOMAIN-SUFFIX,taptapsend.com
+
+# NALA Money Transfer
+DOMAIN-SUFFIX,nala.com
+
 # WorldFirst 国际站
 DOMAIN-SUFFIX,worldfirst.com
 DOMAIN,api.prod2.kustomerapp.com
