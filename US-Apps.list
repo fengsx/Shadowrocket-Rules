@@ -2,6 +2,8 @@
 # Pangea Money Transfer（美国汇款服务）
 DOMAIN-SUFFIX,pangeamoneytransfer.com
 # Fold（美国比特币金融服务）
+# Credit Karma（美国信用与个人金融服务）
+DOMAIN-SUFFIX,creditkarma.com
 DOMAIN-SUFFIX,foldapp.com
 # Amazon 官方购物、支付与静态资源；不匹配共享的 amazonaws.com
 DOMAIN-SUFFIX,amazon.com
