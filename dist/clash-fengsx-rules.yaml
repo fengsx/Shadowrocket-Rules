@@ -178,8 +178,8 @@ proxy-groups:
   - name: "Ⓜ️ 微软服务"
     type: select
     proxies:
-      - "🚀 节点选择"
       - "DIRECT"
+      - "🚀 节点选择"
       - "REJECT"
   - name: "📧 邮件服务"
     type: url-test

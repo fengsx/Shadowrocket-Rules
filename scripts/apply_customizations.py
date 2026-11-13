@@ -27,6 +27,7 @@ HOME_BROADBAND_GROUP = '🏠 家宽节点 = url-test,url=http://www.gstatic.com/
 ACADEMIC_GROUP = '📚 学术网站 = select,🏠 家宽节点,🇭🇰 香港节点,🇺🇸 美国住宅,🇯🇵 日本节点,🇰🇷 韩国节点,DIRECT,REJECT,policy-select-name=🏠 家宽节点'
 GOOGLE_GROUP = '🔍 谷歌服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
 MAIL_GROUP = '📧 邮件服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
+MICROSOFT_GROUP = 'Ⓜ️ 微软服务 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
 GENERAL_SETTINGS = {
     'dns-server': 'https://cloudflare-dns.com/dns-query#proxy',
     'fallback-dns-server': 'https://dns.google/dns-query#proxy',
@@ -190,6 +191,7 @@ def main() -> None:
     text = ensure_group_line(text, '🤖 AI 服务 =', AI_GROUP, '🧱 DNS 防泄露 =')
     text = ensure_group_line(text, '🔍 谷歌服务 =', GOOGLE_GROUP, '🤖 AI 服务 =')
     text = ensure_group_line(text, '📧 邮件服务 =', MAIL_GROUP, 'Ⓜ️ 微软服务 =')
+    text = ensure_group_line(text, 'Ⓜ️ 微软服务 =', MICROSOFT_GROUP, '📧 邮件服务 =')
     # 国内优先模式：未知流量默认直连；严格金融规则在此前已优先匹配并失败关闭。
     text = re.sub(r'(?m)^FINAL,.*$', 'FINAL,DIRECT', text, count=1)
     # FINAL 已直接指定 DIRECT，不再保留容易误选为代理的旧兜底策略组。

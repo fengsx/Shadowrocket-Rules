@@ -231,12 +231,14 @@
       "type": "url-test"
     },
     {
-      "attributes": {},
+      "attributes": {
+        "policy-select-name": "DIRECT"
+      },
       "name": "Ⓜ️ 微软服务",
       "options": [
+        "DIRECT",
         "🚀 节点选择",
         "PROXY",
-        "DIRECT",
         "REJECT"
       ],
       "type": "select"
@@ -1232,6 +1234,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "139d268b27732799cf6db3db0b5013f9f1db913b22d3364f0c82436579523a23"
+    "sha256": "ea4dddd168b3e2e35da66c3d354d743c36b6038c8fa76514184efc95c8bbd3e4"
   }
 }
