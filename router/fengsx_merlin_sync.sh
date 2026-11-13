@@ -14,7 +14,7 @@ LOG=/tmp/fengsx_merlin_sync.log
 # 镜像可能长时间缓存旧产物，缺少这些关键个人规则时必须拒绝安装。
 TEMPLATE_REQUIRED_RULES='DOMAIN-SUFFIX,qoder.com,DIRECT
 DOMAIN-SUFFIX,qoderwork.com,DIRECT
-DOMAIN-SUFFIX,outlook.com,📮 微软邮箱'
+DOMAIN-SUFFIX,outlook.com'
 
 log() {
     logger -t fengsx-merlin "$*"
