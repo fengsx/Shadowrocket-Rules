@@ -501,6 +501,8 @@ rules:
   - DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
   - DOMAIN,pay.ethena.fi,🇭🇰 香港节点
   - DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
+  - DOMAIN,mtalk.google.com,DIRECT
+  - DOMAIN,cn.pool.ntp.org,DIRECT
   - DOMAIN-SUFFIX,outlook.com,📮 微软邮箱
   - DOMAIN-SUFFIX,office365.com,📮 微软邮箱
   - DOMAIN-SUFFIX,hotmail.com,📮 微软邮箱
