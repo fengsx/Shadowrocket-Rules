@@ -354,6 +354,13 @@ rule-providers:
     url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_hk_finance.list
     interval: 86400
+  fengsx_octopus_hk:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Octopus-HK.list"
+    path: ./rule_provider/fengsx/fengsx_octopus_hk.list
+    interval: 86400
   fengsx_apple_hk:
     type: http
     behavior: classical
@@ -552,6 +559,7 @@ rules:
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
   - RULE-SET,fengsx_hk_finance,💳 香港金融
+  - RULE-SET,fengsx_octopus_hk,🇭🇰 香港节点
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
   - DOMAIN,gs-loc.apple.com,📍 WLOC 定位

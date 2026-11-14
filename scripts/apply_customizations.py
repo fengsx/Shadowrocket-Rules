@@ -77,6 +77,8 @@ RULE-SET,{FORK_RAW}/Mailcom-US.list,🇺🇸 美国节点
 RULE-SET,{FORK_RAW}/US-Apps.list,💵 美国金融
 RULE-SET,{FORK_RAW}/UK-Finance.list,💷 英国金融
 RULE-SET,{FORK_RAW}/HK-Finance.list,💳 香港金融
+# 八达通使用香港节点，不参与香港金融的家宽优先回退。
+RULE-SET,{FORK_RAW}/Octopus-HK.list,🇭🇰 香港节点
 DOMAIN,wloc.qor.com.cn,DIRECT
 DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
 # WLOC 请求必须进入 WLOC 策略组，避免完整配置更新后策略组存在但从未命中。
