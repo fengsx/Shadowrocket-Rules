@@ -61,8 +61,7 @@ DOMAIN-SUFFIX,ethenapay.co,🇭🇰 香港节点
 DOMAIN,pay.ethena.fi,🇭🇰 香港节点
 # 万里汇中国站使用国内直连，必须位于 WorldFirst 国际站规则之前。
 DOMAIN-SUFFIX,worldfirst.com.cn,🔒 国内服务
-# 基础推送与中国时间同步必须直连，避免被 Google 美国金融或香港券商规则提前匹配。
-DOMAIN,mtalk.google.com,DIRECT
+# 中国时间同步必须直连，避免被香港券商规则提前匹配。
 DOMAIN,cn.pool.ntp.org,DIRECT
 # 微软邮箱先于通用邮件与微软规则匹配，避免 Outlook/MSN 被自动节点抢占。
 DOMAIN-SUFFIX,outlook.com,📮 微软邮箱

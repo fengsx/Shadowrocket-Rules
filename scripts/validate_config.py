@@ -209,11 +209,10 @@ def main() -> None:
     us_finance_rule = text.index('US-Apps.list,💵 美国金融')
     uk_finance_rule = text.index('UK-Finance.list,💷 英国金融')
     global_rule = text.index('/Global/Global.list,🌍 非中国')
-    direct_exception = text.index('DOMAIN,mtalk.google.com,DIRECT')
     ntp_exception = text.index('DOMAIN,cn.pool.ntp.org,DIRECT')
     hk_broker_rule = text.index('HK_Broker.list,📈 券商服务')
-    if not direct_exception < us_finance_rule or not ntp_exception < hk_broker_rule:
-        raise RuntimeError('推送或时间同步直连规则顺序错误')
+    if not ntp_exception < hk_broker_rule:
+        raise RuntimeError('中国时间同步直连规则顺序错误')
     microsoft_mail_rule = text.index('DOMAIN-SUFFIX,outlook.com,📮 微软邮箱')
     if 'DOMAIN-SUFFIX,msn.com,📮 微软邮箱' not in text:
         raise RuntimeError('缺少 MSN 邮箱直连规则')
