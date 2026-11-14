@@ -30,6 +30,7 @@ DOMAIN-SUFFIX,tktn.be
 DOMAIN-SUFFIX,ooma.com
 DOMAIN-KEYWORD,capitalone
 DOMAIN-SUFFIX,capitalone.com
+DOMAIN-SUFFIX,capitaloneshopping.com
 # Capital One 页面实测第三方依赖：仅匹配精确主机，避免污染共享服务域名
 DOMAIN,mboxedge34.tt.omtrdc.net
 DOMAIN,mboxedge35.tt.omtrdc.net

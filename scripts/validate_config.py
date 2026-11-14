@@ -144,7 +144,7 @@ def main() -> None:
         if item not in twitter_us:
             raise RuntimeError(f'Twitter-US.list 缺少域名：{item}')
     us_apps = (ROOT / 'US-Apps.list').read_text()
-    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com', 'pangeamoneytransfer.com', 'foldapp.com', 'creditkarma.com']:
+    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com', 'pangeamoneytransfer.com', 'foldapp.com', 'creditkarma.com', 'capitaloneshopping.com']:
         if item not in us_apps:
             raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
     mailcom_us = (ROOT / 'Mailcom-US.list').read_text().splitlines()
