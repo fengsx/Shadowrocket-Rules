@@ -40,6 +40,24 @@ proxy-groups:
     interval: 300
     tolerance: 50
     lazy: true
+  - name: "🇭🇰 香港家宽"
+    type: url-test
+    include-all: true
+    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
+    filter: "(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: "🇭🇰 香港普通"
+    type: url-test
+    include-all: true
+    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
+    filter: "^(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    lazy: true
   - name: "🇹🇼 台湾节点"
     type: url-test
     include-all: true
@@ -267,7 +285,8 @@ proxy-groups:
   - name: "💳 香港金融"
     type: fallback
     proxies:
-      - "🇭🇰 香港节点"
+      - "🇭🇰 香港家宽"
+      - "🇭🇰 香港普通"
       - "REJECT"
     url: "http://www.gstatic.com/generate_204"
     interval: 300

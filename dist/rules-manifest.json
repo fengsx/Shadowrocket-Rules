@@ -33,6 +33,30 @@
     {
       "attributes": {
         "interval": "300",
+        "policy-regex-filter": "(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))",
+        "timeout": "5",
+        "tolerance": "50",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇭🇰 香港家宽",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "300",
+        "policy-regex-filter": "^(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$",
+        "timeout": "5",
+        "tolerance": "50",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🇭🇰 香港普通",
+      "options": [],
+      "type": "url-test"
+    },
+    {
+      "attributes": {
+        "interval": "300",
         "policy-regex-filter": "🇹🇼|TW|TWN|Taiwan|Taipei|taiwan|台湾|台灣|台北|台中|新北|彰化",
         "timeout": "5",
         "tolerance": "50",
@@ -404,7 +428,8 @@
       },
       "name": "💳 香港金融",
       "options": [
-        "🇭🇰 香港节点",
+        "🇭🇰 香港家宽",
+        "🇭🇰 香港普通",
         "REJECT"
       ],
       "type": "fallback"
@@ -1322,6 +1347,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "201f9eed788e62d7c06beb45b5acf5c06e1f024aa3c4a98b07d3681f8fda47b3"
+    "sha256": "25c301598c0405ae5c1678af81df8324a7b927e07131b4cc8e1ddf6a91f07c78"
   }
 }
