@@ -1,8 +1,0 @@
-# NAME: HK-Finance
-# DESC: Hong Kong financial and telecom account services
-# SoSIM
-DOMAIN-SUFFIX,sosimhk.com
-# MyCUniq
-DOMAIN-SUFFIX,cuniq.com
-DOMAIN-SUFFIX,my.cuniq.com
-DOMAIN-SUFFIX,chinaunicomglobal.com

@@ -40,24 +40,6 @@ proxy-groups:
     interval: 300
     tolerance: 50
     lazy: true
-  - name: "🇭🇰 香港家宽"
-    type: url-test
-    include-all: true
-    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
-    filter: "(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?=.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND))"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
-  - name: "🇭🇰 香港普通"
-    type: url-test
-    include-all: true
-    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
-    filter: "^(?=.*(?:🇭🇰|HK|Hong Kong|香港|HKG))(?!.*(?:家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND)).*$"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
   - name: "🇹🇼 台湾节点"
     type: url-test
     include-all: true
@@ -282,15 +264,6 @@ proxy-groups:
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     lazy: true
-  - name: "💳 香港金融"
-    type: fallback
-    proxies:
-      - "🇭🇰 香港家宽"
-      - "🇭🇰 香港普通"
-      - "REJECT"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    lazy: true
   - name: "📚 学术网站"
     type: select
     proxies:
@@ -341,20 +314,6 @@ rule-providers:
     format: text
     url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/UK-Finance.list"
     path: ./rule_provider/fengsx/fengsx_uk_finance.list
-    interval: 86400
-  fengsx_hk_finance:
-    type: http
-    behavior: classical
-    format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/HK-Finance.list"
-    path: ./rule_provider/fengsx/fengsx_hk_finance.list
-    interval: 86400
-  fengsx_octopus_hk:
-    type: http
-    behavior: classical
-    format: text
-    url: "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Octopus-HK.list"
-    path: ./rule_provider/fengsx/fengsx_octopus_hk.list
     interval: 86400
   fengsx_apple_hk:
     type: http
@@ -552,8 +511,10 @@ rules:
   - RULE-SET,fengsx_mailcom_us,🇺🇸 美国节点
   - RULE-SET,fengsx_us_apps,💵 美国金融
   - RULE-SET,fengsx_uk_finance,💷 英国金融
-  - RULE-SET,fengsx_hk_finance,💳 香港金融
-  - RULE-SET,fengsx_octopus_hk,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,sosimhk.com,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,cuniq.com,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,octopus.com.hk,🇭🇰 香港节点
+  - DOMAIN-SUFFIX,octopuscards.com,🇭🇰 香港节点
   - DOMAIN,wloc.qor.com.cn,DIRECT
   - DOMAIN-SUFFIX,fengsx.workers.dev,DIRECT
   - DOMAIN,gs-loc.apple.com,📍 WLOC 定位
