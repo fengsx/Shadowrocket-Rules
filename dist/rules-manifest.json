@@ -231,6 +231,18 @@
       "type": "url-test"
     },
     {
+      "attributes": {
+        "interval": "300",
+        "policy-regex-filter": "(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约)",
+        "timeout": "5",
+        "tolerance": "50",
+        "url": "http://www.gstatic.com/generate_204"
+      },
+      "name": "🐦 Twitter",
+      "options": [],
+      "type": "url-test"
+    },
+    {
       "attributes": {},
       "name": "Ⓜ️ 微软服务",
       "options": [
@@ -765,7 +777,7 @@
       "kind": "rule_set",
       "noResolve": false,
       "position": 400,
-      "target": "🇺🇸 美国节点",
+      "target": "🐦 Twitter",
       "value": "https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/Twitter-US.list"
     },
     {
@@ -1333,6 +1345,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "1e25c49891cd483a789074bdde853d5caceae8b5ce6189a57f5866d6674ff6d0"
+    "sha256": "3c2b741f4e28dd2e4ac3ae0a94d45e5947a7cd3493df1ff9a5b0712d4b4a6bcd"
   }
 }

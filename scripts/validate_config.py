@@ -122,7 +122,8 @@ def main() -> None:
         '剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧',
         '🇺🇸 美国节点 = url-test',
         'Apple-HK.list,🇭🇰 香港节点',
-        'Twitter-US.list,🇺🇸 美国节点',
+        '🐦 Twitter = url-test',
+        'Twitter-US.list,🐦 Twitter',
         '🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL',
     ]
     absent=[item for item in expected if item not in text]
@@ -140,7 +141,7 @@ def main() -> None:
         if item not in apple_hk:
             raise RuntimeError(f'Apple-HK.list 缺少域名：{item}')
     twitter_us = (ROOT / 'Twitter-US.list').read_text()
-    for item in ['twitter.com', 'x.com', 'twimg.com', 't.co']:
+    for item in ['twitter.com', 'x.com', 'twimg.com', 'twimg.com.cdn.cloudflare.net', 'twitter.com.cdn.cloudflare.net', 't.co']:
         if item not in twitter_us:
             raise RuntimeError(f'Twitter-US.list 缺少域名：{item}')
     us_apps = (ROOT / 'US-Apps.list').read_text()

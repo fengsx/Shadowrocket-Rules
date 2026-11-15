@@ -175,6 +175,15 @@ proxy-groups:
     interval: 300
     tolerance: 50
     lazy: true
+  - name: "🐦 Twitter"
+    type: url-test
+    include-all: true
+    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
+    filter: "(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约)"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    lazy: true
   - name: "Ⓜ️ 微软服务"
     type: select
     proxies:
@@ -523,7 +532,7 @@ rules:
   - DOMAIN,bluedot.is.autonavi.com,📍 WLOC 定位
   - DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
   - RULE-SET,fengsx_apple_hk,🇭🇰 香港节点
-  - RULE-SET,fengsx_twitter_us,🇺🇸 美国节点
+  - RULE-SET,fengsx_twitter_us,🐦 Twitter
   - DOMAIN,dns.jd.com,DIRECT
   - DOMAIN,dns.weibo.cn,DIRECT
   - DOMAIN,dns.weixin.qq.com,DIRECT

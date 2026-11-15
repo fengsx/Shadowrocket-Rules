@@ -26,6 +26,7 @@ DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-
 HOME_BROADBAND_GROUP = '🏠 家宽节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=80,timeout=5,policy-regex-filter=家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND'
 ACADEMIC_GROUP = '📚 学术网站 = select,🏠 家宽节点,🇭🇰 香港节点,🇺🇸 美国住宅,🇯🇵 日本节点,🇰🇷 韩国节点,DIRECT,REJECT,policy-select-name=🏠 家宽节点'
 GOOGLE_GROUP = '🔍 谷歌服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
+TWITTER_GROUP = '🐦 Twitter = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=300,timeout=5,policy-regex-filter=(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约)'
 MAIL_GROUP = '📧 邮件服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
 MICROSOFT_GROUP = 'Ⓜ️ 微软服务 = select,🚀 节点选择,PROXY,DIRECT,REJECT'
 MICROSOFT_MAIL_GROUP = '📮 微软邮箱 = select,DIRECT,🚀 节点选择,PROXY,REJECT,policy-select-name=DIRECT'
@@ -89,7 +90,7 @@ DOMAIN,bluedot.is.autonavi.com.gds.alibabadns.com,📍 WLOC 定位
 
 # Apple 支持与 Twitter / X 使用独立远程规则集；更新域名时不替换完整配置。
 RULE-SET,{FORK_RAW}/Apple-HK.list,🇭🇰 香港节点
-RULE-SET,{FORK_RAW}/Twitter-US.list,🇺🇸 美国节点
+RULE-SET,{FORK_RAW}/Twitter-US.list,🐦 Twitter
 
 # 国内 App 的 HTTPDNS 兼容例外必须位于通用拦截规则之前。
 DOMAIN,dns.jd.com,DIRECT
@@ -208,6 +209,7 @@ def main() -> None:
     text = ensure_group_line(text, '🧱 DNS 防泄露 =', DNS_GROUP, '🌐 其他节点 =')
     text = ensure_group_line(text, '🤖 AI 服务 =', AI_GROUP, '🧱 DNS 防泄露 =')
     text = ensure_group_line(text, '🔍 谷歌服务 =', GOOGLE_GROUP, '🤖 AI 服务 =')
+    text = ensure_group_line(text, '🐦 Twitter =', TWITTER_GROUP, '🔍 谷歌服务 =')
     text = ensure_group_line(text, '📧 邮件服务 =', MAIL_GROUP, 'Ⓜ️ 微软服务 =')
     text = ensure_group_line(text, 'Ⓜ️ 微软服务 =', MICROSOFT_GROUP, '📧 邮件服务 =')
     text = ensure_group_line(text, '📮 微软邮箱 =', MICROSOFT_MAIL_GROUP, '📧 邮件服务 =')
