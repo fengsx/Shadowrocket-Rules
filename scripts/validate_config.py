@@ -148,7 +148,7 @@ def main() -> None:
         if item not in twitter_us:
             raise RuntimeError(f'Twitter-US.list 缺少域名：{item}')
     us_apps = (ROOT / 'US-Apps.list').read_text()
-    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com', 'pangeamoneytransfer.com', 'foldapp.com', 'creditkarma.com', 'capitaloneshopping.com']:
+    for item in ['interactivebrokers.com', 'interactivebrokers.com.hk', 'ibkr.com', 'pangeamoneytransfer.com', 'foldapp.com', 'creditkarma.com', 'capitaloneshopping.com', 'revolut.com', 'lemfi.com', 'lemfiapp.com']:
         if item not in us_apps:
             raise RuntimeError(f'US-Apps.list 缺少盈透域名：{item}')
     mailcom_us = (ROOT / 'Mailcom-US.list').read_text().splitlines()
@@ -167,8 +167,7 @@ def main() -> None:
             raise RuntimeError(f'HK_Banks_Direct.list 缺少香港金融应用域名：{item}')
     uk_finance = (ROOT / 'UK-Finance.list').read_text().splitlines()
     for item in [
-        'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,lemfi.com',
-        'DOMAIN-SUFFIX,lemfiapp.com', 'DOMAIN-SUFFIX,uphold.com',
+        'DOMAIN-SUFFIX,worldfirst.com', 'DOMAIN-SUFFIX,yonder.com', 'DOMAIN-SUFFIX,uphold.com',
         'DOMAIN-KEYWORD,riamoneytransfer', 'DOMAIN-SUFFIX,riamoneytransfer.com',
         'DOMAIN-SUFFIX,zilch.com', 'DOMAIN-SUFFIX,payzilch.com', 'DOMAIN-SUFFIX,payzilch.co.uk',
         'DOMAIN-KEYWORD,bunq', 'DOMAIN-SUFFIX,bunq.com',
@@ -180,6 +179,9 @@ def main() -> None:
     for item in ['DOMAIN-KEYWORD,worldfirst', 'DOMAIN-SUFFIX,worldfirst.com.cn', 'DOMAIN-SUFFIX,lebara.co.uk']:
         if item in uk_finance:
             raise RuntimeError(f'UK-Finance.list 不应包含直连或中国站规则：{item}')
+    for item in ['DOMAIN-SUFFIX,lemfi.com', 'DOMAIN-SUFFIX,lemfiapp.com']:
+        if item in uk_finance:
+            raise RuntimeError(f'UK-Finance.list 不应继续包含 LemFi：{item}')
     if re.search(r'(?m)^🐟 漏网之鱼\s*=', text):
         raise RuntimeError('国内优先模式不应保留可切换的旧兜底策略组')
     for group in ['💵 美国金融', '💷 英国金融']:

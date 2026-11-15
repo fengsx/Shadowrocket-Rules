@@ -55,6 +55,9 @@ DOMAIN-KEYWORD,redpocket
 DOMAIN-SUFFIX,redpocket.com
 DOMAIN-KEYWORD,revolut
 DOMAIN-SUFFIX,revolut.com
+# LemFi 国际汇款服务使用美国金融出口。
+DOMAIN-SUFFIX,lemfi.com
+DOMAIN-SUFFIX,lemfiapp.com
 DOMAIN-SUFFIX,t-mobile.com
 DOMAIN-SUFFIX,tmobile.com
 # Interactive Brokers / IBKR（美国金融）
