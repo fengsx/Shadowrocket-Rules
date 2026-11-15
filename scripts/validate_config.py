@@ -122,8 +122,11 @@ def main() -> None:
         '剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧',
         '🇺🇸 美国节点 = url-test',
         'Apple-HK.list,🇭🇰 香港节点',
-        '🐦 Twitter = url-test',
-        'Twitter-US.list,🐦 Twitter',
+        '🌐 社交媒体 = url-test',
+        'Twitter-US.list,🌐 社交媒体',
+        'Facebook/Facebook.list,🌐 社交媒体',
+        'Instagram/Instagram.list,🌐 社交媒体',
+        'Threads/Threads.list,🌐 社交媒体',
         '🇬🇧|英国|UK|London|LHR|🇰🇷|韩国|KR|Korea|ICN|SEL',
     ]
     absent=[item for item in expected if item not in text]
@@ -202,7 +205,7 @@ def main() -> None:
         if item not in mail_rules:
             raise RuntimeError(f'Mail.list 缺少 Gmail 网页规则：{item}')
     for line in text.splitlines():
-        if ' = url-test,' in line:
+        if ' = url-test,' in line and not line.startswith('🌐 社交媒体 ='):
             if 'interval=300' not in line or 'tolerance=50' not in line:
                 raise RuntimeError(f'自动测速组参数未统一：{line}')
     httpdns_exception = text.index('DOMAIN,httpdns-api.aliyuncs.com,DIRECT')
