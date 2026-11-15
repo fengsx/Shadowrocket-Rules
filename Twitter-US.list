@@ -2,6 +2,8 @@
 DOMAIN-SUFFIX,twitter.com
 DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,twimg.com
+# Twitter 图片与视频域名经 Cloudflare CNAME 后仍需保持美国出口。
+DOMAIN-SUFFIX,twimg.com.cdn.cloudflare.net
 DOMAIN-SUFFIX,t.co
 DOMAIN-SUFFIX,twittercdn.com
 DOMAIN-SUFFIX,tweetdeck.com
