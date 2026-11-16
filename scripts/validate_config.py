@@ -246,10 +246,10 @@ def main() -> None:
             raise RuntimeError(f'发布产物缺少标记：{path.name}')
         if 'sub.qor.com.cn' in content:
             raise RuntimeError(f'发布产物仍依赖 sub.qor.com.cn：{path.name}')
-        if 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main' in content:
-            raise RuntimeError(f'权威产物错误写入 JSDMirror：{path.name}')
-        if 'raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main' not in content:
-            raise RuntimeError(f'权威产物未使用 GitHub Raw：{path.name}')
+        if 'cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main' not in content:
+            raise RuntimeError(f'权威产物缺少 JSDMirror：{path.name}')
+        if 'raw.githubusercontent.com/' in content:
+            raise RuntimeError(f'权威产物仍使用 GitHub Raw：{path.name}')
         if '    interval: 21600' in content:
             raise RuntimeError(f'发布产物仍使用 6 小时规则刷新周期：{path.name}')
         if '    interval: 86400' not in content:

@@ -73,6 +73,9 @@ def provider_base_name(url):
         raise RuntimeError(f'无法从规则地址生成可读名称：{url}')
     return f'fengsx_{stem}'
 
+def provider_download_url(url):
+    return url.replace('https://raw.githubusercontent.com/fengsx/Shadowrocket-Rules/refs/heads/main/', 'https://cdn.jsdmirror.com/gh/fengsx/Shadowrocket-Rules@main/').replace('https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/', 'https://cdn.jsdmirror.com/gh/blackmatrix7/ios_rule_script@master/')
+
 def compile_clash(groups, rules, final, output, marker, include_node_endpoints):
     lines = [
         '# 由 scripts/compile_rules.py 自动生成，请勿手工修改。',
@@ -162,7 +165,7 @@ def compile_clash(groups, rules, final, output, marker, include_node_endpoints):
             '    type: http',
             f'    behavior: {"domain" if rule["kind"] == "domain_set" else "classical"}',
             '    format: text',
-            f'    url: {yaml_value(rule["value"])}',
+            f'    url: {yaml_value(provider_download_url(rule["value"]))}',
             f'    path: ./rule_provider/fengsx/{provider}.list',
             '    interval: 86400',
         ])
