@@ -112,7 +112,7 @@ fetch_once() {
 }
 template_is_current() {
     file="$1"
-    grep -q 'FENGSX-MERLIN-TEMPLATE-V2' "$file" || return 1
+    grep -q 'FENGSX-MERLIN-TEMPLATE-V3' "$file" || return 1
     "$YQ" eval '.' "$file" >/dev/null 2>&1 || return 1
     grep -q 'cdn.jsdmirror.com/' "$file" || return 1
     ! grep -q 'raw.githubusercontent.com/' "$file" || return 1

@@ -200,7 +200,7 @@ def main():
     rules,final=compile_rules(text,BUILTINS|{g['name'] for g in groups})
     manifest={'schemaVersion':1,'source':{'repository':'fengsx/Shadowrocket-Rules','path':'Shadowrocket.conf','sha256':hashlib.sha256(raw).hexdigest()},'policyGroups':groups,'rules':rules,'finalTarget':final}
     OUTPUT.parent.mkdir(parents=True,exist_ok=True); OUTPUT.write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
-    compile_clash(groups, rules, final, MERLIN_OUTPUT, 'FENGSX-MERLIN-TEMPLATE-V2', True)
+    compile_clash(groups, rules, final, MERLIN_OUTPUT, 'FENGSX-MERLIN-TEMPLATE-V3', True)
     compile_clash(groups, rules, final, CLASH_OUTPUT, 'FENGSX-CLASH-RULE-SCHEME-V1', False)
     print(f'编译完成：策略组={len(groups)}，规则={len(rules)}，Clash/MerlinClash/Shadowrocket 权威产物已生成')
 if __name__=='__main__': main()

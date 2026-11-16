@@ -237,7 +237,7 @@ def main() -> None:
         for url in sorted(urls):
             check_online(url)
     artifacts = {
-        ROOT / 'dist/merlinclash-fengsx.yaml': 'FENGSX-MERLIN-TEMPLATE-V2',
+        ROOT / 'dist/merlinclash-fengsx.yaml': 'FENGSX-MERLIN-TEMPLATE-V3',
         ROOT / 'dist/clash-fengsx-rules.yaml': 'FENGSX-CLASH-RULE-SCHEME-V1',
     }
     for path, marker in artifacts.items():

@@ -1,5 +1,5 @@
 # 由 scripts/compile_rules.py 自动生成，请勿手工修改。
-# FENGSX-MERLIN-TEMPLATE-V2
+# FENGSX-MERLIN-TEMPLATE-V3
 proxy-groups:
   - name: "♻️ 自动选择"
     type: url-test
