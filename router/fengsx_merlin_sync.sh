@@ -114,6 +114,8 @@ template_is_current() {
     file="$1"
     grep -q 'FENGSX-MERLIN-TEMPLATE-V2' "$file" || return 1
     "$YQ" eval '.' "$file" >/dev/null 2>&1 || return 1
+    grep -q 'cdn.jsdmirror.com/' "" || return 1
+    ! grep -q 'raw.githubusercontent.com/' "" || return 1
     for rule in $TEMPLATE_REQUIRED_RULES; do
         grep -Fq "$rule" "$file" || { log "规则模板缺少关键规则：$rule"; return 1; }
     done
