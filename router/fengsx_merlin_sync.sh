@@ -1,5 +1,5 @@
 #!/bin/sh
-# FENGSX-MERLIN-SYNC-V2
+# FENGSX-MERLIN-SYNC-V3
 # 为 Magic Catling 2 安装并同步 fengsx 规则模板，生成已知节点端点直连规则。
 
 PATH=/koolshare/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -125,7 +125,7 @@ refresh_self() {
     for base in "$RAW_BASE" "$RAW_FALLBACK"; do
         url="$base/router/fengsx_merlin_sync.sh?ts=$(date +%s)"
         if fetch_once "$url" "$tmp" && \
-           grep -q 'FENGSX-MERLIN-SYNC-V2' "$tmp" && \
+           grep -q 'FENGSX-MERLIN-SYNC-V3' "$tmp" && \
            grep -q 'template_is_current' "$tmp" && \
            grep -q 'DOMAIN-SUFFIX,outlook.com' "$tmp"; then
             chmod 0755 "$tmp"
