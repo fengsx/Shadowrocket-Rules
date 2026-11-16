@@ -25,7 +25,7 @@ WLOC_GROUP = '📍 WLOC 定位 = select,DIRECT,🚀 节点选择,PROXY,REJECT,po
 DNS_GROUP = '🧱 DNS 防泄露 = select,REJECT,🚀 节点选择,DIRECT,policy-select-name=REJECT'
 HOME_BROADBAND_GROUP = '🏠 家宽节点 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=80,timeout=5,policy-regex-filter=家宽|住宅|resident|Resident|RESIDENT|residential|Residential|RESIDENTIAL|home[ _-]*broadband|Home[ _-]*Broadband|HOME[ _-]*BROADBAND'
 ACADEMIC_GROUP = '📚 学术网站 = select,🏠 家宽节点,🇭🇰 香港节点,🇺🇸 美国住宅,🇯🇵 日本节点,🇰🇷 韩国节点,DIRECT,REJECT,policy-select-name=🏠 家宽节点'
-GOOGLE_GROUP = '🔍 谷歌服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
+GOOGLE_GROUP = '🔍 谷歌服务 = select,🇺🇸 美国节点,REJECT,policy-select-name=🇺🇸 美国节点'
 SOCIAL_MEDIA_GROUP = '🌐 社交媒体 = url-test,url=http://www.gstatic.com/generate_204,interval=600,tolerance=300,timeout=5,policy-regex-filter=(?:🇺🇸|US|USA|America|United States|美国|凤凰城|洛杉矶|西雅图|芝加哥|纽约)'
 MAIL_GROUP = '📧 邮件服务 = url-test,🇯🇵 日本节点,🇭🇰 香港节点,🇺🇸 美国节点,🇬🇧 英国节点,🇰🇷 韩国节点,🌐 其他节点,url=http://www.gstatic.com/generate_204,interval=300,tolerance=50,timeout=5'
 MICROSOFT_GROUP = 'Ⓜ️ 微软服务 = select,🚀 节点选择,PROXY,DIRECT,REJECT'

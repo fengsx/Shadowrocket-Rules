@@ -214,21 +214,14 @@
     },
     {
       "attributes": {
-        "interval": "300",
-        "timeout": "5",
-        "tolerance": "50",
-        "url": "http://www.gstatic.com/generate_204"
+        "policy-select-name": "🇺🇸 美国节点"
       },
       "name": "🔍 谷歌服务",
       "options": [
-        "🇯🇵 日本节点",
-        "🇭🇰 香港节点",
         "🇺🇸 美国节点",
-        "🇬🇧 英国节点",
-        "🇰🇷 韩国节点",
-        "🌐 其他节点"
+        "REJECT"
       ],
-      "type": "url-test"
+      "type": "select"
     },
     {
       "attributes": {
@@ -1369,6 +1362,6 @@
   "source": {
     "path": "Shadowrocket.conf",
     "repository": "fengsx/Shadowrocket-Rules",
-    "sha256": "24fafae70292d48c986cd5f4e7807a730b86edf6548ce352a014a86c2e371a0c"
+    "sha256": "b345bc430d64ed7f35711baf180365f41e01225824dd632c30b4b4ef10f8e3a6"
   }
 }

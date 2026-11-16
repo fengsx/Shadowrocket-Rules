@@ -167,14 +167,10 @@ proxy-groups:
       - "DIRECT"
       - "REJECT"
   - name: "🔍 谷歌服务"
-    type: url-test
-    include-all: true
-    exclude-filter: "剩余流量|距离下次重置|套餐到期|官网|节点版本|客户端很旧"
-    filter: ".+"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    lazy: true
+    type: select
+    proxies:
+      - "🇺🇸 美国节点"
+      - "REJECT"
   - name: "🌐 社交媒体"
     type: url-test
     include-all: true
